@@ -1,0 +1,29 @@
+MIKE Extensions
+Copyright 2026 Mike Wren
+
+This repository contains extensions for MIKE: Integrated Kanban Environment.
+It is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This product includes software developed as part of the MIKE Extensions
+project. Each bundled extension carries its own copyright and license
+notices, which are reproduced here for convenience and must be preserved
+in any redistribution:
+
+  agent/pi/                      Pi Coding Agent extension (Apache-2.0)
+  css/mike-light/                Light Mode CSS extension (Apache-2.0)
+  lsp/gopls/                     Go Language Server extension (Apache-2.0)
+  lsp/typescript-language-server/ TypeScript/JavaScript Language Server extension (Apache-2.0)
+  ui/github-issue-importer/      GitHub Issue Importer extension (Apache-2.0)
+  ui/markdown-preview/           Markdown Preview extension (Apache-2.0)
+
+Third-party software bundled within the extensions above may be subject to
+additional licenses; see the THIRD_PARTY_NOTICES.md file in each extension
+directory. In particular:
+
+  wordgard (ui/markdown-preview) is distributed under the MIT License.
+  Its copyright and license notice must be preserved in any distribution.
+
+The contents of this NOTICE file are for informational purposes only and
+do not modify the Apache License, Version 2.0. You may add your own
+attribution notices within derivative works that you distribute, provided
+that such notices do not construe as modifying the License.
