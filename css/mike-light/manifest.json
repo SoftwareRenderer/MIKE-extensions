@@ -6,7 +6,7 @@
     "version": "1.0.0",
     "capabilities": {
         "css": {
-            "css_url": "/extensions/css/mike-light/styles.css"
+            "css_url": "styles.css"
         }
     }
 }
