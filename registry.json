@@ -7,7 +7,9 @@
         "description": "Automatically imports GitHub issue content when a relevant URL is pasted into task description.",
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
-        "manifest_url": "ui/github-issue-importer/manifest.json",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "subdir": "ui/github-issue-importer",
         "capabilities": {
             "ui": {
                 "injection_points": [
@@ -36,8 +38,9 @@
         "author": "Go Team",
         "homepage": "https://github.com/golang/tools/tree/master/gopls",
         "license_url": "https://github.com/golang/tools/blob/master/LICENSE",
-        "manifest_url": "lsp/gopls/manifest.json",
-        "dockerfile_url": "lsp/gopls/Dockerfile",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "subdir": "lsp/gopls",
         "capabilities": {
             "lsp": {
                 "language": "go",
@@ -55,7 +58,9 @@
         "description": "Adds a Preview button to the editor footer for Markdown files, toggling between the code and WYSIWYG editor.",
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
-        "manifest_url": "ui/markdown-preview/manifest.json",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "subdir": "ui/markdown-preview",
         "capabilities": {
             "ui": {
                 "injection_points": [
@@ -80,7 +85,9 @@
         "description": "Light color scheme for the Kanban UI.",
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
-        "manifest_url": "css/mike-light/manifest.json",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "subdir": "css/mike-light",
         "capabilities": {
             "css": {}
         }
@@ -91,10 +98,12 @@
         "type": "agent",
         "display_name": "Pi Coding Agent",
         "description": "Pi Coding Agent — minimal agent harness",
-        "author": "Pi",
+        "author": "Earendil Inc. & Contributors",
         "homepage": "https://pi.dev/",
         "license_url": "https://github.com/earendil-works/pi/blob/main/LICENSE",
-        "manifest_url": "agent/pi/manifest.json",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "subdir": "agent/pi",
         "capabilities": {
             "agent": {}
         }
@@ -108,8 +117,9 @@
         "author": "Microsoft",
         "homepage": "https://github.com/typescript-language-server/typescript-language-server",
         "license_url": "https://github.com/typescript-language-server/typescript-language-server/blob/master/LICENSE",
-        "manifest_url": "lsp/typescript-language-server/manifest.json",
-        "dockerfile_url": "lsp/typescript-language-server/Dockerfile",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "subdir": "lsp/typescript-language-server",
         "capabilities": {
             "lsp": {
                 "language": "typescript",
