@@ -59,6 +59,19 @@
 
     // ── WYSIWYG editor lifecycle ─────────────────────────────────────────
 
+    function onWysiwygKeyDown(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!wgEditor) return;
+            const md = docToMarkdown(wgEditor.state.doc);
+            extHost.editor.setContent(md)
+                .catch(function () {})
+                .then(function () { return extHost.editor.save(); })
+                .catch(function () {});
+        }
+    }
+
     function destroyWysiwyg() {
         if (wgEditor) {
             // Wordgard has no destroy() — removing the editor's DOM element
@@ -87,6 +100,7 @@
         const container = document.createElement('div');
         container.id = 'wg-container';
         document.body.appendChild(container);
+        container.addEventListener('keydown', onWysiwygKeyDown);
 
         wgEditor = Wordgard.create({
             parent: container,

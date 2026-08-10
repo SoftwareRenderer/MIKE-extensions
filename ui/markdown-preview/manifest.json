@@ -14,7 +14,8 @@
                 "editor.setContent",
                 "editor.setOverlay",
                 "editor.contentChange",
-                "editor.jumpToLine"
+                "editor.jumpToLine",
+                "editor.save"
             ]
         }
     }
