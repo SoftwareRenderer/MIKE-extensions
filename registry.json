@@ -59,7 +59,7 @@
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "commit": "8d06eddbf72189907809a8263bc7181915f0a3b3",
         "subdir": "ui/markdown-preview",
         "capabilities": {
             "ui": {
@@ -72,7 +72,8 @@
                     "editor.setContent",
                     "editor.setOverlay",
                     "editor.contentChange",
-                    "editor.jumpToLine"
+                    "editor.jumpToLine",
+                    "editor.save"
                 ]
             }
         }
