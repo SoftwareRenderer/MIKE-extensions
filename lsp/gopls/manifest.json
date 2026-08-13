@@ -19,6 +19,18 @@
     },
     "capabilities": {
         "lsp": {
+            "sandbox": {
+                "envs": [
+                    {
+                        "key": "XDG_CACHE_HOME",
+                        "value": "/var/cache/gopls"
+                    },
+                    {
+                        "key": "GOCACHE",
+                        "value": "/var/cache/gopls/go-build"
+                    }
+                ]
+            },
             "command": "gopls",
             "args": ["serve"],
             "extensions": ["go"],
