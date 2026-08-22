@@ -10,8 +10,7 @@
             "permissions": [
                 "createTask.description.insertText",
                 "createTask.events.paste",
-                "network.proxy",
-                "ui.status"
+                "network.proxy"
             ]
         },
         "proxy": {

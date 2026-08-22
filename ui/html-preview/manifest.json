@@ -1,20 +1,38 @@
 {
     "display_name": "HTML Preview",
-    "description": "Adds a Preview button to the editor footer for HTML, XHTML, and SVG files, rendering the page in a sandboxed preview.",
+    "description": "Adds a Preview button to the editor footer for HTML, XHTML, and SVG files. Renders the code view's content in an isolated preview that updates live as the file changes — in the editor or on disk. The page may navigate within the project tree (sibling and subdirectory pages); leaving the tree stops the preview with a warning.",
     "author": "SoftwareRenderer",
     "homepage": "https://github.com/SoftwareRenderer",
     "version": "1.0.0",
     "priority": 0,
+    "config_schema": {
+        "properties": [
+            {
+                "key": "allow_scripts",
+                "type": "boolean",
+                "title": "Enable scripts (reduces isolation)",
+                "description": "By default the preview runs with scripts disabled and strict egress — only local, inline, and data: assets load, and nothing can be sent out. Enable to run the page's JavaScript: network egress stays blocked (no fetch, no remote loads) and the preview stops with a warning if the page tries to navigate away. Applies when the editor is next opened.",
+                "default": false
+            },
+            {
+                "key": "allow_network",
+                "type": "boolean",
+                "title": "Allow network access (with scripts only)",
+                "description": "Lets the page fetch data and load remote resources — the preview behaves like a normal browser for loading content. Only applies with 'Enable scripts' on; use only for your own pages.",
+                "default": false
+            }
+        ]
+    },
     "capabilities": {
         "ui": {
             "injection_points": ["fileEditor"],
             "permissions": [
                 "editor.addFooterButton",
-                "editor.getContent",
                 "editor.setOverlay",
-                "editor.contentChange",
-                "preview.serve",
-                "preview.release"
+                "preview.serveScripts",
+                "preview.serveNetwork",
+                "editor.getContent",
+                "ui.modal"
             ]
         }
     }

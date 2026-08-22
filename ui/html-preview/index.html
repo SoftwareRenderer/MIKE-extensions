@@ -11,9 +11,9 @@
         }
         body.preview-off { visibility: hidden; }
 
-        /* The preview document is its own page (opaque origin) — it brings
-           its own look. The frame is full-bleed and borderless like the
-           host editor surface. */
+        /* The preview doc is its own page (opaque origin). The frame ships
+           with a bare sandbox (scripts off by default); Preview.js sets the
+           right sandbox value before each load. */
         #preview-frame {
             box-sizing: border-box;
             width: 100%;
@@ -25,7 +25,7 @@
     </style>
 </head>
 <body class="preview-off">
-    <iframe id="preview-frame" sandbox="allow-scripts" src="about:blank" title="HTML preview"></iframe>
+    <iframe id="preview-frame" sandbox src="about:blank" title="HTML preview"></iframe>
     <script src="/host-client.js"></script>
     <script src="Preview.js"></script>
 </body>

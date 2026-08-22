@@ -8,7 +8,7 @@
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "commit": "3daf07716445bb87fed60b0c114943fd21f25f9f",
         "subdir": "ui/github-issue-importer",
         "capabilities": {
             "ui": {
@@ -18,8 +18,7 @@
                 "permissions": [
                     "createTask.description.insertText",
                     "createTask.events.paste",
-                    "network.proxy",
-                    "ui.status"
+                    "network.proxy"
                 ]
             },
             "proxy": {
@@ -51,6 +50,34 @@
         }
     },
     {
+        "name": "html-preview",
+        "version": "1.1.0",
+        "type": "ui",
+        "display_name": "HTML Preview",
+        "description": "Adds a Preview button to the editor footer for HTML, XHTML, and SVG files. Renders the code view's content in an isolated preview that updates live as the file changes — in the editor or on disk. The page may navigate within the project tree (sibling and subdirectory pages); leaving the tree stops the preview with a warning.",
+        "author": "SoftwareRenderer",
+        "homepage": "https://github.com/SoftwareRenderer",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "3daf07716445bb87fed60b0c114943fd21f25f9f",
+        "subdir": "ui/html-preview",
+        "capabilities": {
+            "ui": {
+                "injection_points": [
+                    "fileEditor"
+                ],
+                "permissions": [
+                    "editor.addFooterButton",
+                    "editor.setOverlay",
+                    "preview.serveScripts",
+                    "preview.serveNetwork",
+                    "preview.navState",
+                    "editor.getContent",
+                    "ui.modal"
+                ]
+            }
+        }
+    },
+    {
         "name": "markdown-preview",
         "version": "1.0.0",
         "type": "ui",
@@ -59,7 +86,7 @@
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8d06eddbf72189907809a8263bc7181915f0a3b3",
+        "commit": "3daf07716445bb87fed60b0c114943fd21f25f9f",
         "subdir": "ui/markdown-preview",
         "capabilities": {
             "ui": {
@@ -71,7 +98,6 @@
                     "editor.getContent",
                     "editor.setContent",
                     "editor.setOverlay",
-                    "editor.contentChange",
                     "editor.jumpToLine",
                     "editor.save"
                 ]
@@ -107,6 +133,27 @@
         "subdir": "agent/pi",
         "capabilities": {
             "agent": {}
+        }
+    },
+    {
+        "name": "svelte-language-server",
+        "version": "0.1.0",
+        "type": "lsp",
+        "display_name": "Svelte Language Server",
+        "description": "Svelte language server providing completions, hover, and diagnostics for .svelte files.",
+        "author": "Svelte Contributors",
+        "homepage": "https://github.com/sveltejs/svelte-language-server",
+        "license_url": "https://github.com/sveltejs/svelte-language-server/blob/master/LICENSE",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "3daf07716445bb87fed60b0c114943fd21f25f9f",
+        "subdir": "lsp/svelte-language-server",
+        "capabilities": {
+            "lsp": {
+                "language": "svelte",
+                "extensions": [
+                    "svelte"
+                ]
+            }
         }
     },
     {
