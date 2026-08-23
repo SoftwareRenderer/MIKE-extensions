@@ -51,14 +51,14 @@
     },
     {
         "name": "html-preview",
-        "version": "1.1.0",
+        "version": "1.0.0",
         "type": "ui",
         "display_name": "HTML Preview",
         "description": "Adds a Preview button to the editor footer for HTML, XHTML, and SVG files. Renders the code view's content in an isolated preview that updates live as the file changes — in the editor or on disk. The page may navigate within the project tree (sibling and subdirectory pages); leaving the tree stops the preview with a warning.",
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "3daf07716445bb87fed60b0c114943fd21f25f9f",
+        "commit": "3384bc983f91d7e00d414babd9058456179fc52b",
         "subdir": "ui/html-preview",
         "capabilities": {
             "ui": {
@@ -70,7 +70,6 @@
                     "editor.setOverlay",
                     "preview.serveScripts",
                     "preview.serveNetwork",
-                    "preview.navState",
                     "editor.getContent",
                     "ui.modal"
                 ]
