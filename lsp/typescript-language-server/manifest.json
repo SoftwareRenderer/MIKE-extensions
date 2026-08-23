@@ -8,13 +8,6 @@
     "config_schema": {
         "properties": [
             {
-                "key": "memory_limit",
-                "type": "number",
-                "title": "Memory Limit (MB)",
-                "description": "Maximum memory for the TypeScript sandbox",
-                "default": 512
-            },
-            {
                 "key": "tsserver_log",
                 "type": "string",
                 "title": "tsserver Log Level",
