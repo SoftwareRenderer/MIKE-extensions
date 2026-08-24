@@ -85,7 +85,7 @@ Declares metadata, integration points, and requested capabilities.
                 "network.proxy"
             ]
         },
-        "proxy": {
+        "network": {
             "allowed_domains": ["api.example.com"]
         }
     },
@@ -100,7 +100,7 @@ Declares metadata, integration points, and requested capabilities.
 - `priority` — loading order; lower values load first (default `0`).
 - `capabilities.ui.injection_points` — [scopes](#injection-points-scopes) where the extension activates.
 - `capabilities.ui.permissions` — requested capabilities.
-- `capabilities.proxy` — domain allow-list and header templates for `network.proxy`.
+- `capabilities.network` — domain allow-list and header templates for `network.proxy`.
 - `config_schema.properties` — array of `{ key, type, title, description?, default?, minimum?, maximum?, enum?, sensitive? }` fields (array order is preserved). A standard JSON Schema object (keyed by property name) is also accepted — order is then alphabetical. `sensitive` values are encrypted at rest and usable in header templates.
 
 ## MyExtension.js

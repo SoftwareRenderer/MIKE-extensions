@@ -8,7 +8,7 @@
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "3daf07716445bb87fed60b0c114943fd21f25f9f",
+        "commit": "4e211bdecbedc4ad6e5b3e3871d2127f089e134a",
         "subdir": "ui/github-issue-importer",
         "capabilities": {
             "ui": {
@@ -21,7 +21,7 @@
                     "network.proxy"
                 ]
             },
-            "proxy": {
+            "network": {
                 "allowed_domains": [
                     "api.github.com"
                 ]
