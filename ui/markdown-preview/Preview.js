@@ -15,7 +15,25 @@
 
     let previewActive = false;
     let wgEditor = null;          // current Wordgard editor instance
-    let lastPushed = '';          // last markdown we pushed to the host
+    // echo guard to prevent yanking the caret to the top of the file.
+    const ECHO_WINDOW_MS = 5000;
+    const ECHO_MAX = 16;
+    let recentPushes = [];
+
+    function rememberPush(md) {
+        const now = Date.now();
+        recentPushes.push([md, now]);
+        while (recentPushes.length > ECHO_MAX ||
+            (recentPushes.length && now - recentPushes[0][1] > ECHO_WINDOW_MS)) {
+            recentPushes.shift();
+        }
+    }
+
+    /** True if `content` is (a recent) echo of one of our own pushes. */
+    function isOwnEcho(content) {
+        const now = Date.now();
+        return recentPushes.some(([md, at]) => md === content && now - at <= ECHO_WINDOW_MS);
+    }
 
     /** Apply the host's current palette to this iframe's :root. */
     function applyTheme(variables) {
@@ -81,7 +99,7 @@
         }
         const c = document.getElementById('wg-container');
         if (c) c.remove();
-        lastPushed = '';
+        recentPushes = [];
     }
 
     function createWysiwyg(markdown) {
@@ -120,7 +138,7 @@
                 Wordgard.updateListener.of((update) => {
                     if (!update.docChanged) return;
                     const md = docToMarkdown(update.state.doc);
-                    lastPushed = md;
+                    rememberPush(md);
                     extHost.editor.setContent(md).catch(() => {});
                 }),
             ],
@@ -216,8 +234,15 @@
             extHost.log('warn', 'Markdown Preview: parse failed: ' + (e && e.message));
             return;
         }
+        // Keep the caret where the user left it (same text offset, clamped
+        // into the new document). Without an explicit selection, a
+        // full-document replacement maps the caret to position 0 — the top
+        // of the document.
+        const sel = wgEditor.state.selection;
+        const clamp = (p) => Math.max(0, Math.min(p, doc.length));
         wgEditor.dispatch({
             changes: { from: 0, to: wgEditor.state.doc.length, insert: doc.content },
+            selection: { anchor: clamp(sel.anchor), head: clamp(sel.head) },
         });
     }
 
@@ -247,9 +272,11 @@
     function onContentChange(data) {
         if (!previewActive || !wgEditor) return;
         if (!data || typeof data.content !== 'string') return;
-        // Ignore the echo of our own setContent push.
-        if (data.content === lastPushed) return;
-        // The document changed elsewhere (code view, undo, reload, etc.).
+        // Ignore the echo of our own setContent pushes — including delayed
+        // echoes of superseded pushes (content we pushed recently but is no
+        // longer the latest). Only content we never pushed is an external
+        // change (code view, undo, reload, file changed on disk, ...).
+        if (isOwnEcho(data.content)) return;
         replaceDocFromMarkdown(data.content);
     }
 

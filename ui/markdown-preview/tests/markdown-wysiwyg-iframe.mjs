@@ -23,6 +23,11 @@ const require = createRequire(resolve(dir, '..', '..', '..', '..', 'frontend', '
 const { chromium } = require('playwright');
 
 const BASE = process.env.MARKDOWN_PREVIEW_BASE || 'https://localhost:3000';
+// The extension files as served by the dev server. Default is the in-repo
+// layout (extensions/ui/markdown-preview); installed extensions are served
+// under the author slug (extensions/<author>/<name>) — override with
+// MARKDOWN_PREVIEW_URL when testing an installed copy.
+const EXT_URL = process.env.MARKDOWN_PREVIEW_URL || `${BASE}/extensions/ui/markdown-preview/index.html`;
 const MD = '# Hello WYSIWYG\n\nSome *markdown* here.\n';
 
 const browser = await chromium.launch();
@@ -51,7 +56,7 @@ try {
     await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
     await page.setContent(`
       <div id="host"></div>
-      <iframe id="ext" sandbox="allow-scripts" src="${BASE}/extensions/ui/markdown-preview/index.html"
+      <iframe id="ext" sandbox="allow-scripts" src="${EXT_URL}"
         style="width:600px;height:400px;border:none"></iframe>
     `);
 
@@ -114,10 +119,12 @@ try {
     if (btnCount > 0) { console.log(`OK  menu bar mounted with ${btnCount} toolbar buttons`); }
     else { ok = false; console.error('FAIL menu bar mounted but has no toolbar buttons'); }
 
-    // Type into the Wordgard editor.
+    // Type into the Wordgard editor. A delay between keystrokes keeps them
+    // in separate Wordgard flushes, so each produces its own editor.setContent
+    // push — the stale-echo scenario below needs ≥2 distinct pushes.
     await frame.locator('wg-content').click();
     await page.keyboard.press('End');
-    await page.keyboard.type(' EDITED');
+    await page.keyboard.type(' EDITED', { delay: 120 });
     await page.waitForTimeout(700);
 
     if (setContentCalls.length === 0) {
@@ -127,6 +134,51 @@ try {
         console.log('editor.setContent payload:', JSON.stringify(last));
         if (last.includes('EDITED')) { console.log('OK  WYSIWYG edit pushed to host via editor.setContent'); }
         else { ok = false; console.error('FAIL setContent payload missing the edit'); }
+    }
+
+    // ── Stale-echo race regression ─────────────────────────────────────
+    // The host echoes every editor.setContent push back as
+    // editor.contentChange carrying the exact pushed text. If the echo of a
+    // SUPERSEDED push arrives after a newer push has already happened (busy
+    // host main thread), the extension must NOT treat it as an external
+    // change: it would rewrite the whole Wordgard document from the stale
+    // text (dropping the fresh keystrokes) and yank the caret to the
+    // beginning of the file. Simulate that delivery order: send the OLDEST
+    // push's content as a contentChange event now, long after the latest.
+    const stale = setContentCalls[0];
+    const latest = setContentCalls[setContentCalls.length - 1];
+    if (setContentCalls.length >= 2 && stale !== latest) {
+        page.evaluate((staleContent) => {
+            const f = document.getElementById('ext');
+            f.contentWindow.postMessage({ type: 'event', cap: 'editor.contentChange', data: { content: staleContent } }, '*');
+        }, stale);
+        await page.waitForTimeout(700); // let any (incorrect) rewrite flush
+
+        const state = await frame.evaluate(() => {
+            const content = document.querySelector('wg-content');
+            const sel = document.getSelection();
+            let caret = -1;
+            if (sel && sel.rangeCount > 0) {
+                const range = sel.getRangeAt(0);
+                const pre = range.cloneRange();
+                pre.selectNodeContents(content);
+                pre.setEnd(range.startContainer, range.startOffset);
+                caret = pre.toString().length;
+            }
+            return { text: content.textContent, caret };
+        });
+        if (state.text.includes('EDITED')) {
+            console.log('OK  stale echo of a superseded push ignored (document not rewritten)');
+        } else {
+            ok = false; console.error('FAIL stale echo rewrote the document, losing the typed edit:', JSON.stringify(state.text.slice(-30)));
+        }
+        if (state.caret > 0) {
+            console.log(`OK  caret stayed in place after stale echo (caret=${state.caret})`);
+        } else {
+            ok = false; console.error('FAIL caret jumped to the beginning after stale echo');
+        }
+    } else {
+        console.log('SKIP stale-echo scenario (fewer than 2 distinct pushes recorded)');
     }
 } catch (e) {
     ok = false;

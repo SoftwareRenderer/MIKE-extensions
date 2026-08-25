@@ -22,6 +22,9 @@ const require = createRequire(resolve(dir, '..', '..', '..', '..', 'frontend', '
 const { chromium } = require('playwright');
 
 const BASE = process.env.MARKDOWN_PREVIEW_BASE || 'https://localhost:3000';
+// See markdown-wysiwyg-iframe.mjs — installed extensions are served under the
+// author slug; override with MARKDOWN_PREVIEW_URL when testing one.
+const EXT_URL = process.env.MARKDOWN_PREVIEW_URL || `${BASE}/extensions/ui/markdown-preview/index.html`;
 
 // Headings: `# Alpha`, `## Beta`, `### Gamma`.
 // Fenced bash code blocks with `#` comments sit between the sections — these
@@ -78,7 +81,7 @@ try {
     await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
     await page.setContent(`
       <div id="host"></div>
-      <iframe id="ext" sandbox="allow-scripts" src="${BASE}/extensions/ui/markdown-preview/index.html"
+      <iframe id="ext" sandbox="allow-scripts" src="${EXT_URL}"
         style="width:600px;height:400px;border:none"></iframe>
     `);
 
