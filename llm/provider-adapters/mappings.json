@@ -20,7 +20,7 @@
       "set": {
         "reasoning.effort": {
           "value": "{{reasoning_effort}}",
-          "when": ["low", "medium", "high"]
+          "when": ["max", "xhigh", "high", "medium", "low", "minimal", "none"]
         },
         "reasoning.enabled": {
           "from": "reasoning_effort",
