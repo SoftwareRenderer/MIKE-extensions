@@ -1,0 +1,33 @@
+[
+  {
+    "match": "https://openrouter.ai",
+    "headers": {
+      "HTTP-Referer": "https://getmike.dev",
+      "X-OpenRouter-Title": "MIKE: Integrated Kanban Env.",
+      "X-OpenRouter-Categories": "programming-app"
+    },
+    "body": {
+      "remove": [
+        "thinking_budget_tokens",
+        "reasoning_control",
+        "reasoning_effort",
+        "chat_template_kwargs",
+        "return_progress"
+      ],
+      "remove_if": {
+        "tool_choice": "tools"
+      },
+      "set": {
+        "reasoning.effort": {
+          "value": "{{reasoning_effort}}",
+          "when": ["low", "medium", "high"]
+        },
+        "reasoning.enabled": {
+          "from": "reasoning_effort",
+          "value": true,
+          "when": ["", "default"]
+        }
+      }
+    }
+  }
+]
