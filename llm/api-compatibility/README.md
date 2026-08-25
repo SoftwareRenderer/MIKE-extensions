@@ -1,13 +1,13 @@
-# Provider Request Adapters
+# API Compatibility
 
-The **Provider Request Adapters** extension allows MIKE to adapt its standard OpenAI-compatible LLM requests to the specific requirements of different providers.
+The **API Compatibility** extension allows MIKE to adapt its standard OpenAI-compatible LLM requests to the specific requirements of different providers.
 
 While many providers claim OpenAI compatibility, they often differ in required headers or the structure of the request body (e.g., using `reasoning_effort: "high" `instead of `reasoning: { effort: "high" }` ). This extension provides a declarative way to handle these differences without changing the core backend code and enabling more seamless and rapid updates.
 
 ## Installation
 
 1. Navigate to **Settings → Extensions**.
-2. Find **Provider Request Adapters** under local extensions and click **Install**.
+2. Find **API Compatibility** under local extensions and click **Install**.
 3. This extension is active as long as its directory exists in the server's `extensions/` directory and is enabled.
 
 ## Configuration

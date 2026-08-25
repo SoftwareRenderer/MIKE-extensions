@@ -1,6 +1,6 @@
 {
-  "display_name": "Provider API Adapters",
-  "description": "Adapts OpenAI-compatible LLM requests to provider-specific formats (body fields and headers) depending on the provider URL.",
+  "display_name": "API Compatibility",
+  "description": "Improve compatibility with cloud inference services such as OpenRouter and others.",
   "author": "SoftwareRenderer",
   "homepage": "https://github.com/SoftwareRenderer",
   "version": "0.1.0",
