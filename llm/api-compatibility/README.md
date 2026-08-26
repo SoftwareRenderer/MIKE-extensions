@@ -44,21 +44,24 @@ A set of headers to add to the request.
 
 #### 3. `body` (Object)
 
-Transformations applied to the JSON request body. They are executed in this specific order: `remove` -> `remove_if` -> `set`.
+Modify the request body. Order: `remove` -> `remove_if` -> `set`.
 
 | Rule | Description |
 | --- | --- |
-| **`remove`** (Array of Strings) | List of dot-separated JSON paths to delete unconditionally (e.g., `"reasoning_effort"`). |
-| **`remove_if`** (Map) | `{"key": "otherKey"}` deletes `key` only if `otherKey` is absent from the body. (Example: remove `tool_choice` if no `tools` are present). |
-| **`set`** (Map) | Creates or overwrites a value at a dot-separated JSON path. Parent objects are created automatically. |
+| **`remove`** (List) | Delete specific paths (e.g., `"reasoning_effort"`). |
+| **`remove_if`** (Map) | Delete a path if another path is missing. |
+| **`set`** (Map) | Create or update a value at a path. |
 
-**`set`**** Rule Details:** A `set` entry can be a plain string (shorthand) or a full rule object:
+**`set`** Rule Details: Use a string or a rule object:
 
-- **Shorthand**: `"path": "value"` -> treated as `{ "value": "value" }`.
+- **Shorthand**: `"path": "value"` $\rightarrow$ sets the value directly.
 - **Full Rule**:
-- `value`: The value to set. If it's a string, it's template-resolved. Other types (number, bool, object, array) are set verbatim.
-- `when`: (Optional) An array of values. The rule is only applied if the "gate variable" matches one of these values.
-- `from`: (Optional) Specifies the template variable to use as the gate for `when`. If omitted, the first placeholder found in `value` is used.
+  - `value`: The value to set:
+    - a string: resolved at request time;
+    - a number/bool: used as-is;
+    - a map: picks a value by the `from` variable — keys are specific values, `"*"` is the fallback. A map without a `from` is skipped.
+  - `when`: A list of allowed `from` values. The rule only runs if the variable matches one of these.
+  - `from`: The variable to check (e.g., `"reasoning_effort"`). If empty, the first placeholder in a string `value` is used.
 
 ## Examples
 
@@ -80,7 +83,7 @@ Adds a custom header and removes a field that a specific provider doesn't suppor
 
 ### Advanced Conditional Mapping (OpenRouter)
 
-OpenRouter requires specific headers and a nested `reasoning` object instead of a flat `reasoning_effort` field.
+OpenRouter needs a nested `reasoning` object instead of a flat `reasoning_effort` field.
 
 ```json
 {
@@ -108,6 +111,31 @@ OpenRouter requires specific headers and a nested `reasoning` object instead of 
   }
 }
 ```
+
+### Value Table Mapping (DeepSeek)
+
+A two-state toggle that depends on the reasoning effort: `thinking.type` is `enabled` for all thinking efforts and `disabled` for `none`/`off` — a `value` table keyed on the effort, with a `*` fallback.
+
+```json
+{
+  "match": "https://api.deepseek.com",
+  "body": {
+    "remove": ["thinking_budget_tokens", "reasoning_control", "chat_template_kwargs", "return_progress"],
+    "set": {
+      "thinking.type": {
+        "from": "reasoning_effort",
+        "value": {
+          "none": "disabled",
+          "off": "disabled",
+          "*": "enabled"
+        }
+      }
+    }
+  }
+}
+```
+
+The same pattern works for booleans (e.g. Qwen's `enable_thinking`: `"none": false, "off": false, "*": true`).
 
 ## Files
 

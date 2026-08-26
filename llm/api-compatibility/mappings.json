@@ -29,5 +29,58 @@
         }
       }
     }
+  },
+  {
+    "match": "https://api.deepseek.com",
+    "body": {
+      "remove": [
+        "thinking_budget_tokens",
+        "reasoning_control",
+        "chat_template_kwargs",
+        "return_progress"
+      ],
+      "set": {
+        "thinking.type": {
+          "from": "reasoning_effort",
+          "value": {
+            "none": "disabled",
+            "off": "disabled",
+            "*": "enabled"
+          }
+        }
+      }
+    }
+  },
+  {
+    "match": "https://dashscope-intl.aliyuncs.com",
+    "body": {
+      "remove": [
+        "thinking_budget_tokens",
+        "reasoning_control",
+        "chat_template_kwargs",
+        "return_progress"
+      ],
+      "set": {
+        "enable_thinking": {
+          "from": "reasoning_effort",
+          "value": {
+            "none": false,
+            "off": false,
+            "*": true
+          }
+        }
+      }
+    }
+  },
+  {
+    "match": "https://generativelanguage.googleapis.com",
+    "body": {
+      "remove": [
+        "thinking_budget_tokens",
+        "reasoning_control",
+        "chat_template_kwargs",
+        "return_progress"
+      ]
+    }
   }
 ]
