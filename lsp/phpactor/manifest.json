@@ -1,0 +1,16 @@
+{
+    "display_name": "PHP Language Server",
+    "description": "Phpactor language server for PHP. Provides completion, hover, diagnostics, go-to-definition, references and rename for PHP projects.",
+    "author": "Phpactor Contributors",
+    "homepage": "https://github.com/phpactor/phpactor",
+    "license_url": "https://github.com/phpactor/phpactor/blob/master/LICENSE",
+    "version": "1.0.0",
+    "capabilities": {
+        "lsp": {
+            "command": "phpactor",
+            "args": ["language-server"],
+            "extensions": ["php", "phtml"],
+            "language": "php"
+        }
+    }
+}

@@ -1,0 +1,56 @@
+{
+    "display_name": "Rust Language Server",
+    "description": "Rust language server (rust-analyzer) with cargo-based diagnostics via clippy. Provides completions, hover, diagnostics, go-to-definition, references, renaming and refactors for Rust projects.",
+    "author": "rust-analyzer project",
+    "homepage": "https://rust-analyzer.github.io/",
+    "license_url": "https://github.com/rust-lang/rust-analyzer/blob/master/LICENSE-MIT",
+    "version": "0.1.0",
+    "capabilities": {
+        "lsp": {
+            "sandbox": {
+                "envs": [
+                    {
+                        "key": "RUSTUP_HOME",
+                        "value": "/usr/local/rustup"
+                    },
+                    {
+                        "key": "CARGO_HOME",
+                        "value": "/usr/local/cargo"
+                    },
+                    {
+                        "key": "CARGO_TARGET_DIR",
+                        "value": "/tmp/cargo-target"
+                    },
+                    {
+                        "key": "CARGO_NET_OFFLINE",
+                        "value": "true"
+                    }
+                ]
+            },
+            "command": "rust-analyzer",
+            "args": [],
+            "extensions": ["rs"],
+            "language": "rust",
+            "initParamsOverride": {
+                "initializationOptions": {
+                    "cargo": {
+                        "metadataExtraArgs": ["--offline"],
+                        "buildScripts": {
+                            "enable": true
+                        }
+                    },
+                    "check": {
+                        "command": "clippy",
+                        "extraArgs": ["--offline"]
+                    },
+                    "files": {
+                        "watcher": "server"
+                    },
+                    "procMacro": {
+                        "enable": true
+                    }
+                }
+            }
+        }
+    }
+}

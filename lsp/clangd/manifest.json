@@ -1,0 +1,24 @@
+{
+    "display_name": "C/C++ Language Server",
+    "description": "clangd, the LLVM language server for C and C++. Provides completions, hover, diagnostics, go-to-definition, references, rename and formatting for C and C++ projects.",
+    "author": "LLVM Project",
+    "homepage": "https://clangd.llvm.org/",
+    "license_url": "https://llvm.org/LICENSE.txt",
+    "version": "0.1.0",
+    "capabilities": {
+        "lsp": {
+            "sandbox": {
+                "envs": [
+                    {
+                        "key": "XDG_CACHE_HOME",
+                        "value": "/var/cache/clangd"
+                    }
+                ]
+            },
+            "command": "clangd",
+            "args": [],
+            "extensions": ["c", "h", "cpp", "cxx", "cc", "hpp", "hh", "hxx"],
+            "language": "cpp"
+        }
+    }
+}

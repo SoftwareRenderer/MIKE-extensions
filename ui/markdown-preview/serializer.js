@@ -168,8 +168,7 @@
     }
 
     // ── Minimal Markdown renderer (markdown → HTML) ─────────────────────────
-    // Renders a practical subset of CommonMark. Source HTML is escaped so
-    // document content is always treated as text, never markup.
+    // Renders a practical subset of CommonMark.
 
     function escapeHtml(s) {
         return String(s)
@@ -179,19 +178,32 @@
             .replace(/"/g, '&quot;');
     }
 
+    // URL schemes a document may link to
+    const ALLOWED_URL_SCHEMES = ['http', 'https', 'mailto'];
+
+    function safeUrl(url) {
+        const scheme = /^([a-z][a-z0-9+.\-]*):/i.exec(url);
+        if (!scheme) return url;
+        return ALLOWED_URL_SCHEMES.indexOf(scheme[1].toLowerCase()) !== -1 ? url : '';
+    }
+
     function inline(text) {
         let t = escapeHtml(text);
         // code spans
         t = t.replace(/`([^`\n]+)`/g, function (m, code) { return '<code>' + code + '</code>'; });
-        // images ![alt](url)
+        // images ![alt](url) — an unsafe URL renders the alt text as plain text
+        // rather than a broken/tracking image request.
         t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g,
             function (m, alt, url, title) {
-                return '<img src="' + url + '" alt="' + alt + '"' + (title ? ' title="' + title + '"' : '') + '>';
+                const src = safeUrl(url);
+                if (!src) return alt || '';
+                return '<img src="' + src + '" alt="' + alt + '"' + (title ? ' title="' + title + '"' : '') + '>';
             });
-        // links [text](url)
+        // links [text](url) — an unsafe URL degrades to an inert link.
         t = t.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g,
             function (m, text, url, title) {
-                return '<a href="' + url + '"' + (title ? ' title="' + title + '"' : '') + '>' + text + '</a>';
+                const href = safeUrl(url);
+                return '<a href="' + (href || '#') + '"' + (title ? ' title="' + title + '"' : '') + '>' + text + '</a>';
             });
         // bold then italic
         t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
