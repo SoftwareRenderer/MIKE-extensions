@@ -55,7 +55,9 @@ The manifest specifies how the language server should be launched and which file
             "extensions": ["go"],
             "language": "go",
             "initParamsOverride": {
-                "hints": { "parameterNames": true }
+                "initializationOptions": {
+                    "hints": { "parameterNames": true }
+                }
             }
         }
     }
@@ -66,7 +68,7 @@ The manifest specifies how the language server should be launched and which file
 - `args`: Command-line arguments for the server.
 - `extensions`: List of file extensions (e.g., `["go", "vue"]`) that trigger this server.
 - `language`: The LSP language identifier.
-- `initParamsOverride`: Custom parameters sent during the `initialize` request.
+- `initParamsOverride`: Merged verbatim into the `initialize` request's params
 
 ### Dockerfile
 
