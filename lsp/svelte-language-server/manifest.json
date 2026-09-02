@@ -8,8 +8,88 @@
     "capabilities": {
         "lsp": {
             "command": "svelteserver",
-            "args": ["--stdio"],
-            "extensions": ["svelte"],
+            "args": [
+                "--stdio"
+            ],
+            "file_types": [
+                {
+                    "extension": "svelte",
+                    "language_id": "svelte",
+                    "label": "Svelte",
+                    "syntax": "svelte"
+                }
+            ],
+            "syntax": {
+                "svelte": {
+                    "block_comment": {
+                        "open": "<!--",
+                        "close": "-->"
+                    },
+                    "strings": [
+                        {
+                            "quote": "`",
+                            "escapes": true,
+                            "multiline": true
+                        },
+                        {
+                            "quote": "\"",
+                            "escapes": true
+                        },
+                        {
+                            "quote": "'",
+                            "escapes": true
+                        }
+                    ],
+                    "pairs": [
+                        {
+                            "open": "{",
+                            "close": "}"
+                        },
+                        {
+                            "open": "(",
+                            "close": ")"
+                        },
+                        {
+                            "open": "[",
+                            "close": "]"
+                        }
+                    ],
+                    "keywords": [
+                        "each",
+                        "if",
+                        "await",
+                        "then",
+                        "catch",
+                        "html",
+                        "key",
+                        "const",
+                        "debug",
+                        "render",
+                        "snippet",
+                        "transition",
+                        "animate",
+                        "in",
+                        "out",
+                        "action",
+                        "bind",
+                        "bind:this",
+                        "class",
+                        "style",
+                        "props",
+                        "legacy",
+                        "svelte",
+                        "window",
+                        "document"
+                    ],
+                    "constants": [
+                        "true",
+                        "false",
+                        "null",
+                        "undefined"
+                    ],
+                    "numbers": true
+                }
+            },
             "language": "svelte"
         }
     }

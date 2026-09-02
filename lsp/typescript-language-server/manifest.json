@@ -1,43 +1,381 @@
 {
-    "display_name": "TypeScript/JavaScript Language Server",
-    "description": "TypeScript/JavaScript language server. Provides completions, hover, diagnostics, go-to-definition, refactor, and more for TypeScript and JavaScript projects.",
-    "author": "Microsoft",
-    "homepage": "https://github.com/typescript-language-server/typescript-language-server",
-    "license_url": "https://github.com/typescript-language-server/typescript-language-server/blob/master/LICENSE",
-    "version": "0.1.0",
-    "config_schema": {
-        "properties": [
-            {
-                "key": "tsserver_log",
-                "type": "string",
-                "title": "tsserver Log Level",
-                "description": "Logging verbosity for tsserver (off, terse, normal, verbose)",
-                "default": "off",
-                "enum": ["off", "terse", "normal", "verbose"]
-            }
-        ],
-        "required": []
-    },
-    "capabilities": {
-        "lsp": {
-            "command": "typescript-language-server",
-            "args": ["--stdio"],
-            "extensions": ["ts", "tsx", "js", "jsx"],
-            "language": "typescript",
-            "initParamsOverride": {
-                "initializationOptions": {
-                    "tsserver": {
-                        "path": "/usr/local/lib/node_modules/typescript"
-                    },
-                    "preferences": {
-                        "includeCompletionsForModuleExports": true,
-                        "includeCompletionsWithImport": true,
-                        "includeCompletionsWithSnippetText": true,
-                        "includeAutomaticOptionalChainCompletions": true,
-                        "includeCompletionsForImportStatements": true
-                    }
-                }
-            }
+  "display_name": "TypeScript/JavaScript Language Server",
+  "description": "TypeScript/JavaScript language server. Provides completions, hover, diagnostics, go-to-definition, refactor, and more for TypeScript and JavaScript projects.",
+  "author": "Microsoft",
+  "homepage": "https://github.com/typescript-language-server/typescript-language-server",
+  "license_url": "https://github.com/typescript-language-server/typescript-language-server/blob/master/LICENSE",
+  "version": "0.1.0",
+  "config_schema": {
+    "properties": [
+      {
+        "key": "tsserver_log",
+        "type": "string",
+        "title": "tsserver Log Level",
+        "description": "Logging verbosity for tsserver (off, terse, normal, verbose)",
+        "default": "off",
+        "enum": [
+          "off",
+          "terse",
+          "normal",
+          "verbose"
+        ]
+      }
+    ],
+    "required": []
+  },
+  "capabilities": {
+    "lsp": {
+      "command": "typescript-language-server",
+      "args": [
+        "--stdio"
+      ],
+      "language": "typescript",
+      "initParamsOverride": {
+        "initializationOptions": {
+          "tsserver": {
+            "path": "/usr/local/lib/node_modules/typescript"
+          },
+          "preferences": {
+            "includeCompletionsForModuleExports": true,
+            "includeCompletionsWithImport": true,
+            "includeCompletionsWithSnippetText": true,
+            "includeAutomaticOptionalChainCompletions": true,
+            "includeCompletionsForImportStatements": true
+          }
         }
+      },
+      "file_types": [
+        {
+          "extension": "ts",
+          "language_id": "typescript",
+          "label": "TypeScript",
+          "syntax": "typescript"
+        },
+        {
+          "extension": "mts",
+          "language_id": "typescript",
+          "label": "TypeScript",
+          "syntax": "typescript"
+        },
+        {
+          "extension": "cts",
+          "language_id": "typescript",
+          "label": "TypeScript",
+          "syntax": "typescript"
+        },
+        {
+          "extension": "tsx",
+          "language_id": "typescriptreact",
+          "label": "TypeScript JSX",
+          "syntax": "typescript"
+        },
+        {
+          "extension": "js",
+          "language_id": "javascript",
+          "label": "JavaScript",
+          "syntax": "javascript"
+        },
+        {
+          "extension": "mjs",
+          "language_id": "javascript",
+          "label": "JavaScript",
+          "syntax": "javascript"
+        },
+        {
+          "extension": "cjs",
+          "language_id": "javascript",
+          "label": "JavaScript",
+          "syntax": "javascript"
+        },
+        {
+          "extension": "jsx",
+          "language_id": "javascriptreact",
+          "label": "JavaScript JSX",
+          "syntax": "javascript"
+        }
+      ],
+      "syntax": {
+        "javascript": {
+          "line_comment": "//",
+          "block_comment": {
+            "open": "/*",
+            "close": "*/"
+          },
+          "region": {
+            "open": "#region",
+            "close": "#endregion"
+          },
+          "strings": [
+            {
+              "quote": "\"",
+              "escapes": true
+            },
+            {
+              "quote": "'",
+              "escapes": true
+            },
+            {
+              "quote": "`",
+              "escapes": true,
+              "multiline": true
+            }
+          ],
+          "pairs": [
+            {
+              "open": "{",
+              "close": "}"
+            },
+            {
+              "open": "(",
+              "close": ")"
+            },
+            {
+              "open": "[",
+              "close": "]"
+            }
+          ],
+          "keywords": [
+            "async",
+            "await",
+            "break",
+            "case",
+            "catch",
+            "class",
+            "const",
+            "continue",
+            "debugger",
+            "default",
+            "delete",
+            "do",
+            "else",
+            "export",
+            "extends",
+            "finally",
+            "for",
+            "from",
+            "function",
+            "get",
+            "if",
+            "import",
+            "in",
+            "instanceof",
+            "let",
+            "new",
+            "of",
+            "return",
+            "set",
+            "static",
+            "super",
+            "switch",
+            "this",
+            "throw",
+            "try",
+            "typeof",
+            "var",
+            "void",
+            "while",
+            "with",
+            "yield"
+          ],
+          "types": [
+            "any",
+            "bigint",
+            "boolean",
+            "never",
+            "number",
+            "object",
+            "string",
+            "symbol",
+            "unknown",
+            "void"
+          ],
+          "constants": [
+            "true",
+            "false",
+            "null",
+            "undefined",
+            "NaN",
+            "Infinity"
+          ],
+          "builtins": [
+            "Array",
+            "Boolean",
+            "Date",
+            "Error",
+            "JSON",
+            "Map",
+            "Math",
+            "Number",
+            "Object",
+            "Promise",
+            "Proxy",
+            "RangeError",
+            "ReferenceError",
+            "RegExp",
+            "Set",
+            "String",
+            "Symbol",
+            "SyntaxError",
+            "TypeError",
+            "console",
+            "decodeURIComponent",
+            "encodeURIComponent",
+            "globalThis",
+            "isNaN",
+            "parseFloat",
+            "parseInt"
+          ],
+          "numbers": true
+        },
+        "typescript": {
+          "line_comment": "//",
+          "block_comment": {
+            "open": "/*",
+            "close": "*/"
+          },
+          "region": {
+            "open": "#region",
+            "close": "#endregion"
+          },
+          "strings": [
+            {
+              "quote": "\"",
+              "escapes": true
+            },
+            {
+              "quote": "'",
+              "escapes": true
+            },
+            {
+              "quote": "`",
+              "escapes": true,
+              "multiline": true
+            }
+          ],
+          "pairs": [
+            {
+              "open": "{",
+              "close": "}"
+            },
+            {
+              "open": "(",
+              "close": ")"
+            },
+            {
+              "open": "[",
+              "close": "]"
+            }
+          ],
+          "keywords": [
+            "async",
+            "await",
+            "break",
+            "case",
+            "catch",
+            "class",
+            "const",
+            "continue",
+            "debugger",
+            "default",
+            "delete",
+            "do",
+            "else",
+            "export",
+            "extends",
+            "finally",
+            "for",
+            "from",
+            "function",
+            "get",
+            "if",
+            "import",
+            "in",
+            "instanceof",
+            "let",
+            "new",
+            "of",
+            "return",
+            "set",
+            "static",
+            "super",
+            "switch",
+            "this",
+            "throw",
+            "try",
+            "typeof",
+            "var",
+            "void",
+            "while",
+            "with",
+            "yield",
+            "abstract",
+            "as",
+            "declare",
+            "enum",
+            "implements",
+            "interface",
+            "is",
+            "keyof",
+            "namespace",
+            "override",
+            "private",
+            "protected",
+            "public",
+            "readonly",
+            "satisfy",
+            "type"
+          ],
+          "types": [
+            "any",
+            "bigint",
+            "boolean",
+            "never",
+            "number",
+            "object",
+            "string",
+            "symbol",
+            "unknown",
+            "void"
+          ],
+          "constants": [
+            "true",
+            "false",
+            "null",
+            "undefined",
+            "NaN",
+            "Infinity"
+          ],
+          "builtins": [
+            "Array",
+            "Boolean",
+            "Date",
+            "Error",
+            "JSON",
+            "Map",
+            "Math",
+            "Number",
+            "Object",
+            "Promise",
+            "Proxy",
+            "RangeError",
+            "ReferenceError",
+            "RegExp",
+            "Set",
+            "String",
+            "Symbol",
+            "SyntaxError",
+            "TypeError",
+            "console",
+            "decodeURIComponent",
+            "encodeURIComponent",
+            "globalThis",
+            "isNaN",
+            "parseFloat",
+            "parseInt"
+          ],
+          "numbers": true
+        }
+      }
     }
+  }
 }

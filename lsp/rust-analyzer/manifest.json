@@ -7,6 +7,153 @@
     "version": "0.1.0",
     "capabilities": {
         "lsp": {
+            "command": "rust-analyzer",
+            "args": [],
+            "file_types": [
+                {
+                    "extension": "rs",
+                    "language_id": "rust",
+                    "label": "Rust",
+                    "syntax": "rust"
+                }
+            ],
+            "syntax": {
+                "rust": {
+                    "line_comment": "//",
+                    "block_comment": {
+                        "open": "/*",
+                        "close": "*/"
+                    },
+                    "strings": [
+                        {
+                            "quote": "\"",
+                            "escapes": true
+                        }
+                    ],
+                    "pairs": [
+                        {
+                            "open": "{",
+                            "close": "}"
+                        },
+                        {
+                            "open": "(",
+                            "close": ")"
+                        },
+                        {
+                            "open": "[",
+                            "close": "]"
+                        }
+                    ],
+                    "keywords": [
+                        "as",
+                        "async",
+                        "await",
+                        "break",
+                        "const",
+                        "continue",
+                        "crate",
+                        "dyn",
+                        "else",
+                        "enum",
+                        "extern",
+                        "false",
+                        "fn",
+                        "for",
+                        "if",
+                        "impl",
+                        "in",
+                        "let",
+                        "loop",
+                        "match",
+                        "mod",
+                        "move",
+                        "mut",
+                        "pub",
+                        "ref",
+                        "return",
+                        "self",
+                        "Self",
+                        "static",
+                        "struct",
+                        "super",
+                        "trait",
+                        "true",
+                        "type",
+                        "unsafe",
+                        "use",
+                        "where",
+                        "while"
+                    ],
+                    "types": [
+                        "bool",
+                        "char",
+                        "f32",
+                        "f64",
+                        "i8",
+                        "i16",
+                        "i32",
+                        "i64",
+                        "i128",
+                        "isize",
+                        "str",
+                        "u8",
+                        "u16",
+                        "u32",
+                        "u64",
+                        "u128",
+                        "usize",
+                        "String",
+                        "Option",
+                        "Result",
+                        "Vec",
+                        "Box",
+                        "Rc",
+                        "Arc",
+                        "Cow",
+                        "HashMap",
+                        "HashSet",
+                        "BTreeMap",
+                        "Path",
+                        "PathBuf"
+                    ],
+                    "constants": [
+                        "true",
+                        "false",
+                        "Some",
+                        "None",
+                        "Ok",
+                        "Err",
+                        "Default"
+                    ],
+                    "builtins": [
+                        "print",
+                        "println",
+                        "eprint",
+                        "eprintln",
+                        "format",
+                        "vec",
+                        "panic",
+                        "assert",
+                        "assert_eq",
+                        "assert_ne",
+                        "debug_assert",
+                        "todo",
+                        "unimplemented",
+                        "unreachable",
+                        "matches",
+                        "dbg",
+                        "clone",
+                        "to_string",
+                        "From",
+                        "Into",
+                        "Display",
+                        "Debug",
+                        "Iterator",
+                        "Default"
+                    ],
+                    "numbers": true
+                }
+            },
             "sandbox": {
                 "envs": [
                     {
@@ -27,21 +174,22 @@
                     }
                 ]
             },
-            "command": "rust-analyzer",
-            "args": [],
-            "extensions": ["rs"],
             "language": "rust",
             "initParamsOverride": {
                 "initializationOptions": {
                     "cargo": {
-                        "metadataExtraArgs": ["--offline"],
+                        "metadataExtraArgs": [
+                            "--offline"
+                        ],
                         "buildScripts": {
                             "enable": true
                         }
                     },
                     "check": {
                         "command": "clippy",
-                        "extraArgs": ["--offline"]
+                        "extraArgs": [
+                            "--offline"
+                        ]
                     },
                     "files": {
                         "watcher": "server"

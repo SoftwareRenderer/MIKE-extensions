@@ -7,6 +7,129 @@
     "version": "0.7.0",
     "capabilities": {
         "lsp": {
+            "command": "gopls",
+            "args": [
+                "serve"
+            ],
+            "file_types": [
+                {
+                    "extension": "go",
+                    "language_id": "go",
+                    "label": "Go",
+                    "syntax": "go"
+                }
+            ],
+            "syntax": {
+                "go": {
+                    "line_comment": "//",
+                    "block_comment": {
+                        "open": "/*",
+                        "close": "*/"
+                    },
+                    "strings": [
+                        {
+                            "quote": "\"",
+                            "escapes": true
+                        },
+                        {
+                            "quote": "`",
+                            "multiline": true
+                        },
+                        {
+                            "quote": "'",
+                            "escapes": true
+                        }
+                    ],
+                    "pairs": [
+                        {
+                            "open": "{",
+                            "close": "}"
+                        },
+                        {
+                            "open": "(",
+                            "close": ")"
+                        },
+                        {
+                            "open": "[",
+                            "close": "]"
+                        }
+                    ],
+                    "keywords": [
+                        "break",
+                        "case",
+                        "chan",
+                        "const",
+                        "continue",
+                        "default",
+                        "defer",
+                        "else",
+                        "fallthrough",
+                        "for",
+                        "func",
+                        "go",
+                        "goto",
+                        "if",
+                        "import",
+                        "interface",
+                        "map",
+                        "package",
+                        "range",
+                        "return",
+                        "select",
+                        "struct",
+                        "switch",
+                        "type",
+                        "var"
+                    ],
+                    "types": [
+                        "any",
+                        "bool",
+                        "byte",
+                        "complex64",
+                        "complex128",
+                        "error",
+                        "float32",
+                        "float64",
+                        "int",
+                        "int8",
+                        "int16",
+                        "int32",
+                        "int64",
+                        "rune",
+                        "string",
+                        "uint",
+                        "uint8",
+                        "uint16",
+                        "uint32",
+                        "uint64",
+                        "uintptr"
+                    ],
+                    "constants": [
+                        "true",
+                        "false",
+                        "iota",
+                        "nil"
+                    ],
+                    "builtins": [
+                        "append",
+                        "cap",
+                        "clear",
+                        "close",
+                        "copy",
+                        "delete",
+                        "len",
+                        "make",
+                        "max",
+                        "min",
+                        "new",
+                        "panic",
+                        "print",
+                        "println",
+                        "recover"
+                    ],
+                    "numbers": true
+                }
+            },
             "sandbox": {
                 "envs": [
                     {
@@ -19,9 +142,6 @@
                     }
                 ]
             },
-            "command": "gopls",
-            "args": ["serve"],
-            "extensions": ["go"],
             "language": "go",
             "initParamsOverride": {
                 "initializationOptions": {
@@ -31,7 +151,9 @@
                         }
                     },
                     "codeLens": {
-                        "disable": ["generated_test"]
+                        "disable": [
+                            "generated_test"
+                        ]
                     },
                     "hints": {
                         "assignVariableType": true,
