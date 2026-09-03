@@ -175,8 +175,7 @@
         ],
         "dependency_cache": {
           "container_path": "/usr/local/cargo",
-          "env": "CARGO_HOME",
-          "read_only": true
+          "env": "CARGO_HOME"
         },
         "reload_files": [
           "Cargo.toml",
