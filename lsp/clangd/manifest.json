@@ -226,7 +226,9 @@
             "make_unique",
             "make_shared"
           ],
-          "numbers": true
+          "numbers": true,
+          "capitalized_types": true,
+          "call_as_function": true
         }
       },
       "sandbox": {

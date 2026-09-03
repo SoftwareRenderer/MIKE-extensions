@@ -127,7 +127,9 @@
             "println",
             "recover"
           ],
-          "numbers": true
+          "numbers": true,
+          "capitalized_types": true,
+          "call_as_function": true
         }
       },
       "sandbox": {

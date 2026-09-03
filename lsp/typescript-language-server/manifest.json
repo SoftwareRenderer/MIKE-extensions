@@ -225,7 +225,9 @@
             "parseFloat",
             "parseInt"
           ],
-          "numbers": true
+          "numbers": true,
+          "capitalized_types": true,
+          "call_as_function": true
         },
         "typescript": {
           "line_comment": "//",
@@ -373,7 +375,9 @@
             "parseFloat",
             "parseInt"
           ],
-          "numbers": true
+          "numbers": true,
+          "capitalized_types": true,
+          "call_as_function": true
         }
       },
       "sandbox": {
