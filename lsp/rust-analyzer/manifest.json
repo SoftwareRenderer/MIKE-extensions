@@ -1,204 +1,224 @@
 {
-    "display_name": "Rust Language Server",
-    "description": "Rust language server (rust-analyzer) with cargo-based diagnostics via clippy. Provides completions, hover, diagnostics, go-to-definition, references, renaming and refactors for Rust projects.",
-    "author": "rust-analyzer project",
-    "homepage": "https://rust-analyzer.github.io/",
-    "license_url": "https://github.com/rust-lang/rust-analyzer/blob/master/LICENSE-MIT",
-    "version": "0.1.0",
-    "capabilities": {
-        "lsp": {
-            "command": "rust-analyzer",
-            "args": [],
-            "file_types": [
-                {
-                    "extension": "rs",
-                    "language_id": "rust",
-                    "label": "Rust",
-                    "syntax": "rust"
-                }
-            ],
-            "syntax": {
-                "rust": {
-                    "line_comment": "//",
-                    "block_comment": {
-                        "open": "/*",
-                        "close": "*/"
-                    },
-                    "strings": [
-                        {
-                            "quote": "\"",
-                            "escapes": true
-                        }
-                    ],
-                    "pairs": [
-                        {
-                            "open": "{",
-                            "close": "}"
-                        },
-                        {
-                            "open": "(",
-                            "close": ")"
-                        },
-                        {
-                            "open": "[",
-                            "close": "]"
-                        }
-                    ],
-                    "keywords": [
-                        "as",
-                        "async",
-                        "await",
-                        "break",
-                        "const",
-                        "continue",
-                        "crate",
-                        "dyn",
-                        "else",
-                        "enum",
-                        "extern",
-                        "false",
-                        "fn",
-                        "for",
-                        "if",
-                        "impl",
-                        "in",
-                        "let",
-                        "loop",
-                        "match",
-                        "mod",
-                        "move",
-                        "mut",
-                        "pub",
-                        "ref",
-                        "return",
-                        "self",
-                        "Self",
-                        "static",
-                        "struct",
-                        "super",
-                        "trait",
-                        "true",
-                        "type",
-                        "unsafe",
-                        "use",
-                        "where",
-                        "while"
-                    ],
-                    "types": [
-                        "bool",
-                        "char",
-                        "f32",
-                        "f64",
-                        "i8",
-                        "i16",
-                        "i32",
-                        "i64",
-                        "i128",
-                        "isize",
-                        "str",
-                        "u8",
-                        "u16",
-                        "u32",
-                        "u64",
-                        "u128",
-                        "usize",
-                        "String",
-                        "Option",
-                        "Result",
-                        "Vec",
-                        "Box",
-                        "Rc",
-                        "Arc",
-                        "Cow",
-                        "HashMap",
-                        "HashSet",
-                        "BTreeMap",
-                        "Path",
-                        "PathBuf"
-                    ],
-                    "constants": [
-                        "true",
-                        "false",
-                        "Some",
-                        "None",
-                        "Ok",
-                        "Err",
-                        "Default"
-                    ],
-                    "builtins": [
-                        "print",
-                        "println",
-                        "eprint",
-                        "eprintln",
-                        "format",
-                        "vec",
-                        "panic",
-                        "assert",
-                        "assert_eq",
-                        "assert_ne",
-                        "debug_assert",
-                        "todo",
-                        "unimplemented",
-                        "unreachable",
-                        "matches",
-                        "dbg",
-                        "clone",
-                        "to_string",
-                        "From",
-                        "Into",
-                        "Display",
-                        "Debug",
-                        "Iterator",
-                        "Default"
-                    ],
-                    "numbers": true
-                }
-            },
-            "sandbox": {
-                "envs": [
-                    {
-                        "key": "RUSTUP_HOME",
-                        "value": "/usr/local/rustup"
-                    },
-                    {
-                        "key": "CARGO_HOME",
-                        "value": "/usr/local/cargo"
-                    },
-                    {
-                        "key": "CARGO_TARGET_DIR",
-                        "value": "/tmp/cargo-target"
-                    },
-                    {
-                        "key": "CARGO_NET_OFFLINE",
-                        "value": "true"
-                    }
-                ]
-            },
-            "language": "rust",
-            "initParamsOverride": {
-                "initializationOptions": {
-                    "cargo": {
-                        "metadataExtraArgs": [
-                            "--offline"
-                        ],
-                        "buildScripts": {
-                            "enable": true
-                        }
-                    },
-                    "check": {
-                        "command": "clippy",
-                        "extraArgs": [
-                            "--offline"
-                        ]
-                    },
-                    "files": {
-                        "watcher": "server"
-                    },
-                    "procMacro": {
-                        "enable": true
-                    }
-                }
-            }
+  "display_name": "Rust Language Server",
+  "description": "Rust language server (rust-analyzer) with cargo-based diagnostics via clippy. Provides completions, hover, diagnostics, go-to-definition, references, renaming and refactors for Rust projects.",
+  "author": "rust-analyzer project",
+  "homepage": "https://rust-analyzer.github.io/",
+  "license_url": "https://github.com/rust-lang/rust-analyzer/blob/master/LICENSE-MIT",
+  "version": "0.1.0",
+  "capabilities": {
+    "lsp": {
+      "command": "rust-analyzer",
+      "args": [],
+      "file_types": [
+        {
+          "extension": "rs",
+          "language_id": "rust",
+          "label": "Rust",
+          "syntax": "rust"
         }
+      ],
+      "syntax": {
+        "rust": {
+          "line_comment": "//",
+          "block_comment": {
+            "open": "/*",
+            "close": "*/"
+          },
+          "strings": [
+            {
+              "quote": "\"",
+              "escapes": true
+            }
+          ],
+          "pairs": [
+            {
+              "open": "{",
+              "close": "}"
+            },
+            {
+              "open": "(",
+              "close": ")"
+            },
+            {
+              "open": "[",
+              "close": "]"
+            }
+          ],
+          "keywords": [
+            "as",
+            "async",
+            "await",
+            "break",
+            "const",
+            "continue",
+            "crate",
+            "dyn",
+            "else",
+            "enum",
+            "extern",
+            "false",
+            "fn",
+            "for",
+            "if",
+            "impl",
+            "in",
+            "let",
+            "loop",
+            "match",
+            "mod",
+            "move",
+            "mut",
+            "pub",
+            "ref",
+            "return",
+            "self",
+            "Self",
+            "static",
+            "struct",
+            "super",
+            "trait",
+            "true",
+            "type",
+            "unsafe",
+            "use",
+            "where",
+            "while"
+          ],
+          "types": [
+            "bool",
+            "char",
+            "f32",
+            "f64",
+            "i8",
+            "i16",
+            "i32",
+            "i64",
+            "i128",
+            "isize",
+            "str",
+            "u8",
+            "u16",
+            "u32",
+            "u64",
+            "u128",
+            "usize",
+            "String",
+            "Option",
+            "Result",
+            "Vec",
+            "Box",
+            "Rc",
+            "Arc",
+            "Cow",
+            "HashMap",
+            "HashSet",
+            "BTreeMap",
+            "Path",
+            "PathBuf"
+          ],
+          "constants": [
+            "true",
+            "false",
+            "Some",
+            "None",
+            "Ok",
+            "Err",
+            "Default"
+          ],
+          "builtins": [
+            "print",
+            "println",
+            "eprint",
+            "eprintln",
+            "format",
+            "vec",
+            "panic",
+            "assert",
+            "assert_eq",
+            "assert_ne",
+            "debug_assert",
+            "todo",
+            "unimplemented",
+            "unreachable",
+            "matches",
+            "dbg",
+            "clone",
+            "to_string",
+            "From",
+            "Into",
+            "Display",
+            "Debug",
+            "Iterator",
+            "Default"
+          ],
+          "numbers": true
+        }
+      },
+      "sandbox": {
+        "envs": [
+          {
+            "key": "RUSTUP_HOME",
+            "value": "/usr/local/rustup"
+          },
+          {
+            "key": "CARGO_HOME",
+            "value": "/usr/local/cargo"
+          },
+          {
+            "key": "CARGO_TARGET_DIR",
+            "value": "/tmp/cargo-target"
+          },
+          {
+            "key": "CARGO_NET_OFFLINE",
+            "value": "true"
+          }
+        ],
+        "dependency_cache": {
+          "container_path": "/usr/local/cargo",
+          "env": "CARGO_HOME",
+          "read_only": true
+        },
+        "reload_files": [
+          "Cargo.toml",
+          "Cargo.lock"
+        ],
+        "environment": {
+          "check": {
+            "command": "/bin/sh",
+            "args": [
+              "-c",
+              "cargo metadata --offline --no-deps --format-version 1 >/dev/null"
+            ],
+            "timeout_seconds": 120
+          },
+          "note": "cargo cannot resolve this workspace's dependencies offline: the crate registry cache is not reachable from the sandbox. Errors below may be about crates cargo could not read. Choose a host directory for the Cargo home under Settings -> Extensions, and let a task run \"cargo fetch\" once to fill it."
+        }
+      },
+      "language": "rust",
+      "initParamsOverride": {
+        "initializationOptions": {
+          "cargo": {
+            "metadataExtraArgs": [
+              "--offline"
+            ],
+            "buildScripts": {
+              "enable": true
+            }
+          },
+          "check": {
+            "command": "clippy",
+            "extraArgs": [
+              "--offline"
+            ]
+          },
+          "files": {
+            "watcher": "server"
+          },
+          "procMacro": {
+            "enable": true
+          }
+        }
+      }
     }
+  }
 }

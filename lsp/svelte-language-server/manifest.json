@@ -1,96 +1,104 @@
 {
-    "display_name": "Svelte Language Server",
-    "description": "Svelte language server providing completions, hover, and diagnostics for .svelte files.",
-    "author": "Svelte Contributors",
-    "homepage": "https://github.com/sveltejs/svelte-language-server",
-    "license_url": "https://github.com/sveltejs/svelte-language-server/blob/master/LICENSE",
-    "version": "0.1.0",
-    "capabilities": {
-        "lsp": {
-            "command": "svelteserver",
-            "args": [
-                "--stdio"
-            ],
-            "file_types": [
-                {
-                    "extension": "svelte",
-                    "language_id": "svelte",
-                    "label": "Svelte",
-                    "syntax": "svelte"
-                }
-            ],
-            "syntax": {
-                "svelte": {
-                    "block_comment": {
-                        "open": "<!--",
-                        "close": "-->"
-                    },
-                    "strings": [
-                        {
-                            "quote": "`",
-                            "escapes": true,
-                            "multiline": true
-                        },
-                        {
-                            "quote": "\"",
-                            "escapes": true
-                        },
-                        {
-                            "quote": "'",
-                            "escapes": true
-                        }
-                    ],
-                    "pairs": [
-                        {
-                            "open": "{",
-                            "close": "}"
-                        },
-                        {
-                            "open": "(",
-                            "close": ")"
-                        },
-                        {
-                            "open": "[",
-                            "close": "]"
-                        }
-                    ],
-                    "keywords": [
-                        "each",
-                        "if",
-                        "await",
-                        "then",
-                        "catch",
-                        "html",
-                        "key",
-                        "const",
-                        "debug",
-                        "render",
-                        "snippet",
-                        "transition",
-                        "animate",
-                        "in",
-                        "out",
-                        "action",
-                        "bind",
-                        "bind:this",
-                        "class",
-                        "style",
-                        "props",
-                        "legacy",
-                        "svelte",
-                        "window",
-                        "document"
-                    ],
-                    "constants": [
-                        "true",
-                        "false",
-                        "null",
-                        "undefined"
-                    ],
-                    "numbers": true
-                }
-            },
-            "language": "svelte"
+  "display_name": "Svelte Language Server",
+  "description": "Svelte language server providing completions, hover, and diagnostics for .svelte files.",
+  "author": "Svelte Contributors",
+  "homepage": "https://github.com/sveltejs/svelte-language-server",
+  "license_url": "https://github.com/sveltejs/svelte-language-server/blob/master/LICENSE",
+  "version": "0.1.0",
+  "capabilities": {
+    "lsp": {
+      "command": "svelteserver",
+      "args": [
+        "--stdio"
+      ],
+      "file_types": [
+        {
+          "extension": "svelte",
+          "language_id": "svelte",
+          "label": "Svelte",
+          "syntax": "svelte"
         }
+      ],
+      "syntax": {
+        "svelte": {
+          "block_comment": {
+            "open": "<!--",
+            "close": "-->"
+          },
+          "strings": [
+            {
+              "quote": "`",
+              "escapes": true,
+              "multiline": true
+            },
+            {
+              "quote": "\"",
+              "escapes": true
+            },
+            {
+              "quote": "'",
+              "escapes": true
+            }
+          ],
+          "pairs": [
+            {
+              "open": "{",
+              "close": "}"
+            },
+            {
+              "open": "(",
+              "close": ")"
+            },
+            {
+              "open": "[",
+              "close": "]"
+            }
+          ],
+          "keywords": [
+            "each",
+            "if",
+            "await",
+            "then",
+            "catch",
+            "html",
+            "key",
+            "const",
+            "debug",
+            "render",
+            "snippet",
+            "transition",
+            "animate",
+            "in",
+            "out",
+            "action",
+            "bind",
+            "bind:this",
+            "class",
+            "style",
+            "props",
+            "legacy",
+            "svelte",
+            "window",
+            "document"
+          ],
+          "constants": [
+            "true",
+            "false",
+            "null",
+            "undefined"
+          ],
+          "numbers": true
+        }
+      },
+      "language": "svelte",
+      "sandbox": {
+        "reload_files": [
+          "svelte.config.js",
+          "svelte.config.mjs",
+          "svelte.config.ts",
+          "tsconfig.json"
+        ]
+      }
     }
+  }
 }

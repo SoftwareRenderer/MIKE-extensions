@@ -1,171 +1,196 @@
 {
-    "display_name": "Go Language Server",
-    "description": "Go language server (gopls) by Google. Provides completions, hover, diagnostics, go-to-definition, and more for Go projects.",
-    "author": "Go Team",
-    "homepage": "https://github.com/golang/tools/tree/master/gopls",
-    "license_url": "https://github.com/golang/tools/blob/master/LICENSE",
-    "version": "0.7.0",
-    "capabilities": {
-        "lsp": {
-            "command": "gopls",
-            "args": [
-                "serve"
-            ],
-            "file_types": [
-                {
-                    "extension": "go",
-                    "language_id": "go",
-                    "label": "Go",
-                    "syntax": "go"
-                }
-            ],
-            "syntax": {
-                "go": {
-                    "line_comment": "//",
-                    "block_comment": {
-                        "open": "/*",
-                        "close": "*/"
-                    },
-                    "strings": [
-                        {
-                            "quote": "\"",
-                            "escapes": true
-                        },
-                        {
-                            "quote": "`",
-                            "multiline": true
-                        },
-                        {
-                            "quote": "'",
-                            "escapes": true
-                        }
-                    ],
-                    "pairs": [
-                        {
-                            "open": "{",
-                            "close": "}"
-                        },
-                        {
-                            "open": "(",
-                            "close": ")"
-                        },
-                        {
-                            "open": "[",
-                            "close": "]"
-                        }
-                    ],
-                    "keywords": [
-                        "break",
-                        "case",
-                        "chan",
-                        "const",
-                        "continue",
-                        "default",
-                        "defer",
-                        "else",
-                        "fallthrough",
-                        "for",
-                        "func",
-                        "go",
-                        "goto",
-                        "if",
-                        "import",
-                        "interface",
-                        "map",
-                        "package",
-                        "range",
-                        "return",
-                        "select",
-                        "struct",
-                        "switch",
-                        "type",
-                        "var"
-                    ],
-                    "types": [
-                        "any",
-                        "bool",
-                        "byte",
-                        "complex64",
-                        "complex128",
-                        "error",
-                        "float32",
-                        "float64",
-                        "int",
-                        "int8",
-                        "int16",
-                        "int32",
-                        "int64",
-                        "rune",
-                        "string",
-                        "uint",
-                        "uint8",
-                        "uint16",
-                        "uint32",
-                        "uint64",
-                        "uintptr"
-                    ],
-                    "constants": [
-                        "true",
-                        "false",
-                        "iota",
-                        "nil"
-                    ],
-                    "builtins": [
-                        "append",
-                        "cap",
-                        "clear",
-                        "close",
-                        "copy",
-                        "delete",
-                        "len",
-                        "make",
-                        "max",
-                        "min",
-                        "new",
-                        "panic",
-                        "print",
-                        "println",
-                        "recover"
-                    ],
-                    "numbers": true
-                }
-            },
-            "sandbox": {
-                "envs": [
-                    {
-                        "key": "XDG_CACHE_HOME",
-                        "value": "/var/cache/gopls"
-                    },
-                    {
-                        "key": "GOCACHE",
-                        "value": "/var/cache/gopls/go-build"
-                    }
-                ]
-            },
-            "language": "go",
-            "initParamsOverride": {
-                "initializationOptions": {
-                    "hover": {
-                        "actions": {
-                            "enabled": true
-                        }
-                    },
-                    "codeLens": {
-                        "disable": [
-                            "generated_test"
-                        ]
-                    },
-                    "hints": {
-                        "assignVariableType": true,
-                        "compositeLiteralFields": true,
-                        "constantValues": true,
-                        "functionTypeParameters": true,
-                        "parameterNames": true
-                    },
-                    "usePlaceholders": true,
-                    "staticcheck": true
-                }
-            }
+  "display_name": "Go Language Server",
+  "description": "Go language server (gopls) by Google. Provides completions, hover, diagnostics, go-to-definition, and more for Go projects.",
+  "author": "Go Team",
+  "homepage": "https://github.com/golang/tools/tree/master/gopls",
+  "license_url": "https://github.com/golang/tools/blob/master/LICENSE",
+  "version": "0.7.0",
+  "capabilities": {
+    "lsp": {
+      "command": "gopls",
+      "args": [
+        "serve"
+      ],
+      "file_types": [
+        {
+          "extension": "go",
+          "language_id": "go",
+          "label": "Go",
+          "syntax": "go"
         }
+      ],
+      "syntax": {
+        "go": {
+          "line_comment": "//",
+          "block_comment": {
+            "open": "/*",
+            "close": "*/"
+          },
+          "strings": [
+            {
+              "quote": "\"",
+              "escapes": true
+            },
+            {
+              "quote": "`",
+              "multiline": true
+            },
+            {
+              "quote": "'",
+              "escapes": true
+            }
+          ],
+          "pairs": [
+            {
+              "open": "{",
+              "close": "}"
+            },
+            {
+              "open": "(",
+              "close": ")"
+            },
+            {
+              "open": "[",
+              "close": "]"
+            }
+          ],
+          "keywords": [
+            "break",
+            "case",
+            "chan",
+            "const",
+            "continue",
+            "default",
+            "defer",
+            "else",
+            "fallthrough",
+            "for",
+            "func",
+            "go",
+            "goto",
+            "if",
+            "import",
+            "interface",
+            "map",
+            "package",
+            "range",
+            "return",
+            "select",
+            "struct",
+            "switch",
+            "type",
+            "var"
+          ],
+          "types": [
+            "any",
+            "bool",
+            "byte",
+            "complex64",
+            "complex128",
+            "error",
+            "float32",
+            "float64",
+            "int",
+            "int8",
+            "int16",
+            "int32",
+            "int64",
+            "rune",
+            "string",
+            "uint",
+            "uint8",
+            "uint16",
+            "uint32",
+            "uint64",
+            "uintptr"
+          ],
+          "constants": [
+            "true",
+            "false",
+            "iota",
+            "nil"
+          ],
+          "builtins": [
+            "append",
+            "cap",
+            "clear",
+            "close",
+            "copy",
+            "delete",
+            "len",
+            "make",
+            "max",
+            "min",
+            "new",
+            "panic",
+            "print",
+            "println",
+            "recover"
+          ],
+          "numbers": true
+        }
+      },
+      "sandbox": {
+        "envs": [
+          {
+            "key": "XDG_CACHE_HOME",
+            "value": "/var/cache/gopls"
+          },
+          {
+            "key": "GOCACHE",
+            "value": "/var/cache/gopls/go-build"
+          }
+        ],
+        "dependency_cache": {
+          "container_path": "/go/pkg/mod",
+          "env": "GOMODCACHE",
+          "read_only": true
+        },
+        "reload_files": [
+          "go.mod",
+          "go.sum"
+        ],
+        "environment": {
+          "check": {
+            "command": "/bin/sh",
+            "args": [
+              "-c",
+              "GOPROXY=off go list -deps ./... >/dev/null"
+            ],
+            "timeout_seconds": 120
+          },
+          "suppress_codes": [
+            "BrokenImport",
+            "UndeclaredName",
+            "UndeclaredImportedName"
+          ],
+          "note": "gopls cannot resolve this project's dependencies in the sandbox: the Go module cache is not reachable. Import and undefined-name errors below are its guesses about a package it could not load, not findings about this code. Choose a host directory for the Go module cache under Settings -> Extensions, and let a task run \"go mod download\" once to fill it."
+        }
+      },
+      "language": "go",
+      "initParamsOverride": {
+        "initializationOptions": {
+          "hover": {
+            "actions": {
+              "enabled": true
+            }
+          },
+          "codeLens": {
+            "disable": [
+              "generated_test"
+            ]
+          },
+          "hints": {
+            "assignVariableType": true,
+            "compositeLiteralFields": true,
+            "constantValues": true,
+            "functionTypeParameters": true,
+            "parameterNames": true
+          },
+          "usePlaceholders": true,
+          "staticcheck": true
+        }
+      }
     }
+  }
 }

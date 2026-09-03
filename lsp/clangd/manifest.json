@@ -1,243 +1,254 @@
 {
-    "display_name": "C/C++ Language Server",
-    "description": "clangd, the LLVM language server for C and C++. Provides completions, hover, diagnostics, go-to-definition, references, rename and formatting for C and C++ projects.",
-    "author": "LLVM Project",
-    "homepage": "https://clangd.llvm.org/",
-    "license_url": "https://llvm.org/LICENSE.txt",
-    "version": "0.1.0",
-    "capabilities": {
-        "lsp": {
-            "command": "clangd",
-            "args": [],
-            "file_types": [
-                {
-                    "extension": "c",
-                    "language_id": "c",
-                    "label": "C",
-                    "syntax": "cpp"
-                },
-                {
-                    "extension": "h",
-                    "language_id": "c",
-                    "label": "C header",
-                    "syntax": "cpp"
-                },
-                {
-                    "extension": "cpp",
-                    "language_id": "cpp",
-                    "label": "C++",
-                    "syntax": "cpp"
-                },
-                {
-                    "extension": "cxx",
-                    "language_id": "cpp",
-                    "label": "C++",
-                    "syntax": "cpp"
-                },
-                {
-                    "extension": "cc",
-                    "language_id": "cpp",
-                    "label": "C++",
-                    "syntax": "cpp"
-                },
-                {
-                    "extension": "hpp",
-                    "language_id": "cpp",
-                    "label": "C++ header",
-                    "syntax": "cpp"
-                },
-                {
-                    "extension": "hh",
-                    "language_id": "cpp",
-                    "label": "C++ header",
-                    "syntax": "cpp"
-                },
-                {
-                    "extension": "hxx",
-                    "language_id": "cpp",
-                    "label": "C++ header",
-                    "syntax": "cpp"
-                }
-            ],
-            "syntax": {
-                "cpp": {
-                    "line_comment": "//",
-                    "block_comment": {
-                        "open": "/*",
-                        "close": "*/"
-                    },
-                    "strings": [
-                        {
-                            "quote": "\"",
-                            "escapes": true
-                        },
-                        {
-                            "quote": "'",
-                            "escapes": true
-                        }
-                    ],
-                    "pairs": [
-                        {
-                            "open": "{",
-                            "close": "}"
-                        },
-                        {
-                            "open": "(",
-                            "close": ")"
-                        },
-                        {
-                            "open": "[",
-                            "close": "]"
-                        }
-                    ],
-                    "keywords": [
-                        "alignas",
-                        "alignof",
-                        "and",
-                        "asm",
-                        "auto",
-                        "bool",
-                        "break",
-                        "case",
-                        "catch",
-                        "char",
-                        "char8_t",
-                        "char16_t",
-                        "char32_t",
-                        "class",
-                        "concept",
-                        "const",
-                        "consteval",
-                        "constexpr",
-                        "constinit",
-                        "continue",
-                        "co_await",
-                        "co_return",
-                        "co_yield",
-                        "decltype",
-                        "default",
-                        "delete",
-                        "do",
-                        "double",
-                        "dynamic_cast",
-                        "else",
-                        "enum",
-                        "explicit",
-                        "export",
-                        "extern",
-                        "false",
-                        "float",
-                        "for",
-                        "friend",
-                        "goto",
-                        "if",
-                        "inline",
-                        "int",
-                        "long",
-                        "mutable",
-                        "namespace",
-                        "new",
-                        "noexcept",
-                        "not",
-                        "nullptr",
-                        "operator",
-                        "or",
-                        "private",
-                        "protected",
-                        "public",
-                        "register",
-                        "reinterpret_cast",
-                        "requires",
-                        "return",
-                        "short",
-                        "signed",
-                        "sizeof",
-                        "static",
-                        "static_assert",
-                        "static_cast",
-                        "struct",
-                        "switch",
-                        "template",
-                        "this",
-                        "thread_local",
-                        "throw",
-                        "true",
-                        "try",
-                        "typedef",
-                        "typeid",
-                        "typename",
-                        "union",
-                        "unsigned",
-                        "using",
-                        "virtual",
-                        "void",
-                        "volatile",
-                        "while"
-                    ],
-                    "types": [
-                        "int8_t",
-                        "int16_t",
-                        "int32_t",
-                        "int64_t",
-                        "uint8_t",
-                        "uint16_t",
-                        "uint32_t",
-                        "uint64_t",
-                        "size_t",
-                        "ptrdiff_t",
-                        "intptr_t",
-                        "uintptr_t",
-                        "string",
-                        "string_view",
-                        "vector",
-                        "map",
-                        "unordered_map",
-                        "set",
-                        "pair",
-                        "tuple",
-                        "optional",
-                        "variant",
-                        "unique_ptr",
-                        "shared_ptr",
-                        "functional"
-                    ],
-                    "constants": [
-                        "true",
-                        "false",
-                        "nullptr",
-                        "NULL",
-                        "EOF"
-                    ],
-                    "builtins": [
-                        "std",
-                        "cout",
-                        "cin",
-                        "cerr",
-                        "printf",
-                        "sprintf",
-                        "fprintf",
-                        "malloc",
-                        "free",
-                        "sizeof",
-                        "assert",
-                        "move",
-                        "forward",
-                        "make_pair",
-                        "make_unique",
-                        "make_shared"
-                    ],
-                    "numbers": true
-                }
-            },
-            "sandbox": {
-                "envs": [
-                    {
-                        "key": "XDG_CACHE_HOME",
-                        "value": "/var/cache/clangd"
-                    }
-                ]
-            },
-            "language": "cpp"
+  "display_name": "C/C++ Language Server",
+  "description": "clangd, the LLVM language server for C and C++. Provides completions, hover, diagnostics, go-to-definition, references, rename and formatting for C and C++ projects.",
+  "author": "LLVM Project",
+  "homepage": "https://clangd.llvm.org/",
+  "license_url": "https://llvm.org/LICENSE.txt",
+  "version": "0.1.0",
+  "capabilities": {
+    "lsp": {
+      "command": "clangd",
+      "args": [],
+      "file_types": [
+        {
+          "extension": "c",
+          "language_id": "c",
+          "label": "C",
+          "syntax": "cpp"
+        },
+        {
+          "extension": "h",
+          "language_id": "c",
+          "label": "C header",
+          "syntax": "cpp"
+        },
+        {
+          "extension": "cpp",
+          "language_id": "cpp",
+          "label": "C++",
+          "syntax": "cpp"
+        },
+        {
+          "extension": "cxx",
+          "language_id": "cpp",
+          "label": "C++",
+          "syntax": "cpp"
+        },
+        {
+          "extension": "cc",
+          "language_id": "cpp",
+          "label": "C++",
+          "syntax": "cpp"
+        },
+        {
+          "extension": "hpp",
+          "language_id": "cpp",
+          "label": "C++ header",
+          "syntax": "cpp"
+        },
+        {
+          "extension": "hh",
+          "language_id": "cpp",
+          "label": "C++ header",
+          "syntax": "cpp"
+        },
+        {
+          "extension": "hxx",
+          "language_id": "cpp",
+          "label": "C++ header",
+          "syntax": "cpp"
         }
+      ],
+      "syntax": {
+        "cpp": {
+          "line_comment": "//",
+          "block_comment": {
+            "open": "/*",
+            "close": "*/"
+          },
+          "strings": [
+            {
+              "quote": "\"",
+              "escapes": true
+            },
+            {
+              "quote": "'",
+              "escapes": true
+            }
+          ],
+          "pairs": [
+            {
+              "open": "{",
+              "close": "}"
+            },
+            {
+              "open": "(",
+              "close": ")"
+            },
+            {
+              "open": "[",
+              "close": "]"
+            }
+          ],
+          "keywords": [
+            "alignas",
+            "alignof",
+            "and",
+            "asm",
+            "auto",
+            "bool",
+            "break",
+            "case",
+            "catch",
+            "char",
+            "char8_t",
+            "char16_t",
+            "char32_t",
+            "class",
+            "concept",
+            "const",
+            "consteval",
+            "constexpr",
+            "constinit",
+            "continue",
+            "co_await",
+            "co_return",
+            "co_yield",
+            "decltype",
+            "default",
+            "delete",
+            "do",
+            "double",
+            "dynamic_cast",
+            "else",
+            "enum",
+            "explicit",
+            "export",
+            "extern",
+            "false",
+            "float",
+            "for",
+            "friend",
+            "goto",
+            "if",
+            "inline",
+            "int",
+            "long",
+            "mutable",
+            "namespace",
+            "new",
+            "noexcept",
+            "not",
+            "nullptr",
+            "operator",
+            "or",
+            "private",
+            "protected",
+            "public",
+            "register",
+            "reinterpret_cast",
+            "requires",
+            "return",
+            "short",
+            "signed",
+            "sizeof",
+            "static",
+            "static_assert",
+            "static_cast",
+            "struct",
+            "switch",
+            "template",
+            "this",
+            "thread_local",
+            "throw",
+            "true",
+            "try",
+            "typedef",
+            "typeid",
+            "typename",
+            "union",
+            "unsigned",
+            "using",
+            "virtual",
+            "void",
+            "volatile",
+            "while"
+          ],
+          "types": [
+            "int8_t",
+            "int16_t",
+            "int32_t",
+            "int64_t",
+            "uint8_t",
+            "uint16_t",
+            "uint32_t",
+            "uint64_t",
+            "size_t",
+            "ptrdiff_t",
+            "intptr_t",
+            "uintptr_t",
+            "string",
+            "string_view",
+            "vector",
+            "map",
+            "unordered_map",
+            "set",
+            "pair",
+            "tuple",
+            "optional",
+            "variant",
+            "unique_ptr",
+            "shared_ptr",
+            "functional"
+          ],
+          "constants": [
+            "true",
+            "false",
+            "nullptr",
+            "NULL",
+            "EOF"
+          ],
+          "builtins": [
+            "std",
+            "cout",
+            "cin",
+            "cerr",
+            "printf",
+            "sprintf",
+            "fprintf",
+            "malloc",
+            "free",
+            "sizeof",
+            "assert",
+            "move",
+            "forward",
+            "make_pair",
+            "make_unique",
+            "make_shared"
+          ],
+          "numbers": true
+        }
+      },
+      "sandbox": {
+        "envs": [
+          {
+            "key": "XDG_CACHE_HOME",
+            "value": "/var/cache/clangd"
+          }
+        ],
+        "environment": {
+          "check": {
+            "command": "/bin/sh",
+            "args": [
+              "-c",
+              "test -f compile_commands.json"
+            ],
+            "timeout_seconds": 10
+          },
+          "note": "clangd resolves this project from a compile_commands.json that is not there, so it is guessing include paths and flags: header and symbol errors below may be about the missing compilation database, not the code. Generate it from the build system (cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON, bear -- <build command>) in a task."
+        }
+      },
+      "language": "cpp"
     }
+  }
 }

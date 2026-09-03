@@ -375,6 +375,12 @@
           ],
           "numbers": true
         }
+      },
+      "sandbox": {
+        "reload_files": [
+          "tsconfig.json",
+          "jsconfig.json"
+        ]
       }
     }
   }
