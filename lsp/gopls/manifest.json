@@ -163,7 +163,7 @@
             "UndeclaredName",
             "UndeclaredImportedName"
           ],
-          "note": "gopls cannot resolve this project's dependencies in the sandbox: the Go module cache is not reachable. Import and undefined-name errors below are its guesses about a package it could not load, not findings about this code. Choose a host directory for the Go module cache under Settings -> Extensions, and let a task run \"go mod download\" once to fill it."
+          "note": "gopls cannot resolve this project's dependencies in the sandbox: the Go module cache is not reachable. Import and undefined-name errors below are its guesses about a package it could not load, not findings about this code. Name a host directory for the Go module cache under Settings -> Extensions -> gopls (Edit, Dependencies) and fill it there: run \"go mod download\" into it, or add it to the project's Sandbox Configuration mounts with GOMODCACHE set to its container path so a task can download into it."
         }
       },
       "language": "go",

@@ -190,7 +190,7 @@
             ],
             "timeout_seconds": 120
           },
-          "note": "cargo cannot resolve this workspace's dependencies offline: the crate registry cache is not reachable from the sandbox. Errors below may be about crates cargo could not read. Choose a host directory for the Cargo home under Settings -> Extensions, and let a task run \"cargo fetch\" once to fill it."
+          "note": "cargo cannot resolve this workspace's dependencies offline: the crate registry cache is not reachable from the sandbox. Errors below may be about crates cargo could not read. Name a host directory for the Cargo home under Settings -> Extensions -> rust-analyzer (Edit, Dependencies) and fill it there: run \"cargo fetch\" into it, or add it to the project's Sandbox Configuration mounts with CARGO_HOME set to its container path so a task can download into it."
         }
       },
       "language": "rust",
