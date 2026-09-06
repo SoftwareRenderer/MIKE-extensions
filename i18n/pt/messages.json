@@ -629,6 +629,7 @@
     "api.deleteMessage": "Falha ao excluir a mensagem",
     "api.updateMessage": "Falha ao atualizar a mensagem",
     "api.updateConfig": "Falha ao atualizar a configuração",
+    "api.updateConfigOfflineKey": "As chaves de API do provedor não são salvas offline — reconecte-se e salve novamente.",
     "api.switchThread": "Falha ao trocar de conversa ramificada",
     "api.forkThread": "Falha ao ramificar a conversa",
     "api.fetchProjects": "Falha ao obter os projetos",

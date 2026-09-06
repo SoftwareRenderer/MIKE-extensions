@@ -635,6 +635,7 @@
     "api.deleteMessage": "Nie udało się usunąć wiadomości",
     "api.updateMessage": "Nie udało się zaktualizować wiadomości",
     "api.updateConfig": "Nie udało się zaktualizować konfiguracji",
+    "api.updateConfigOfflineKey": "Klucze API dostawcy nie są zapisywane w trybie offline — połącz się z siecią i zapisaj ponownie.",
     "api.switchThread": "Nie udało się przełączyć gałęzi rozmowy",
     "api.forkThread": "Nie udało się odgałęzić rozmowy",
     "api.fetchProjects": "Nie udało się pobrać projektów",

@@ -626,6 +626,7 @@
     "api.deleteMessage": "İleti silinemedi",
     "api.updateMessage": "İleti güncellenemedi",
     "api.updateConfig": "Yapılandırma güncellenemedi",
+    "api.updateConfigOfflineKey": "Sağlayıcı API anahtarları çevrimdışıyken kaydedilmez — yeniden bağlanın ve tekrar kaydedin.",
     "api.switchThread": "Sohbet dalına geçilemedi",
     "api.forkThread": "Sohbet dalı çoğaltılamadı",
     "api.fetchProjects": "Projeler alınamadı",

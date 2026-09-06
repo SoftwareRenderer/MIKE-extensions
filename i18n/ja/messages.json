@@ -626,6 +626,7 @@
     "api.deleteMessage": "メッセージを削除できませんでした",
     "api.updateMessage": "メッセージを更新できませんでした",
     "api.updateConfig": "設定を更新できませんでした",
+    "api.updateConfigOfflineKey": "プロバイダーの API キーはオフライン中は保存されません — 再接続してから再度保存してください。",
     "api.switchThread": "スレッドを切り替えられませんでした",
     "api.forkThread": "スレッドを分岐できませんでした",
     "api.fetchProjects": "プロジェクトを取得できませんでした",

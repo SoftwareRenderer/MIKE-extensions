@@ -629,6 +629,7 @@
     "api.deleteMessage": "Échec de la suppression du message",
     "api.updateMessage": "Échec de la mise à jour du message",
     "api.updateConfig": "Échec de la mise à jour de la configuration",
+    "api.updateConfigOfflineKey": "Les clés d’API du fournisseur ne sont pas enregistrées hors ligne — reconnectez-vous et enregistrez de nouveau.",
     "api.switchThread": "Échec du changement de fil",
     "api.forkThread": "Échec de la dérivation du fil",
     "api.fetchProjects": "Échec de la récupération des projets",

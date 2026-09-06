@@ -629,6 +629,7 @@
     "api.deleteMessage": "Eliminazione del messaggio non riuscita",
     "api.updateMessage": "Aggiornamento del messaggio non riuscito",
     "api.updateConfig": "Aggiornamento della configurazione non riuscito",
+    "api.updateConfigOfflineKey": "Le chiavi API del fornitore non vengono salvate offline — riconnettiti e salva di nuovo.",
     "api.switchThread": "Cambio del ramo della conversazione non riuscito",
     "api.forkThread": "Creazione del ramo della conversazione non riuscita",
     "api.fetchProjects": "Recupero dei progetti non riuscito",

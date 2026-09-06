@@ -629,6 +629,7 @@
     "api.deleteMessage": "No se pudo eliminar el mensaje",
     "api.updateMessage": "No se pudo actualizar el mensaje",
     "api.updateConfig": "No se pudo actualizar la configuración",
+    "api.updateConfigOfflineKey": "Las claves de API del proveedor no se guardan sin conexión — vuelve a conectarte y guárdalas de nuevo.",
     "api.switchThread": "No se pudo cambiar de hilo",
     "api.forkThread": "No se pudo bifurcar el hilo",
     "api.fetchProjects": "No se pudieron obtener los proyectos",

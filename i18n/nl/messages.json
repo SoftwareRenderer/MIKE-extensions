@@ -629,6 +629,7 @@
     "api.deleteMessage": "Kan bericht niet verwijderen",
     "api.updateMessage": "Kan bericht niet bijwerken",
     "api.updateConfig": "Kan configuratie niet bijwerken",
+    "api.updateConfigOfflineKey": "Provider-API-sleutels worden offline niet opgeslagen — maak opnieuw verbinding en sla opnieuw op.",
     "api.switchThread": "Kan niet van conversatietak wisselen",
     "api.forkThread": "Kan conversatietak niet afsplitsen",
     "api.fetchProjects": "Kan projecten niet ophalen",

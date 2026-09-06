@@ -626,6 +626,7 @@
     "api.deleteMessage": "删除消息失败",
     "api.updateMessage": "更新消息失败",
     "api.updateConfig": "更新配置失败",
+    "api.updateConfigOfflineKey": "提供商的 API 密钥在离线时不会保存——请重新连接后再次保存。",
     "api.switchThread": "切换线程失败",
     "api.forkThread": "派生线程失败",
     "api.fetchProjects": "获取项目失败",

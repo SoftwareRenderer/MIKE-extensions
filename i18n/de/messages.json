@@ -629,6 +629,7 @@
     "api.deleteMessage": "Nachricht konnte nicht gelöscht werden",
     "api.updateMessage": "Nachricht konnte nicht aktualisiert werden",
     "api.updateConfig": "Konfiguration konnte nicht aktualisiert werden",
+    "api.updateConfigOfflineKey": "Die API-Schlüssel der Anbieter werden offline nicht gespeichert — verbinde dich erneut und speichere nochmal.",
     "api.switchThread": "Thread konnte nicht gewechselt werden",
     "api.forkThread": "Thread konnte nicht abgespalten werden",
     "api.fetchProjects": "Projekte konnten nicht abgerufen werden",

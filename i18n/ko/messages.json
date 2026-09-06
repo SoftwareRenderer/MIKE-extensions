@@ -626,6 +626,7 @@
     "api.deleteMessage": "메시지 삭제에 실패했습니다",
     "api.updateMessage": "메시지 업데이트에 실패했습니다",
     "api.updateConfig": "설정 업데이트에 실패했습니다",
+    "api.updateConfigOfflineKey": "프로바이더 API 키는 오프라인 중에 저장되지 않습니다 — 다시 연결한 후 저장하세요.",
     "api.switchThread": "스레드 전환에 실패했습니다",
     "api.forkThread": "스레드 분기에 실패했습니다",
     "api.fetchProjects": "프로젝트를 가져오지 못했습니다",
