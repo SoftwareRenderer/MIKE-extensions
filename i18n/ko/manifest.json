@@ -1,0 +1,14 @@
+{
+    "display_name": "한국어",
+    "description": "Korean language pack",
+    "author": "SoftwareRenderer",
+    "homepage": "https://github.com/SoftwareRenderer",
+    "version": "0.0.1",
+    "capabilities": {
+        "i18n": {
+            "locale": "ko",
+            "messages_url": "messages.json",
+            "prompts_dir": "prompts"
+        }
+    }
+}

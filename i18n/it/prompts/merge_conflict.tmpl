@@ -1,0 +1,18 @@
+Si è verificato un conflitto di merge durante il merge di "{{ .TaskBranch }}" in "{{ .TargetBranch }}".
+
+Titolo dell'attività: {{ .TaskTitle }}
+Descrizione dell'attività: {{ .TaskDescription }}
+
+Risolvi i file in conflitto con i tuoi strumenti (read, edit, write_file) — limita a modificare e provare le modifiche per risolvere i conflitti.
+Il backend farà il commit e continuerà il merge automaticamente quando hai finito.
+
+{{- if .ConflictedFiles }}
+File in conflitto:
+{{- range .ConflictedFiles }}
+- {{ . }}
+{{- end }}
+{{- end }}
+
+Quando risolvi, analizza l'intenzione dietro le modifiche di ciascuna parte. Combina entrambe le parti quando le loro modifiche sono indipendenti o compatibili. Se le due parti esprimono intenzioni genuinamente in conflitto (ad esempio una aggiunge una funzione che l'altra rimuove), chiedimi quale approccio seguire prima di procedere.
+
+Dopo aver risolto tutti i file in conflitto, esegui i test o i controlli pertinenti (ad esempio build, test, lint) per verificare che la risoluzione sia corretta. Chiama request_review solo quando sei sicuro che i conflitti siano risolti correttamente e che il progetto venga ancora compilato e testato senza errori.

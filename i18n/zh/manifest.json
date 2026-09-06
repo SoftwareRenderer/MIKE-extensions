@@ -1,0 +1,14 @@
+{
+    "display_name": "简体中文",
+    "description": "Simplified Chinese language pack",
+    "author": "SoftwareRenderer",
+    "homepage": "https://github.com/SoftwareRenderer",
+    "version": "0.0.1",
+    "capabilities": {
+        "i18n": {
+            "locale": "zh",
+            "messages_url": "messages.json",
+            "prompts_dir": "prompts"
+        }
+    }
+}

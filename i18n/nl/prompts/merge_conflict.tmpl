@@ -1,0 +1,18 @@
+Bij het mergen van "{{ .TaskBranch }}" naar "{{ .TargetBranch }}" is een merge-conflict opgetreden.
+
+Taaktitel: {{ .TaskTitle }}
+Taakbeschrijving: {{ .TaskDescription }}
+
+Los de bestanden met conflicten op met je tools (read, edit, write_file) — bewerk en test de wijzigingen gewoon om de conflicten op te lossen.
+De backend maakt de commit en zet de merge automatisch voort als je klaar bent.
+
+{{- if .ConflictedFiles }}
+Bestanden met conflicten:
+{{- range .ConflictedFiles }}
+- {{ . }}
+{{- end }}
+{{- end }}
+
+Analyseer bij het oplossen de bedoeling achter de wijzigingen van elke kant. Combineer beide kanten als hun wijzigingen onafhankelijk of compatibel zijn. Als de twee kanten echt tegenstrijdige bedoelingen uitdrukken (bijvoorbeeld de ene voegt een functionaliteit toe die de andere verwijdert), vraag mij dan welke aanpak ik moet kiezen voordat ik verderga.
+
+Voer na het oplossen van alle bestanden met conflicten de relevante tests of controles uit (bijvoorbeeld build, test, lint) om te verifiëren dat de oplossing klopt. Roep request_review pas aan als je zeker weet dat de conflicten goed zijn opgelost en het project nog steeds schoon bouwt en test.

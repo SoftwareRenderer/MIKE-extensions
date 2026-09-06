@@ -1,0 +1,18 @@
+Ocorreu um conflito de mesclagem ao mesclar "{{ .TaskBranch }}" em "{{ .TargetBranch }}".
+
+Título da tarefa: {{ .TaskTitle }}
+Descrição da tarefa: {{ .TaskDescription }}
+
+Resolva os arquivos em conflito com suas ferramentas (read, edit, write_file) — apenas edite e teste as alterações para resolver os conflitos.
+O backend fará o commit e continuará a mesclagem automaticamente depois que você terminar.
+
+{{- if .ConflictedFiles }}
+Arquivos em conflito:
+{{- range .ConflictedFiles }}
+- {{ . }}
+{{- end }}
+{{- end }}
+
+Ao resolver, analise a intenção por trás das alterações de cada lado. Combine os dois lados quando as alterações forem independentes ou compatíveis. Se os dois lados expressarem intenções genuinamente conflituosas (por exemplo, um adiciona um recurso que o outro remove), pergunte-me qual abordagem adotar antes de prosseguir.
+
+Depois de resolver todos os arquivos em conflito, execute os testes ou verificações relevantes (por exemplo, build, test, lint) para verificar se a resolução está correta. Chame request_review somente quando tiver certeza de que os conflitos foram resolvidos corretamente e o projeto ainda é compilado e testado sem erros.

@@ -1,0 +1,18 @@
+Beim Mergen von „{{ .TaskBranch }}“ nach „{{ .TargetBranch }}“ ist ein Merge-Konflikt aufgetreten.
+
+Task-Titel: {{ .TaskTitle }}
+Task-Beschreibung: {{ .TaskDescription }}
+
+Löse die konfliktbehafteten Dateien mit deinen Werkzeugen (read, edit, write_file) — bearbeite und teste einfach die Änderungen, um die Konflikte zu lösen.
+Das Backend committet und setzt den Merge automatisch fort, wenn du fertig bist.
+
+{{- if .ConflictedFiles }}
+Konfliktbehaftete Dateien:
+{{- range .ConflictedFiles }}
+- {{ . }}
+{{- end }}
+{{- end }}
+
+Analysiere beim Lösen die Absicht hinter den Änderungen jeder Seite. Kombiniere beide Seiten, wenn ihre Änderungen unabhängig oder kompatibel sind. Wenn die beiden Seiten wirklich widersprüchliche Absichten ausdrücken (z. B. fügt die eine ein Feature hinzu, das die andere entfernt), frage mich, welchen Weg ich gehen soll, bevor ich weitermache.
+
+Führe nach dem Lösen aller konfliktbehafteten Dateien die passenden Tests oder Prüfungen aus (z. B. Build, Test, Lint), um zu verifizieren, dass die Lösung stimmt. Rufe request_review erst auf, wenn du sicher bist, dass die Konflikte richtig gelöst sind und das Projekt weiterhin sauber baut und getestet wird.

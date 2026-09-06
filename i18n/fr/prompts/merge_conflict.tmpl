@@ -1,0 +1,18 @@
+Un conflit de fusion s'est produit en fusionnant la branche «{{ .TaskBranch }}» dans «{{ .TargetBranch }}».
+
+Titre de la tâche: {{ .TaskTitle }}
+Description de la tâche: {{ .TaskDescription }}
+
+Résolvez les fichiers en conflit avec vos outils (read, edit, write_file) — contentez-vous d'éditer et de tester les changements pour résoudre les conflits.
+Le backend créera le commit et poursuivra la fusion automatiquement une fois que vous aurez terminé.
+
+{{- if .ConflictedFiles }}
+Fichiers en conflit:
+{{- range .ConflictedFiles }}
+- {{ . }}
+{{- end }}
+{{- end }}
+
+Lors de la résolution, analysez l'intention derrière les changements de chaque côté. Combinez les deux côtés quand leurs changements sont indépendants ou compatibles. Si les deux côtés expriment des intentions réellement contradictoires (par exemple, l'un ajoute une fonctionnalité que l'autre supprime), demandez-moi quelle approche suivre avant de continuer.
+
+Après avoir résolu tous les fichiers en conflit, lancez les tests ou vérifications pertinents (par exemple build, test, lint) pour vérifier que la résolution est correcte. N'appelez request_review qu'une fois certain que les conflits sont bien résolus et que le projet s'exécute encore correctement au build et aux tests.

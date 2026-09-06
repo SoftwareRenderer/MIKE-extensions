@@ -1,0 +1,11 @@
+Resume el contenido siguiente:
+{{- if .PreviousSummary}}
+# Resumen anterior
+
+<previous_summary>{{.PreviousSummary}}</previous_summary>
+
+---
+{{end -}}
+Historial del chat:
+
+<chat_history>{{.ChatHistory -}}</chat_history>

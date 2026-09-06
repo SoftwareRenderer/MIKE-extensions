@@ -1,0 +1,17 @@
+"{{ .TaskBranch }}" dalı "{{ .TargetBranch }}" dalına birleştirilirken bir birleştirme çakışması oluştu.
+
+Görev başlığı: {{ .TaskTitle }}
+Görev açıklaması: {{ .TaskDescription }}
+
+Çakışmalı dosyaları araçlarınla (read, edit, write_file) çöz — çakışmaları çözmek için değişiklikleri düzenle ve sına. Sen bitirince arka uç commit yapacak ve birleştirmeye otomatik olarak devam edecek.
+
+{{- if .ConflictedFiles }}
+Çakışmalı dosyalar:
+{{- range .ConflictedFiles }}
+- {{ . }}
+{{- end }}
+{{- end }}
+
+Çözerken her tarafın değişikliklerinin ardındaki niyeti çözümle. Değişiklikleri bağımsız ya da uyumluysa iki tarafı birleştir. İki taraf gerçekten çelişen niyetler ifade ediyorsa (örneğin biri diğerinin kaldırdığı bir yeteneği ekliyor), devam etmeden önce hangi yaklaşımı benimseyeceğimi bana sor.
+
+Tüm çakışmalı dosyaları çözdükten sonra, çözümün doğru olduğunu doğrulamak için ilgili test veya kontrolleri (ör. derleme, test, lint) çalıştır. Çakışmaların düzgün çözüldüğünden ve projenin hâlâ temiz derlenip test edildiğinden emin olmadan request_review çağırma.

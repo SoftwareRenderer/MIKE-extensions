@@ -1,0 +1,18 @@
+Se produjo un conflicto de fusión al fusionar "{{ .TaskBranch }}" en "{{ .TargetBranch }}".
+
+Título de la tarea: {{ .TaskTitle }}
+Descripción de la tarea: {{ .TaskDescription }}
+
+Resuelve los archivos en conflicto con tus herramientas (read, edit, write_file) — edita y prueba los cambios para resolver los conflictos.
+El backend confirmará y continuará la fusión automáticamente cuando termines.
+
+{{- if .ConflictedFiles }}
+Archivos en conflicto:
+{{- range .ConflictedFiles }}
+- {{ . }}
+{{- end }}
+{{- end }}
+
+Al resolver, analiza la intención detrás de los cambios de cada lado. Combina ambos lados cuando sus cambios sean independientes o compatibles. Si los dos lados expresan intenciones genuinamente en conflicto (por ejemplo, uno añade una función que el otro elimina), pregúntame qué enfoque tomar antes de continuar.
+
+Después de resolver todos los archivos en conflicto, ejecuta las pruebas o comprobaciones pertinentes (p. ej. compilación, pruebas, lint) para verificar que la resolución es correcta. Llama a request_review solo cuando estés seguro de que los conflictos están bien resueltos y el proyecto sigue compilándose y pasándose sin problemas.

@@ -1,0 +1,14 @@
+{
+    "display_name": "Nederlands",
+    "description": "Dutch language pack",
+    "author": "SoftwareRenderer",
+    "homepage": "https://github.com/SoftwareRenderer",
+    "version": "0.0.1",
+    "capabilities": {
+        "i18n": {
+            "locale": "nl",
+            "messages_url": "messages.json",
+            "prompts_dir": "prompts"
+        }
+    }
+}
