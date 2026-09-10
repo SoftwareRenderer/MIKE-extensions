@@ -1,7 +1,7 @@
 {
   "display_name": "Svelte Language Server",
   "description": "Svelte language server providing completions, hover, and diagnostics for .svelte files.",
-  "author": "Svelte Contributors",
+  "author": "svelte-language-server by Svelte Contributors",
   "homepage": "https://github.com/sveltejs/svelte-language-server",
   "license_url": "https://github.com/sveltejs/svelte-language-server/blob/master/LICENSE",
   "version": "0.1.0",

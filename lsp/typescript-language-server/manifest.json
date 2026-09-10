@@ -1,7 +1,7 @@
 {
   "display_name": "TypeScript/JavaScript Language Server",
-  "description": "TypeScript/JavaScript language server. Provides completions, hover, diagnostics, go-to-definition, refactor, and more for TypeScript and JavaScript projects.",
-  "author": "Microsoft",
+  "description": "This provides integration of the TypeScript/JavaScript language server. Provides completions, hover, diagnostics, go-to-definition, refactor, and more for TypeScript and JavaScript projects.",
+  "author": "typescript-language-server by Microsoft",
   "homepage": "https://github.com/typescript-language-server/typescript-language-server",
   "license_url": "https://github.com/typescript-language-server/typescript-language-server/blob/master/LICENSE",
   "version": "0.1.0",

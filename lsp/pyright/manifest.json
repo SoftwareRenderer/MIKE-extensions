@@ -1,7 +1,7 @@
 {
     "display_name": "Python Language Server",
-    "description": "Pyright Python language server by Microsoft. Provides completions, hover, diagnostics, go-to-definition, and more for Python projects.",
-    "author": "Microsoft",
+    "description": "This provides integration of the Pyright Python language server by Microsoft. Provides completions, hover, diagnostics, go-to-definition, and more for Python projects.",
+    "author": "Pyright by Microsoft",
     "homepage": "https://github.com/microsoft/pyright",
     "license_url": "https://github.com/microsoft/pyright/blob/main/LICENSE.txt",
     "version": "0.1.0",
