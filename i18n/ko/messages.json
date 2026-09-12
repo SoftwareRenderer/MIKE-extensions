@@ -864,6 +864,7 @@
     "chat.common.close": "닫기",
     "chat.common.remove": "제거",
     "chat.common.attachImage": "이미지 첨부",
+    "chat.common.attachFile": "파일 첨부",
     "chat.common.attachment": "첨부파일",
     "chat.common.loading": "불러오는 중...",
     "chat.common.newThread": "새 스레드",

@@ -864,6 +864,7 @@
     "chat.common.close": "关闭",
     "chat.common.remove": "移除",
     "chat.common.attachImage": "添加图片",
+    "chat.common.attachFile": "添加文件",
     "chat.common.attachment": "附件",
     "chat.common.loading": "加载中...",
     "chat.common.newThread": "新建线程",

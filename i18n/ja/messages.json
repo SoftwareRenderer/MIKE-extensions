@@ -864,6 +864,7 @@
     "chat.common.close": "閉じる",
     "chat.common.remove": "削除",
     "chat.common.attachImage": "画像を添付",
+    "chat.common.attachFile": "ファイルを添付",
     "chat.common.attachment": "添付ファイル",
     "chat.common.loading": "読み込み中...",
     "chat.common.newThread": "新しいスレッド",

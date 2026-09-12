@@ -882,6 +882,7 @@
     "chat.common.close": "Закрыть",
     "chat.common.remove": "Удалить",
     "chat.common.attachImage": "Прикрепить изображение",
+    "chat.common.attachFile": "Прикрепить файл",
     "chat.common.attachment": "Вложение",
     "chat.common.loading": "Загрузка...",
     "chat.common.newThread": "Новая ветка обсуждения",

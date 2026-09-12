@@ -864,6 +864,7 @@
     "chat.common.close": "Kapat",
     "chat.common.remove": "Kaldır",
     "chat.common.attachImage": "Görsel ekle",
+    "chat.common.attachFile": "Dosya ekle",
     "chat.common.attachment": "Ek",
     "chat.common.loading": "Yükleniyor...",
     "chat.common.newThread": "Yeni sohbet dalı",

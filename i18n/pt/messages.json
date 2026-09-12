@@ -870,6 +870,7 @@
     "chat.common.close": "Fechar",
     "chat.common.remove": "Remover",
     "chat.common.attachImage": "Anexar imagem",
+    "chat.common.attachFile": "Anexar arquivo",
     "chat.common.attachment": "Anexo",
     "chat.common.loading": "Carregando...",
     "chat.common.newThread": "Nova conversa ramificada",

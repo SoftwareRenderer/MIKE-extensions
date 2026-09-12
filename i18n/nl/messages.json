@@ -870,6 +870,7 @@
     "chat.common.close": "Sluiten",
     "chat.common.remove": "Verwijderen",
     "chat.common.attachImage": "Afbeelding bijvoegen",
+    "chat.common.attachFile": "Bestand bijvoegen",
     "chat.common.attachment": "Bijlage",
     "chat.common.loading": "Bezig met laden...",
     "chat.common.newThread": "Nieuwe conversatietak",

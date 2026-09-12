@@ -870,6 +870,7 @@
     "chat.common.close": "Schließen",
     "chat.common.remove": "Entfernen",
     "chat.common.attachImage": "Bild anhängen",
+    "chat.common.attachFile": "Datei anhängen",
     "chat.common.attachment": "Anhang",
     "chat.common.loading": "Lädt …",
     "chat.common.newThread": "Neuer Thread",
