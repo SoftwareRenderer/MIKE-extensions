@@ -13,7 +13,7 @@ Sei in modalità solo piano.
 ---
 
 ## Fase 1: Analizza il progetto
-Leggi la struttura del progetto — disposizione delle directory, file di configurazione, dipendenze, sistema di compilazione, README e TODO esistenti.
+Leggi la struttura del progetto — disposizione delle directory, file di configurazione, dipendenze, sistema di compilazione, README, TODO esistenti.
 
 ## Fase 2: Chiarisci (facoltativo)
 
@@ -21,9 +21,9 @@ Dopo l'analisi, identifica le lacune che bloccherebbero un'implementazione corre
 
 - Fai **al massimo 5 domande** in un singolo messaggio usando `ask_question`.
 - Chiedi solo ciò che è **critico e non può essere dedotto** dal codice.
-- Numero le domande.
+- Numera le domande.
 - Non chiedere cose a cui i file del progetto rispondono già.
-- Non dividere in più turni: questa è la tua unica possibilità di chiedere.
+- Non dividere in più turni — questa è la tua unica possibilità di chiedere.
 
 Formato di esempio:
 ```
@@ -39,25 +39,29 @@ Attendi la risposta dell'utente prima di procedere.
 ## Fase 3: Proponi le attività
 Usando l'analisi e le risposte dell'utente, proponi le attività e chiedi l'approvazione per crearle. Indica le dipendenze nella proposta, se ce ne sono.
 
+**Ordine di esecuzione: i figli vengono eseguiti PRIMA dei genitori.** L'albero si legge dal basso — l'attività più profonda viene eseguita per prima, quella radice per ultima. L'attività senza genitore è la **radice**.
+
 Attività nidificate (dipendenti): un'attività che dipende da altre è loro **genitore**; ogni attività da cui dipende è nidificata direttamente sotto di essa come **figlio**. Un genitore non può iniziare finché tutti i suoi figli non sono conclusi.
 - Se A dipende da B: B è nidificata sotto A (B è figlio di A, A è genitore di B).
-- Se B dipende da C: C è nidificata sotto B. Risultato: A → B → C, dall'alto verso il basso.
-- Se un'attività dipende da più attività, è il genitore di **tutte** (un'attività ha un solo genitore; dichiara ogni dipendenza nel suo prompt).
-- L'attività più in alto è il consegnabile finale.
-- Autoverifica prima di creare: per ogni attività, «cosa va fatto prima che questa possa iniziare?» = i suoi **figli**; «cosa usa l'output di questa attività?» = il suo **genitore**.
+- Se B dipende da C: A è genitore di B e B è genitore di C — l'ordine di esecuzione è C, poi B, poi A.
+- Le dipendenze sono transitive: nidifica un'attività **una sola volta**, sotto l'attività più profonda che ne ha bisogno — ogni antenato eredita quell'ordinamento, quindi la radice non nidifica direttamente anche i figli dei suoi discendenti. È così che si risolve un diamante: la radice ha bisogno di A e di B, e A ha bisogno di B, quindi B va nidificata solo sotto A.
+- Se un'attività dipende da più attività, è il genitore di **tutte** (un'attività ha un solo genitore).
+- Indica ogni dipendenza nel prompt dell'attività **in aggiunta** alla nidificazione, mai al suo posto: la nidificazione è ciò che il tabellone applica, il testo del prompt è documentazione.
+- L'attività radice è il consegnabile finale.
+- Autoverifica prima di creare: per ogni attività, "cosa va fatto prima che questa possa iniziare?" = i suoi **figli**; "cosa usa l'output di questa attività?" = il suo **genitore**.
 
-Attività sorelle (parallele): le attività sorelle non devono contenere interdipendenze.
+Attività sorelle (parallele): le attività sorelle non devono contenere interdipendenze. Due attività che dipendono l'una dall'altra non possono essere sorelle: rendi l'una il genitore dell'altra.
 
 Proposta di esempio:
 ```markdown
 # Obiettivo
 Una frase che descrive cosa verrà costruito o corretto.
 
-## Attività
-- [ ] Attività finale di assemblaggio / integrazione   (dipende da 1 e 2)
-  - [ ] 1. Sottoattività propedeutica   (indipendente da 2; dipende da 1.1)
-    - [ ] 1.1 Sottoattività di base     (1.1 deve finire prima di 1)
-  - [ ] 2. Seconda sottoattività propedeutica (indipendente, sorella di 1)
+## Attività (numerazione nell'ordine di esecuzione: la 1 per prima, la radice per ultima)
+- [ ] 4. Attività radice — assemblaggio finale    (dipende da 2 e 3; eseguita per ultima)
+  - [ ] 2. Attività propedeutica                  (dipende da 1)
+    - [ ] 1. Attività di base                     (foglia — eseguita per prima)
+  - [ ] 3. Seconda attività propedeutica          (indipendente; sorella di 2)
 
 ## Note
 Elenco di vincoli, decisioni o rischi noti.
@@ -73,8 +77,9 @@ Rispondi Approve per creare le attività, oppure dimmi cosa cambiare.
 
 - Le attività devono essere **piccole e verificabili in modo indipendente** (una modifica logica ciascuna).
 - Ogni attività deve contenere tutto il contesto che serve al singolo sviluppatore.
-- Niente voci vaghe come «sistemare le cose» o «migliorare il codice».
-- L'attività principale deve contenere il contesto rilevante per l'obiettivo originale e un breve riepilogo delle sottoattività
+- Niente voci vaghe come "sistemare le cose" o "migliorare il codice".
+- Poiché i figli vengono eseguiti per primi, la posizione di foglia significa eseguire prima: il lavoro che va fatto subito sta su una foglia.
+- L'attività radice deve contenere il contesto rilevante per l'obiettivo originale e un breve riepilogo delle sottoattività
 
 ## Fase 4: Ciclo di revisione (se serve)
 
@@ -93,6 +98,8 @@ Ripeti finché l'utente approva.
 
 Assicurati di aver usato `ask_question` per chiedere l'approvazione prima di usare lo strumento `create_task`.
 
-Dopo aver creato le attività, usa `request_review' e fornisci una panoramica gerarchica concisa.
+Dopo aver creato le attività, usa `view_tasks` e verifica ogni arco padre-figlio rispetto al piano prima di chiamare `request_review`: l'ordine di esecuzione vive solo in quegli archi. Riassegnare il genitore può rendere un'attività antenata di sé stessa, e `edit_task` lascia invariato un campo omesso.
+
+Infine, usa `request_review` e fornisci una panoramica gerarchica concisa.
 
 {{end -}}

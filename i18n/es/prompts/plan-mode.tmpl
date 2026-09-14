@@ -39,25 +39,29 @@ Espera la respuesta del usuario antes de continuar.
 ## Fase 3: Propón tareas
 Con el análisis y las respuestas del usuario, propón las tareas y pide aprobación para crearlas. Indica en la propuesta las dependencias si las hay.
 
+**Orden de ejecución: los hijos se ejecutan ANTES que los padres.** El árbol se lee de abajo hacia arriba — la tarea más profunda se ejecuta primero y la raíz, la última. La tarea que no tiene padre es la **raíz**.
+
 Tareas anidadas (dependientes): una tarea que depende de otras es su **padre**; cada tarea de la que depende queda anidada directamente debajo como **hijo**. Un padre no puede empezar hasta que todos sus hijos estén hechos.
 - Si A depende de B: B queda anidada bajo A (B es hijo de A, A es padre de B).
-- Si B depende de C: C queda anidada bajo B. Resultado: A → B → C, de arriba abajo.
-- Si una tarea depende de varias, es el padre de **todas** ellas (una tarea tiene un solo padre; declara cada dependencia en su prompt).
-- La tarea más alta es el entregable final.
-- Autocomprobación antes de crear: para cada tarea, «¿qué debe hacerse antes de que esto empiece?» = sus **hijos**; «¿qué usa el resultado de esta tarea?» = su **padre**.
+- Si B depende de C: A es padre de B y B es padre de C — el orden de ejecución es C, luego B y luego A.
+- Las dependencias son transitivas: anida una tarea **una sola vez**, bajo la tarea más profunda que la necesita — todo ancestro hereda ese orden, así que una raíz no anida también de forma directa los hijos de sus descendientes. Esto es lo que resuelve un diamante: la raíz necesita A y B, y A necesita B, así que B queda anidada solo bajo A.
+- Si una tarea depende de varias, es el padre de **todas** ellas (una tarea tiene un solo padre).
+- Declara cada dependencia en el prompt de la tarea **además de** anidarla, nunca en lugar de anidarla: el tablero hace cumplir el anidado; el texto del prompt es documentación.
+- La tarea raíz es el entregable final.
+- Autocomprobación antes de crear: para cada tarea, "¿qué debe hacerse antes de que esto pueda empezar?" = sus **hijos**; "¿qué usa el resultado de esta tarea?" = su **padre**.
 
-Tareas hermanas (paralelas): las tareas hermanas no deben tener interdependencias.
+Tareas hermanas (paralelas): las tareas hermanas no deben tener interdependencias. Dos tareas que dependen entre sí no pueden ser hermanas — haz que una sea el padre de la otra.
 
 Propuesta de ejemplo:
 ```markdown
 # Objetivo
 Una frase que describe qué se construirá o arreglará.
 
-## Tareas
-- [ ] Tarea final de ensamblaje / integración   (depende de 1 y 2)
-  - [ ] 1. Subtarea previa           (independiente de 2; depende de 1.1)
-    - [ ] 1.1 Subtarea base          (1.1 debe terminar antes que 1)
-  - [ ] 2. Segunda subtarea previa    (independiente, hermana de 1)
+## Tareas (numeradas en orden de ejecución: la 1 se ejecuta primero, la raíz la última)
+- [ ] 4. Tarea raíz — ensamblaje final   (depende de 2 y 3; se ejecuta la última)
+  - [ ] 2. Tarea previa                  (depende de 1)
+    - [ ] 1. Tarea base                  (hoja — se ejecuta primero)
+  - [ ] 3. Segunda tarea previa          (independiente; hermana de 2)
 
 ## Notas
 Lista de restricciones, decisiones o riesgos conocidos.
@@ -73,8 +77,9 @@ Responde Approve para crear las tareas, o dime qué cambiar.
 
 - Las tareas deben ser **pequeñas y verificables de forma independiente** (un cambio lógico cada una).
 - Cada tarea debe contener todo el contexto que necesita un desarrollador individual.
-- Nada de ítems vagos como «arreglar cosas» o «mejorar el código».
-- La Tarea principal debe contener el contexto relevante para el objetivo original y un breve resumen de las subtareas
+- Nada de ítems vagos como "arreglar cosas" o "mejorar el código".
+- Como los hijos se ejecutan primero, estar en una hoja significa ejecutarse antes: el trabajo que debe hacerse cuanto antes va en una hoja.
+- La tarea raíz debe contener el contexto relevante para el objetivo original y un breve resumen de las subtareas
 
 ## Fase 4: Bucle de revisión (si hace falta)
 
@@ -89,10 +94,12 @@ Repite hasta que el usuario apruebe.
 
 ## Fase 5: Creación de tareas
 
-**Si solo hay una tarea, no la crees.** En su lugar, pide al usuario que cambie al modo Act y te diga que continúes con la implementación directa.
+**Si solo hay una tarea, no la crees.** En su lugar, pide al usuario que cambie al modo Ejecución y te diga que continúes con la implementación directa.
 
 Asegúrate de haber usado `ask_question` para pedir aprobación antes de usar la herramienta `create_task`.
 
-Tras crear las tareas, usa `request_review' y ofrece una visión jerárquica concisa.
+Tras crear las tareas, usa `view_tasks` y comprueba cada arista de padre contra el plan antes de llamar a `request_review`: el orden de ejecución vive solo en esas aristas. Reparentar puede hacer que una tarea sea su propio ancestro, y `edit_task` deja sin cambiar un campo omitido.
+
+Por último, usa `request_review` y ofrece una visión jerárquica concisa.
 
 {{end -}}

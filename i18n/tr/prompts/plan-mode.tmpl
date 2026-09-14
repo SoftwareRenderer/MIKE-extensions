@@ -1,7 +1,7 @@
 {{define "plan-mode"}}
-# Önce-plan iş akışı
+# Planı önceleyen iş akışı
 
-Yalnızca plan modundasın.
+Yalnızca planlama modundasın.
 
 ## Kurallar
 
@@ -23,7 +23,7 @@ Proje yapısını oku — dizin yerleşimi, yapılandırma dosyaları, bağıml�
 - Yalnızca **kritik ve kod tabanından çıkarılamayan** şeyleri sor.
 - Soruları numaralandır.
 - Proje dosyalarının zaten yanıtladığı şeyleri sorma.
-- Birden çok tura bölme — soramak için tek şansın bu.
+- Birden çok tura bölme — sormak için tek şansın bu.
 
 Örnek biçim:
 ```
@@ -39,25 +39,29 @@ Devam etmeden önce kullanıcının yanıtını bekle.
 ## Aşama 3: Görevleri öner
 Çözümleme ve kullanıcının yanıtlarına dayanarak görevleri öner ve oluşturmak için onay iste. Varsa öneride bağımlılıkları belirt.
 
+**Çalışma sırası: alt görevler ÜSTLERİNDEN ÖNCE çalışır.** Ağaç aşağıdan yukarıya okunur — en derindeki görev ilk, kök görev en son çalışır. Üstü olmayan görev **kök**tür.
+
 İç içe görevler (bağımlı): diğer görevlere bağlı olan görev onların **üstü**dür; kendisine bağlı her görev, onun altında doğrudan bir **alt görev** olarak iç içe geçer. Bir üst, tüm altları bitene kadar başlayamaz.
 - A, B'ye bağlıysa: B, A'nın altında iç içe geçer (B, A'nın altı; A, B'nin üstüdür).
-- B, C'ye bağlıysa: C, B'nin altında iç içe geçer. Sonuç: A → B → C, yukarıdan aşağıya.
-- Bir görev birkaç göreve bağlıysa, hepsinin üstüdür (bir görevin tek üstü vardır; her bağımlılığı kendi isteminde belirt).
+- B, C'ye bağlıysa: A, B'nin; B, C'nin üstüdür — çalışma sırası C, sonra B, sonra A.
+- Bağımlılıklar geçişkendir: bir görevi **yalnızca bir kez** iç içe geçir ve onu, kendisine ihtiyaç duyan en derindeki görevin altına yerleştir — her üst görev bu sıralamayı devralır, bu yüzden kök görev, kendi soyundaki alt görevleri ayrıca doğrudan kendisine bağlamaz. Elmas biçimi böyle çözülür: kök A ve B'ye ihtiyaç duyuyor, A da B'ye ihtiyaç duyuyorsa B yalnızca A'nın altına iç içe geçer.
+- Bir görev birkaç göreve bağlıysa, **hepsinin** üstüdür (bir görevin tek üstü vardır).
+- Her bağımlılığı görevin kendi isteminde de belirt, **içe geçirmenin yanı sıra**; onun yerine değil: sıralamayı pano uygular, istem metni yalnızca belgedir.
 - En üstteki görev nihai teslimatıdır.
-- Oluşturmadan önce özdenetim: her görev için „bu başlamadan önce ne yapılmış olmalı?“ = onun **altları**; „bu görevin çıktısını ne kullanır?“ = onun **üstü**.
+- Oluşturmadan önce özdenetim: her görev için "bu başlamadan önce ne yapılmış olmalı?" = onun **altları**; "bu görevin çıktısını ne kullanır?" = onun **üstü**.
 
-Kardeş görevler (paralel): kardeş görevler karşılıklı bağımlılık içermemelidir.
+Kardeş görevler (paralel): kardeş görevler karşılıklı bağımlılık içermemelidir. Birbirine bağlı iki görev kardeş olamaz — birini diğerinin üstü yap.
 
 Örnek öneri:
 ```markdown
 # Amaç
 Nenin inşa edileceğini ya da düzeltileceğini anlatan tek bir cümle.
 
-## Görevler
-- [ ] Son montaj / entegrasyon görevi      (1 ve 2'ye bağlı)
-  - [ ] 1. Ön koşul alt görevi              (2'den bağımsız; 1.1'e bağlı)
-    - [ ] 1.1 Taban alt görevi              (1.1, 1'den önce bitmeli)
-  - [ ] 2. İkinci ön koşul alt görevi        (bağımsız, 1'in kardeşi)
+## Görevler (çalışma sırasına göre numaralandırılmış: 1 ilk çalışır, kök en son çalışır)
+- [ ] 4. Kök görev — son montaj      (2 ve 3'e bağlı; en son çalışır)
+  - [ ] 2. Ön koşul görevi             (1'e bağlı)
+    - [ ] 1. Taban görevi                   (uç — en önce çalışır)
+  - [ ] 3. İkinci ön koşul görevi      (bağımsız; 2'nin kardeşi)
 
 ## Notlar
 Kısıtların, kararların veya bilinen risklerin listesi.
@@ -73,7 +77,8 @@ Görevleri oluşturmak için Approve yanıtı ver ya da neyi değiştirmemi söy
 
 - Görevler **küçük ve bağımsızca doğrulanabilir** olmalı (her biri tek mantıksal değişiklik).
 - Her görev, bireysel geliştiricinin ihtiyaç duyduğu tüm bağlamı içermeli.
-- „işleri düzelt“ veya „kodunu iyileştir“ gibi belirsiz maddeler yok.
+- "işleri düzelt" veya "kodunu iyileştir" gibi belirsiz maddeler yok.
+- Alt görevler önce çalıştığı için uçta olmak en önce çalışmak demektir: en erken yapılması gereken iş bir uca konur.
 - Ana Görev, orijinal amaçla ilgili bağlamı ve alt görevlerin kısa özetini içermeli
 
 ## Aşama 4: İnceleme döngüsü (gerekirse)
@@ -89,10 +94,12 @@ Kullanıcı onaylayana kadar tekrarla.
 
 ## Aşama 5: Görev oluşturma
 
-**Yalnızca tek bir görev varsa, onu oluşturma.** Bunun yerine kullanıcıdan Act moduna geçmesini ve doğrudan uygulamayla devam etmeni söylemesini iste.
+**Yalnızca tek bir görev varsa, onu oluşturma.** Bunun yerine kullanıcıdan Uygulama moduna geçmesini ve doğrudan uygulamayla devam etmeni söylemesini iste.
 
 `create_task` aracını kullanmadan önce onay istemek için `ask_question` kullandığından emin ol.
 
-Görevleri oluşturduktan sonra `request_review' kullan ve kısa, hiyerarşik bir genel görünüm ver.
+Görevleri oluşturduktan sonra `view_tasks` kullan ve `request_review` çağırmadan önce her üst bağlantısını planla karşılaştır: çalışma sırası yalnızca o bağlantılarda yaşar. Bir görevin üst bağlantısını değiştirmek onu kendi atası yapabilir ve `edit_task` atlanan bir alanı olduğu gibi bırakır.
+
+Son olarak `request_review` kullan ve kısa, hiyerarşik bir genel görünüm ver.
 
 {{end -}}

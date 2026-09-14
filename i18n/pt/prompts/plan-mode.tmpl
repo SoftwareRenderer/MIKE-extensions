@@ -39,25 +39,29 @@ Espere a resposta do usuário antes de prosseguir.
 ## Fase 3: Proponha tarefas
 Com a análise e as respostas do usuário, proponha as tarefas e peça aprovação para criá-las. Declare dependências na proposta, se houver.
 
-Tarefas aninhadas (dependentes): uma tarefa que depende de outras é a **mãe** delas; cada tarefa da qual depende fica aninhada diretamente abaixo dela como **filha**. Uma mãe não pode começar até que todas as suas filhas estejam concluídas.
-- Se A depende de B: B fica aninhada sob A (B é filha de A, A é mãe de B).
-- Se B depende de C: C fica aninhada sob B. Resultado: A → B → C, de cima para baixo.
-- Se uma tarefa depende de várias, ela é a mãe de **todas** (uma tarefa tem uma mãe; declare cada dependência no seu prompt).
-- A tarefa mais alta é o entregável final.
-- Autoverificação antes de criar: para cada tarefa, «o que precisa ser feito antes de isto começar?» = suas **filhas**; «o que usa a saída desta tarefa?» = sua **mãe**.
+**Ordem de execução: as subtarefas executam ANTES das tarefas principais.** A árvore é lida de baixo para cima — a tarefa mais profunda executa primeiro, a tarefa raiz por último. A tarefa sem tarefa principal é a **raiz**.
 
-Tarefas irmãs (paralelas): tarefas irmãs não devem conter interdependências.
+Tarefas aninhadas (dependentes): uma tarefa que depende de outras é a **tarefa principal** delas; cada tarefa da qual ela depende fica aninhada diretamente abaixo dela como **subtarefa**. Uma tarefa principal não pode começar até que todas as suas subtarefas estejam concluídas.
+- Se A depende de B: B fica aninhada sob A (B é subtarefa de A, A é a tarefa principal de B).
+- Se B depende de C: A é a tarefa principal de B, que é a tarefa principal de C — a ordem de execução é C, depois B, depois A.
+- As dependências são transitivas: aninhe uma tarefa **uma vez**, sob a tarefa mais profunda que precisa dela — todo ancestral herda essa ordenação, então uma raiz não aninha também, diretamente, as subtarefas dos seus descendentes. É isso que resolve um diamante: a raiz precisa de A e de B, e A precisa de B, então B fica aninhada só sob A.
+- Se uma tarefa depende de várias, ela é a tarefa principal de **todas** (uma tarefa tem uma única tarefa principal).
+- Declare cada dependência no prompt da tarefa **além de** aninhá-la, nunca em vez de aninhá-la: é o aninhamento que o quadro aplica, o texto do prompt é documentação.
+- A tarefa raiz é o entregável final.
+- Autoverificação antes de criar: para cada tarefa, "o que precisa ser feito antes de isto começar?" = suas **subtarefas**; "o que usa a saída desta tarefa?" = sua **tarefa principal**.
+
+Tarefas irmãs (paralelas): tarefas irmãs não devem conter interdependências. Duas tarefas que dependem uma da outra não podem ser irmãs — faça de uma a tarefa principal da outra.
 
 Proposta de exemplo:
 ```markdown
 # Objetivo
 Uma frase descrevendo o que será construído ou corrigido.
 
-## Tarefas
-- [ ] Tarefa final de montagem / integração   (depende de 1 e 2)
-  - [ ] 1. Subtarefa preliminar          (independente de 2; depende de 1.1)
-    - [ ] 1.1 Subtarefa base             (1.1 deve terminar antes de 1)
-  - [ ] 2. Segunda subtarefa preliminar   (independente, irmã de 1)
+## Tarefas (numeradas na ordem de execução: a 1 executa primeiro, a raiz executa por último)
+- [ ] 4. Tarefa raiz — montagem final      (depende de 2 e 3; executa por último)
+  - [ ] 2. Tarefa preliminar               (depende de 1)
+    - [ ] 1. Tarefa base                   (folha — executa primeiro)
+  - [ ] 3. Segunda tarefa preliminar       (independente; irmã de 2)
 
 ## Notas
 Lista de restrições, decisões ou riscos conhecidos.
@@ -73,8 +77,9 @@ Responda Approve para criar as tarefas, ou diga o que mudar.
 
 - As tarefas devem ser **pequenas e verificáveis independentemente** (uma mudança lógica cada).
 - Cada tarefa deve conter todo o contexto de que o desenvolvedor individual precisa.
-- Nada de itens vagos como «corrigir coisas» ou «melhorar o código».
-- A Tarefa principal deve conter o contexto relevante ao objetivo original e um breve resumo das subtarefas
+- Nada de itens vagos como "corrigir coisas" ou "melhorar o código".
+- Como as subtarefas executam primeiro, a posição de folha significa executar mais cedo: o trabalho que precisa acontecer o quanto antes pertence a uma folha.
+- A tarefa raiz deve conter o contexto relevante ao objetivo original e um breve resumo das subtarefas
 
 ## Fase 4: Ciclo de revisão (se necessário)
 
@@ -89,10 +94,12 @@ Repita até o usuário aprovar.
 
 ## Fase 5: Criação de tarefas
 
-**Se houver apenas uma tarefa, não a crie.** Em vez disso, peça ao usuário para alternar para o modo Act e dizer a você para prosseguir com a implementação direta.
+**Se houver apenas uma tarefa, não a crie.** Em vez disso, peça ao usuário que alterne para o modo Act e diga para você prosseguir com a implementação direta.
 
 Garanta que você usou `ask_question` para pedir aprovação antes de usar a ferramenta `create_task`.
 
-Depois de criar as tarefas, use `request_review’ e forneça uma visão hierárquica concisa.
+Depois de criar as tarefas, use `view_tasks` e confira cada ligação de tarefa principal contra o plano antes de chamar `request_review`: a ordem de execução existe apenas nessas ligações. Reaninhar uma tarefa pode fazer dela sua própria ancestral, e `edit_task` deixa um campo omitido inalterado.
+
+Por fim, use `request_review` e forneça uma visão hierárquica concisa.
 
 {{end -}}

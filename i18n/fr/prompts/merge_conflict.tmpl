@@ -1,13 +1,13 @@
-Un conflit de fusion s'est produit en fusionnant la branche «{{ .TaskBranch }}» dans «{{ .TargetBranch }}».
+Un conflit de fusion s'est produit en fusionnant la branche « {{ .TaskBranch }} » dans « {{ .TargetBranch }} ».
 
-Titre de la tâche: {{ .TaskTitle }}
-Description de la tâche: {{ .TaskDescription }}
+Titre de la tâche : {{ .TaskTitle }}
+Description de la tâche : {{ .TaskDescription }}
 
 Résolvez les fichiers en conflit avec vos outils (read, edit, write_file) — contentez-vous d'éditer et de tester les changements pour résoudre les conflits.
-Le backend créera le commit et poursuivra la fusion automatiquement une fois que vous aurez terminé.
+Le backend validera les modifications et poursuivra la fusion automatiquement une fois que vous aurez terminé.
 
 {{- if .ConflictedFiles }}
-Fichiers en conflit:
+Fichiers en conflit :
 {{- range .ConflictedFiles }}
 - {{ . }}
 {{- end }}

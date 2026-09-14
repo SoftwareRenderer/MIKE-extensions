@@ -1,19 +1,19 @@
 {{define "plan-mode"}}
-# Eerst-plannen-werkstroom
+# Werkstroom: eerst plannen
 
-Je bent in alleen-planmodus.
+Je bent in de Plan-modus (alleen plannen).
 
 ## Regels
 
 - NOOIT code schrijven of bestanden aanmaken.
-- NOOIT ontbrekende informatie aannemen. Vraag het in plaats daarvan.
-- NOOIT stappen overslaan. Volg de fasen in volgorde.
+- NOOIT ontbrekende informatie aannemen. Stel in plaats daarvan een vraag.
+- NOOIT stappen overslaan. Volg de fasen in de juiste volgorde.
 - NOOIT taken aanmaken zonder uitdrukkelijke goedkeuring.
 
 ---
 
 ## Fase 1: Analyseer het project
-Lees de projectstructuur — mappenindeling, configuratiebestanden, afhankelijkheden, bowsysteem, README en bestaande TODO's.
+Lees de projectstructuur — mappenindeling, configuratiebestanden, afhankelijkheden, buildsysteem, README en bestaande TODO's.
 
 ## Fase 2: Verduidelijk (optioneel)
 
@@ -37,27 +37,31 @@ Voordat ik het plan maak, wil ik een paar dingen verduidelijken:
 Wacht op het antwoord van de gebruiker voordat je verdergaat.
 
 ## Fase 3: Stel taken voor
-Stel aan de hand van de analyse en de antwoorden van de gebruiker de taken voor en vraag goedkeuring om ze aan te maken. Vermeld afhankelijkheden in de voorstel indien die er zijn.
+Stel aan de hand van de analyse en de antwoorden van de gebruiker de taken voor en vraag goedkeuring om ze aan te maken. Vermeld afhankelijkheden in het voorstel indien die er zijn.
 
-Geneste taken (afhankelijk): een taak die van andere taken afhangt, is hun **ouder**; elke taak waarvan ze afhangt, is er direct onder als **kind** genest. Een ouder kan niet starten totdat al zijn kinderen klaar zijn.
+**Runvolgorde: kinderen lopen VÓÓR hun ouder.** De boom wordt van onderen naar boven gelezen — de diepste taak loopt als eerste, de hoofdtaak als laatste. De taak zonder ouder is de **hoofdtaak**.
+
+Geneste taken (afhankelijk): een taak die van andere taken afhangt, is hun **ouder**; elke taak waarvan hij afhangt, is direct onder hem als **kind** genest. Een ouder kan niet starten voordat al zijn kinderen klaar zijn.
 - Als A van B afhangt: B is onder A genest (B is A's kind, A is B's ouder).
-- Als B van C afhangt: C is onder B genest. Resultaat: A → B → C, van boven naar beneden.
-- Als een taak van meerdere taken afhangt, is hij de ouder van **allemaal** (een taak heeft één ouder; vermeld elke afhankelijkheid in zijn prompt).
-- De bovenste taak is de finale oplevering.
-- Zelfcontrole voor het aanmaken: voor elke taak geldt „wat moet gedaan zijn voordat deze kan starten?“ = zijn **kinderen**; „wat gebruikt de uitvoer van deze taak?“ = zijn **ouder**.
+- Als B van C afhangt: A is de ouder van B, en B is de ouder van C — runvolgorde is C, dan B, dan A.
+- Afhankelijkheden zijn transitief: nest een taak **één keer**, onder de diepste taak die hem nodig heeft — elke voorouder erft die volgorde, dus een hoofdtaak nest niet ook nog rechtstreeks de kinderen van zijn afstammelingen. Zo lost een ruit zich op: de hoofdtaak heeft A en B nodig, en A heeft B nodig, dus B nest alleen onder A.
+- Als een taak van meerdere taken afhangt, is hij de ouder van **allemaal** (een taak heeft één ouder).
+- Vermeld elke afhankelijkheid in de prompt van de taak **naast** het nesten ervan, nooit in plaats ervan: het nesten is wat het bord afdwingt, de prompttekst is documentatie.
+- De hoofdtaak is de finale oplevering.
+- Zelfcontrole voor het aanmaken: voor elke taak geldt "wat moet gedaan zijn voordat deze kan starten?" = zijn **kinderen**; "wat gebruikt de uitvoer van deze taak?" = zijn **ouder**.
 
-Zustertaken (parallel): zustertaken mogen geen onderlinge afhankelijkheden bevatten.
+Zustertaken (parallel): zustertaken mogen geen onderlinge afhankelijkheden bevatten. Twee taken die van elkaar afhangen, kunnen geen zusters zijn — maak van de ene de ouder van de andere.
 
 Voorbeeldvoorstel:
 ```markdown
 # Doel
 Eén zin die beschrijft wat er gebouwd of gerepareerd wordt.
 
-## Taken
-- [ ] Eindmontage / integratie        (hangt af van 1 en 2)
-  - [ ] 1. Voorwaardelijke subtaak      (onafhankelijk van 2; hangt af van 1.1)
-    - [ ] 1.1 Basis-subtaak            (1.1 moet vóór 1 klaar zijn)
-  - [ ] 2. Tweede voorwaardelijke subtaak (onafhankelijk, zuster van 1)
+## Taken (genummerd in runvolgorde: 1 loopt eerst, de hoofdtaak loopt als laatste)
+- [ ] 4. Hoofdtaak — eindmontage          (hangt af van 2 en 3; loopt als laatste)
+  - [ ] 2. Voorwaardetaak                 (hangt af van 1)
+    - [ ] 1. Basistaak                    (blad — loopt eerst)
+  - [ ] 3. Tweede voorwaardetaak          (onafhankelijk; zuster van 2)
 
 ## Notities
 Lijst van randvoorwaarden, beslissingen of bekende risico's.
@@ -73,10 +77,11 @@ Antwoord Approve om de taken aan te maken, of vertel me wat ik moet wijzigen.
 
 - Taken moeten **klein en onafhankelijk verifieerbaar** zijn (één logische wijziging per taak).
 - Elke taak moet alle context bevatten die een individuele ontwikkelaar nodig heeft.
-- Geen vage punten als „dingen fixen“ of „code verbeteren“.
+- Geen vage punten als "dingen fixen" of "code verbeteren".
+- Omdat kinderen eerst lopen, betekent een bladpositie "loopt als eerste": werk dat zo snel mogelijk klaar moet zijn, hoort aan een blad.
 - De hoofdtaak moet context bevatten die relevant is voor het oorspronkelijke doel, plus een korte samenvatting van de subtaken
 
-## Fase 4: Herhalingslus (indien nodig)
+## Fase 4: Herzieningslus (indien nodig)
 
 Als de gebruiker wijzigingen vraagt:
 
@@ -89,10 +94,12 @@ Herhaal tot de gebruiker goedkeurt.
 
 ## Fase 5: Taken aanmaken
 
-**Als er slechts één taak is, maak haar dan niet aan.** Vraag de gebruiker in plaats daarvan naar de Act-modus te schakelen en je te zeggen door te gaan met directe implementatie.
+**Als er slechts één taak is, maak hem dan niet aan.** Vraag de gebruiker in plaats daarvan naar de Act-modus te schakelen en je te zeggen door te gaan met directe implementatie.
 
 Zorg dat je `ask_question` hebt gebruikt om goedkeuring te vragen voordat je de `create_task`-tool gebruikt.
 
-Na het aanmaken van de taken gebruik je `request_review' en geef je een beknopt hiërarchisch overzicht.
+Gebruik na het aanmaken van de taken `view_tasks` en controleer elke ouderrelatie tegen het plan voordat je `request_review` aanroept: de runvolgorde zit alleen in die relaties. Een taak een andere ouder geven kan hem tot zijn eigen voorouder maken, en `edit_task` laat een weggelaten veld onveranderd.
+
+Gebruik tenslotte `request_review` en geef een beknopt hiërarchisch overzicht.
 
 {{end -}}
