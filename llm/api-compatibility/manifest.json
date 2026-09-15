@@ -1,8 +1,8 @@
 {
   "display_name": "API Compatibility",
   "description": "Improve compatibility with cloud inference services such as OpenRouter and others.",
-  "author": "SoftwareRenderer",
-  "homepage": "https://github.com/SoftwareRenderer",
+  "author": "getmike.dev",
+  "homepage": "https://getmike.dev",
   "version": "0.1.0",
   "priority": 0,
   "capabilities": {

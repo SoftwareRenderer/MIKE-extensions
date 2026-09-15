@@ -1,8 +1,8 @@
 {
     "display_name": "Deutsch",
     "description": "German language pack",
-    "author": "SoftwareRenderer",
-    "homepage": "https://github.com/SoftwareRenderer",
+    "author": "no-maintainer",
+    "homepage": "https://getmike.dev",
     "version": "0.0.1",
     "capabilities": {
         "i18n": {
