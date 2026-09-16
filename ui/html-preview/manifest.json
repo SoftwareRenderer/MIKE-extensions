@@ -3,7 +3,7 @@
     "description": "Adds a Preview button to the editor footer for HTML, XHTML, and SVG files. Renders the code view's content in an isolated preview that updates live as the file changes — in the editor or on disk. The page may navigate within the project tree (sibling and subdirectory pages); leaving the tree stops the preview with a warning.",
     "author": "SoftwareRenderer",
     "homepage": "https://github.com/SoftwareRenderer",
-    "version": "1.0.0",
+    "version": "0.7.0",
     "priority": 0,
     "config_schema": {
         "properties": [
