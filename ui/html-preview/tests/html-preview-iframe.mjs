@@ -1,7 +1,9 @@
 /**
  * Iframe-level protocol test: mounts the real extension in sandboxed iframes
  * on the dev server and acts as the host over the postMessage protocol.
- * Covers: button registration, click → serve + overlay + load, the three
+ * Covers: button registration, click → serve + overlay + load, the reveal rule
+ * (the preview stays hidden, with `ui.status` loading, until the served
+ * document has loaded), the three
  * CSP/sandbox combinations (default, scripts-on, scripts+network), the
  * navigation watchdog (decided against a controllable preview.navState
  * record; scenarios 8f/8g cover edits that arrive while a decision is in
@@ -43,6 +45,13 @@ const ALL_CAPS = ['editor.addFooterButton', 'editor.getContent', 'editor.setOver
 
 const browser = await chromium.launch();
 const context = await browser.newContext({ ignoreHTTPSErrors: true });
+// The reveal test's document is delayed on command, so "still loading" is a
+// state the test can observe rather than a race it hopes to catch.
+await context.route(u => u.pathname === LATE_PATH, async (route) => {
+    await new Promise(r => setTimeout(r, 1200));
+    lateDocDelivered = true;
+    await route.continue();
+});
 const page = await context.newPage();
 const errors = [];
 page.on('pageerror', e => errors.push('pageerror: ' + e));
@@ -59,6 +68,9 @@ let serveCounter = 0;
 const navCalls = [];    // navState tokens, in order
 const navRecords = {};  // token → controllable nav record (absent = stale/none)
 const navDelay = {};    // token → ms to delay the navState response (decision-window tests)
+// The document the reveal test (scenario 9) waits on.
+const LATE_PATH = '/api/preview/harness-late/';
+let lateDocDelivered = false;
 
 const lastButton = (frame) => {
     for (let i = buttons.length - 1; i >= 0; i--) if (buttons[i].frame === frame) return buttons[i];
@@ -96,6 +108,8 @@ try {
         style="width:600px;height:400px;border:none"></iframe>
       <iframe id="ext-nav" sandbox="allow-scripts" src="${BASE}/extensions/softwarerenderer/html-preview/index.html?ext=nav"
         style="width:600px;height:400px;border:none"></iframe>
+      <iframe id="ext-late" sandbox="allow-scripts" src="${BASE}/extensions/softwarerenderer/html-preview/index.html?ext=late"
+        style="width:600px;height:400px;border:none"></iframe>
     `);
 
     await page.exposeFunction('__onCall', (msg, frameId) => {
@@ -111,6 +125,9 @@ try {
             case 'preview.serveNetwork':
                 serveCounter++;
                 serves.push({ cap: msg.cap, content: msg.args.content });
+                if (frameId === 'ext-late') {
+                    return { token: 'harness-late', url: `${BASE}${LATE_PATH}` };
+                }
                 return { token: 'harness-token-' + serveCounter, url: `${BASE}/api/preview/harness-token-${serveCounter}/` };
             case 'preview.release': releases.push(msg.args.token); return {};
             case 'preview.navState': {
@@ -147,7 +164,7 @@ try {
     });
 
     const extFrameOf = (q) => page.frames().find(f => f.url().includes(`?ext=${q}`));
-    for (const q of ['html', 'md', 'scr', 'net', 'nav']) {
+    for (const q of ['html', 'md', 'scr', 'net', 'nav', 'late']) {
         if (!extFrameOf(q)) throw new Error('extension iframe ' + q + ' did not load');
     }
     const send = (q, msg) => page.evaluate(([q, m]) => {
@@ -167,13 +184,13 @@ try {
     await init('scr', { allow_scripts: true }, 'page.html');
     await init('net', { allow_scripts: true, allow_network: true }, 'page.html');
     await init('nav', { allow_scripts: true }, 'page.html');
-    check(await waitUntil(() => buttons.length === 4),
-        `four HTML instances register a footer button (got ${buttons.length})`);
+    await init('late', {}, 'page.html');
+    check(await waitUntil(() => buttons.length === 5),
+        `five HTML instances register a footer button (got ${buttons.length})`);
     check(buttons.every(b => b.id === 'html-preview' && b.label === 'Preview' && b.active === false),
         'buttons id/label are html-preview/Preview, start inactive');
-    check(buttons.length === 4 && buttons.filter(b => b.frame === 'ext-md').length === 0,
+    check(buttons.length === 5 && buttons.filter(b => b.frame === 'ext-md').length === 0,
         'no button for the .md instance');
-
     // 2. Click the default (scripts OFF) preview → the permissive posture
     // (preview.serveNetwork: a static page is exfil-safe, remote resources
     // render) with the BARE sandbox (no tokens → no scripts, inherited by
@@ -394,6 +411,33 @@ try {
     check(await waitUntil(() => serves.length === servesBeforeJ + 1 &&
         serves[servesBeforeJ].content === HTML_CHANGED_4),
         'nav: an edit held across the return-to-doc window refreshes');
+
+    // 9. Reveal rule: the preview stays hidden with the host holding its
+    // loading status until the served document has LOADED. Showing the frame
+    // when its URL is installed paints the page before its own stylesheet —
+    // the flash of white. The document is delayed by the route above, so the
+    // in-flight window is a state, not a race.
+    const lateFrame = extFrameOf('late');
+    const previewHidden = () => lateFrame.locator('body').evaluate(el => el.classList.contains('preview-off'));
+    const overlaysBeforeReveal = overlays.length;
+    const statusesBeforeReveal = statuses.length;
+    const loadingBeforeReveal = statuses.filter(s => s.state === 'loading').length;
+    await send('late', { type: 'event', cap: 'editor.footerButtonClick', data: { id: 'html-preview' } });
+    check(await waitUntil(() => statuses.filter(s => s.state === 'loading').length > loadingBeforeReveal),
+        'reveal: ui.status(loading) covers the serve and the load');
+    check(!lateDocDelivered && overlays.length === overlaysBeforeReveal && await previewHidden(),
+        'reveal: no overlay and no visible preview while the document is in flight');
+    check(await waitUntil(() => overlays.length > overlaysBeforeReveal, 15000),
+        'reveal: the overlay arrives');
+    check(overlays[overlaysBeforeReveal] === true && lateDocDelivered,
+        'reveal: the overlay came only after the document was delivered');
+    check(statuses.slice(statusesBeforeReveal).some(s => s.state === 'hidden'),
+        'reveal: the loading status is cleared when the preview appears');
+    await send('late', { type: 'event', cap: 'editor.footerButtonClick', data: { id: 'html-preview' } });
+    check(await waitUntil(() => overlays.length > overlaysBeforeReveal + 1),
+        'reveal: the second click restores the code view');
+    check(overlays[overlaysBeforeReveal + 1] === false && await waitUntil(() => previewHidden()),
+        'reveal: closing hides the preview again');
 } catch (e) {
     ok = false;
     console.error('iframe test error:', e && e.message ? e.message : e);

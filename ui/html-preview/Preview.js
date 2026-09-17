@@ -23,6 +23,9 @@
     let allowScripts = false;  // extension setting (config.allow_scripts), read at init
     let allowNetwork = false;  // extension setting (config.allow_network), read at init
     let pendingLoads = 0;      // frame.src sets not yet answered by a load event
+    let srcWrites = 0;         // counted frame.src installs, ever
+    let loadsAnswered = 0;     // load events that answered one of them
+    let revealWaiters = [];    // callers waiting for the first load past a write count
     let lastNavSeq = 0;        // last server nav seq we accepted (only grows)
     let navigatedRel = null;   // in-tree page the frame browsed to (null = still on the served doc)
     let decisionPending = false; // a navigation decision is in flight
@@ -34,7 +37,33 @@
     // pendingLoads, and the first load after a set is the doc we installed.
     function setFrameSrc(url) {
         pendingLoads++;
+        srcWrites++;
         frame().src = url;
+    }
+
+    function whenPreviewLoaded(writes) {
+        if (loadsAnswered > writes) return Promise.resolve();
+        return new Promise(function (resolve) {
+            revealWaiters.push({ writes: writes, resolve: resolve });
+        });
+    }
+
+    function settleRevealWaiters() {
+        if (!revealWaiters.length) return;
+        const still = [];
+        for (const w of revealWaiters) {
+            if (loadsAnswered > w.writes) w.resolve();
+            else still.push(w);
+        }
+        revealWaiters = still;
+    }
+
+    // A preview that stopped or was contained has nothing left to reveal; the
+    // waiters return and find `previewActive` false.
+    function dropRevealWaiters() {
+        const waiters = revealWaiters;
+        revealWaiters = [];
+        for (const w of waiters) w.resolve();
     }
 
     // Set before the next load. Bare sandbox = no scripts (embedded iframes
@@ -89,6 +118,8 @@
     function onFrameLoad() {
         if (pendingLoads > 0) {
             pendingLoads--;
+            loadsAnswered++;
+            settleRevealWaiters();
             if (previewActive) syncNavSeq();
             return; // the doc we installed
         }
@@ -173,7 +204,14 @@
         // The preview starts from whatever the code view shows.
         const { content } = await extHost.editor.getContent();
         currentContent = content;
+        const writes = srcWrites;
+
+        extHost.loading();
         await serveAndLoad(content);
+        await whenPreviewLoaded(writes);
+        if (!previewActive) return; // stopped or contained while loading
+        extHost.hide();
+        revealPreview();
         await extHost.editor.setOverlay(true);
     }
 
@@ -187,7 +225,14 @@
 
     function setPreviewState(active) {
         previewActive = active;
-        document.body.classList.toggle('preview-off', !active);
+        if (!active) {
+            document.body.classList.add('preview-off');
+            dropRevealWaiters();
+        }
+    }
+
+    function revealPreview() {
+        document.body.classList.remove('preview-off');
     }
 
     async function togglePreview() {
@@ -200,13 +245,12 @@
             }
             await setButtonActive(previewActive);
         } catch (err) {
-            // Serving failed — revert the toggle and surface the error.
-            setPreviewState(!previewActive);
+            setPreviewState(false);
             serveSeq++;
             releaseCurrent();
             setFrameSrc('about:blank');
-            try { await extHost.editor.setOverlay(!previewActive); } catch (e) {}
-            try { await setButtonActive(previewActive); } catch (e) {}
+            try { await extHost.editor.setOverlay(false); } catch (e) {}
+            try { await setButtonActive(false); } catch (e) {}
             extHost.error('HTML Preview: ' + (err && err.message ? err.message : err));
         }
     }
@@ -240,6 +284,9 @@
             try {
                 await serveAndLoad(content);
             } catch (err) {
+                // A refresh that never loads must not leave an enabling preview
+                // waiting on it.
+                dropRevealWaiters();
                 extHost.error('HTML Preview: refresh failed: ' + (err && err.message ? err.message : err));
             }
         }, REFRESH_DEBOUNCE_MS);
