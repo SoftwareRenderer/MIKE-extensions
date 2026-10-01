@@ -1,7 +1,13 @@
 Beim Mergen von „{{ .TaskBranch }}“ nach „{{ .TargetBranch }}“ ist ein Merge-Konflikt aufgetreten.
+{{- if .ReviewContext }}
+
+# Abgeschlossene Arbeit
+{{ .ReviewContext }}
+{{- else }}
 
 Task-Titel: {{ .TaskTitle }}
 Task-Beschreibung: {{ .TaskDescription }}
+{{- end }}
 
 Löse die konfliktbehafteten Dateien mit deinen Tools (read, edit, write_file) — bearbeite und teste einfach die Änderungen, um die Konflikte zu lösen.
 Das Backend committet und setzt den Merge automatisch fort, wenn du fertig bist.

@@ -40,6 +40,9 @@ Aşağıdaki talimatlar projenin AGENTS.md dosyasından geliyor. Onlara dikkatle
 {{if .PlanMode}}{{template "plan-mode" .}}
 
 ---
+{{end}}{{if .ExploreMode}}{{template "explore-mode" .}}
+
+---
 {{end}}
 Geçerli tarih: {{.CurrentDate}}
 Geçerli çalışma dizini: {{.WorktreePath}}

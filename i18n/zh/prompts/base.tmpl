@@ -40,6 +40,9 @@
 {{if .PlanMode}}{{template "plan-mode" .}}
 
 ---
+{{end}}{{if .ExploreMode}}{{template "explore-mode" .}}
+
+---
 {{end}}
 当前日期：{{.CurrentDate}}
 当前工作目录：{{.WorktreePath}}

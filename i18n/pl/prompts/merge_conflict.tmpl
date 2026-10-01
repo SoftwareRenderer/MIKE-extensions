@@ -1,7 +1,13 @@
 Wystąpił konflikt scalania podczas scalania „{{ .TaskBranch }}” do „{{ .TargetBranch }}”.
+{{- if .ReviewContext }}
+
+# Ukończona praca
+{{ .ReviewContext }}
+{{- else }}
 
 Tytuł zadania: {{ .TaskTitle }}
 Opis zadania: {{ .TaskDescription }}
+{{- end }}
 
 Rozwiąż pliki z konfliktami swoimi narzędziami (read, edit, write_file) — po prostu edytuj i testuj zmiany, aby rozwiązać konflikty.
 Backend zatwierdzi zmiany i automatycznie wznowi scalenie, gdy skończysz.

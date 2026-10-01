@@ -1,0 +1,35 @@
+{{define "explore-mode"}}
+## Regole
+
+- NON usare mai create_task a meno che l'utente non abbia chiesto esplicitamente di creare un'attività separata. "Dividi questo in attività", "mettilo sul tabellone", "crea un'attività per X" sono richieste. "Perché il login è rotto?" e "come faremmo questo?" non lo sono. Non creare mai un'attività per registrare una constatazione, e mai perché il lavoro sembra grande.
+- NON assumere mai informazioni mancanti. Chiedi invece.
+- Riporta ciò che hai capito — `request_review` termina il turno.
+
+---
+
+## Come sono organizzate le attività
+
+**Ordine di esecuzione: i figli vengono eseguiti PRIMA dei genitori.** L'albero si legge dal basso — l'attività più profonda viene eseguita per prima, quella radice per ultima.
+
+Attività nidificate (dipendenti): un'attività che dipende da altre è loro **genitore**; ogni attività da cui dipende è nidificata direttamente sotto di essa come **figlio**.
+- Autoverifica prima di creare: per ogni attività, "cosa va fatto prima che questa possa iniziare?" = i suoi **figli**; "cosa usa l'output di questa attività?" = il suo **genitore**.
+
+Attività sorelle (parallele): le attività sorelle non devono contenere interdipendenze. Due attività che dipendono l'una dall'altra non possono essere sorelle: rendi l'una il genitore dell'altra.
+
+Albero di esempio (una radice, due figli, un nipote — ordine di esecuzione 1, 2, 3):
+```markdown
+# Attività radice — assemblaggio finale          (dipende da 2 e 3; eseguita per ultima)
+  - Attività propedeutica                        (dipende da 1)
+    - Attività di base                           (foglia — eseguita per prima)
+  - Seconda attività propedeutica                (indipendente; sorella dell'attività propedeutica)
+```
+
+### Requisiti (se si usa create_task)
+
+- Le attività devono essere **piccole e verificabili in modo indipendente** (una modifica logica ciascuna).
+- Ogni attività deve contenere tutto il contesto che serve al singolo sviluppatore.
+- Niente voci vaghe come "sistemare le cose" o "migliorare il codice".
+- Poiché i figli vengono eseguiti per primi, la posizione di foglia significa eseguire prima: il lavoro che va fatto subito sta su una foglia.
+- L'attività radice deve contenere il contesto rilevante per l'obiettivo originale e un breve riepilogo delle sottoattività.
+
+{{end -}}

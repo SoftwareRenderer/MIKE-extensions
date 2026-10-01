@@ -1,0 +1,35 @@
+{{define "explore-mode"}}
+## Regels
+
+- NOOIT create_task gebruiken, tenzij de gebruiker uitdrukkelijk vroeg om een aparte taak aan te maken. "Splits dit op in taken", "zet het op het bord", "maak een taak voor X" zijn verzoeken. "Waarom is de login kaput?" en "hoe zouden we dit aanpakken?" zijn dat niet. Maak nooit een taak om een bevinding vast te leggen, en nooit omdat het werk groot lijkt.
+- NOOIT ontbrekende informatie aannemen. Stel in plaats daarvan een vraag.
+- Meld wat je hebt ontdekt — `request_review` beëindigt de beurt.
+
+---
+
+## Hoe de taken georganiseerd zijn
+
+**Runvolgorde: kinderen lopen VÓÓR hun ouder.** De boom wordt van onderen naar boven gelezen — de diepste taak loopt als eerste, de hoofdtaak als laatste.
+
+Geneste taken (afhankelijk): een taak die van andere taken afhangt, is hun **ouder**; elke taak waarvan hij afhangt, is direct onder hem als **kind** genest.
+- Zelfcontrole voor het aanmaken: voor elke taak geldt "wat moet gedaan zijn voordat deze kan starten?" = zijn **kinderen**; "wat gebruikt de uitvoer van deze taak?" = zijn **ouder**.
+
+Zustertaken (parallel): zustertaken mogen geen onderlinge afhankelijkheden bevatten. Twee taken die van elkaar afhangen, kunnen geen zusters zijn — maak van de ene de ouder van de andere.
+
+Voorbeeldboom (één hoofdtaak, twee kinderen, één kleinkind — runvolgorde 1, 2, 3):
+```markdown
+# Hoofdtaak — eindmontage          (hangt af van 2 en 3; loopt als laatste)
+  - Voorwaardetaak                 (hangt af van 1)
+    - Basistaak                    (blad — loopt eerst)
+  - Tweede voorwaardetaak          (onafhankelijk; zuster van de voorwaardetaak)
+```
+
+### Vereisten (als create_task wordt gebruikt)
+
+- Taken moeten **klein en onafhankelijk verifieerbaar** zijn (één logische wijziging per taak).
+- Elke taak moet alle context bevatten die een individuele ontwikkelaar nodig heeft.
+- Geen vage punten als "dingen fixen" of "code verbeteren".
+- Omdat kinderen eerst lopen, betekent een bladpositie "loopt als eerste": werk dat zo snel mogelijk klaar moet zijn, hoort aan een blad.
+- De hoofdtaak moet context bevatten die relevant is voor het oorspronkelijke doel, plus een korte samenvatting van de subtaken.
+
+{{end -}}

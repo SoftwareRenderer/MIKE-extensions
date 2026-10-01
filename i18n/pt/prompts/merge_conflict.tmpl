@@ -1,7 +1,13 @@
 Ocorreu um conflito de mesclagem ao mesclar "{{ .TaskBranch }}" em "{{ .TargetBranch }}".
+{{- if .ReviewContext }}
+
+# Trabalho concluído
+{{ .ReviewContext }}
+{{- else }}
 
 Título da tarefa: {{ .TaskTitle }}
 Descrição da tarefa: {{ .TaskDescription }}
+{{- end }}
 
 Resolva os arquivos em conflito com suas ferramentas (read, edit, write_file) — apenas edite e teste as alterações para resolver os conflitos.
 O backend fará o commit e continuará a mesclagem automaticamente depois que você terminar.

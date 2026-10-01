@@ -40,6 +40,9 @@ Las instrucciones siguientes proceden del archivo AGENTS.md del proyecto. Sígue
 {{if .PlanMode}}{{template "plan-mode" .}}
 
 ---
+{{end}}{{if .ExploreMode}}{{template "explore-mode" .}}
+
+---
 {{end}}
 Fecha actual: {{.CurrentDate}}
 Directorio de trabajo actual: {{.WorktreePath}}

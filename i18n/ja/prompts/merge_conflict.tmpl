@@ -1,7 +1,13 @@
 ブランチ「{{ .TaskBranch }}」を「{{ .TargetBranch }}」にマージした際に、コンフリクトが発生しました。
+{{- if .ReviewContext }}
+
+# 完了した作業
+{{ .ReviewContext }}
+{{- else }}
 
 タスクタイトル: {{ .TaskTitle }}
 タスク説明: {{ .TaskDescription }}
+{{- end }}
 
 コンフリクトしたファイルは、ツール (read、edit、write_file) を使って解決してください — 変更を編集してテストすれば、コンフリクトは解決します。
 作業を終えると、バックエンドが自動的にコミットしてマージを続行します。

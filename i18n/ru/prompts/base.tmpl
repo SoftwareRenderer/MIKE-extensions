@@ -40,6 +40,9 @@
 {{if .PlanMode}}{{template "plan-mode" .}}
 
 ---
+{{end}}{{if .ExploreMode}}{{template "explore-mode" .}}
+
+---
 {{end}}
 Текущая дата: {{.CurrentDate}}
 Текущий рабочий каталог: {{.WorktreePath}}

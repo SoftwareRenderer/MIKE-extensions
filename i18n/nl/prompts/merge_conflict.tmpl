@@ -1,7 +1,13 @@
 Bij het mergen van "{{ .TaskBranch }}" naar "{{ .TargetBranch }}" is een merge-conflict opgetreden.
+{{- if .ReviewContext }}
+
+# Voltooid werk
+{{ .ReviewContext }}
+{{- else }}
 
 Taaktitel: {{ .TaskTitle }}
 Taakbeschrijving: {{ .TaskDescription }}
+{{- end }}
 
 Los de bestanden met conflicten op met je tools (read, edit, write_file) — bewerk en test de wijzigingen gewoon om de conflicten op te lossen.
 De backend maakt de commit en zet de merge automatisch voort als je klaar bent.

@@ -40,6 +40,9 @@
 {{if .PlanMode}}{{template "plan-mode" .}}
 
 ---
+{{end}}{{if .ExploreMode}}{{template "explore-mode" .}}
+
+---
 {{end}}
 現在の日付: {{.CurrentDate}}
 現在の作業ディレクトリ: {{.WorktreePath}}

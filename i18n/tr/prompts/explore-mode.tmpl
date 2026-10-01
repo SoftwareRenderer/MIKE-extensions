@@ -1,0 +1,35 @@
+{{define "explore-mode"}}
+## Kurallar
+
+- Kullanıcı açıkça ayrı bir görev oluşturmanı istemedikçe ASLA create_task kullanma. "Bunu görevlere böl", "panoya koy", "X için bir görev oluştur" birer istektir. "Giriş neden bozuk?" ve "bunu nasıl yaparız?" değildir. Bir bulguyu kaydetmek için asla görev oluşturma, iş büyük göründüğü için de asla.
+- ASLA eksik bilgiyi varsayma. Bunun yerine sor.
+- Ne öğrendiğini bildir — `request_review` turu bitirir.
+
+---
+
+## Görevler nasıl düzenlenir
+
+**Çalışma sırası: alt görevler ÜSTLERİNDEN ÖNCE çalışır.** Ağaç aşağıdan yukarıya okunur — en derindeki görev ilk, kök görev en son çalışır.
+
+İç içe görevler (bağımlı): diğer görevlere bağlı olan görev onların **üstü**dür; kendisine bağlı her görev, onun altında doğrudan bir **alt görev** olarak iç içe geçer.
+- Oluşturmadan önce özdenetim: her görev için "bu başlamadan önce ne yapılmış olmalı?" = onun **altları**; "bu görevin çıktısını ne kullanır?" = onun **üstü**.
+
+Kardeş görevler (paralel): kardeş görevler karşılıklı bağımlılık içermemelidir. Birbirine bağlı iki görev kardeş olamaz — birini diğerinin üstü yap.
+
+Örnek ağaç (bir kök, iki alt görev, bir torun görev — çalışma sırası 1, 2, 3):
+```markdown
+# Kök görev — son montaj            (2 ve 3'e bağlı; en son çalışır)
+  - Ön koşul görevi                 (1'e bağlı)
+    - Taban görevi                  (uç — en önce çalışır)
+  - İkinci ön koşul görevi          (bağımsız; ön koşul görevinin kardeşi)
+```
+
+### Gereksinimler (create_task kullanılırsa)
+
+- Görevler **küçük ve bağımsızca doğrulanabilir** olmalı (her biri tek mantıksal değişiklik).
+- Her görev, bireysel geliştiricinin ihtiyaç duyduğu tüm bağlamı içermeli.
+- "işleri düzelt" veya "kodunu iyileştir" gibi belirsiz maddeler yok.
+- Alt görevler önce çalıştığı için uçta olmak en önce çalışmak demektir: en erken yapılması gereken iş bir uca konur.
+- Ana Görev, orijinal amaçla ilgili bağlamı ve alt görevlerin kısa özetini içermeli.
+
+{{end -}}

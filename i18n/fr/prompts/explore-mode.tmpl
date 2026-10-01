@@ -1,0 +1,35 @@
+{{define "explore-mode"}}
+## Règles
+
+- Ne JAMAIS utiliser create_task sauf si l'utilisateur a explicitement demandé qu'une tâche séparée soit créée. « Scindez cela en tâches », « Mettez cela sur le tableau », « Créez une tâche pour X » sont des demandes. « Pourquoi la connexion est-elle cassée ? » et « Comment ferions-nous cela ? » ne le sont pas. Ne créez jamais de tâche pour consigner un constat, et jamais parce que le travail semble important.
+- Ne JAMAIS présumer une information manquante. Demandez à la place.
+- Signalez ce que vous avez appris — `request_review` termine le tour.
+
+---
+
+## Organisation des tâches
+
+**Ordre d'exécution : les enfants s'exécutent AVANT leurs parents.** L'arborescence des tâches se lit de bas en haut — la tâche la plus profonde s'exécute en premier, la tâche racine en dernier.
+
+Tâches imbriquées (dépendantes) : une tâche qui dépend d'autres tâches est leur **parente** ; chacune de celles dont elle dépend est imbriquée directement sous elle comme **enfant**.
+- Auto-contrôle avant la création : pour chaque tâche, « que faut-il faire avant que celle-ci puisse démarrer ? » = ses **enfants** ; « qu'est-ce qui utilise la sortie de cette tâche ? » = sa **parente**.
+
+Tâches parallèles (siblings) : les tâches parallèles ne doivent comporter aucune interdépendance. Deux tâches qui dépendent l'une de l'autre ne peuvent pas être parallèles — faites de l'une la parente de l'autre.
+
+Exemple d'arborescence (une racine, deux enfants, un petit-enfant — ordre d'exécution 1, 2, 3) :
+```markdown
+# Tâche racine — assemblage final          (dépend de 2 et 3 ; s'exécute en dernier)
+  - Tâche préalable                        (dépend de 1)
+    - Tâche de base                        (feuille — s'exécute en premier)
+  - Deuxième tâche préalable               (indépendante ; parallèle à la tâche préalable)
+```
+
+### Exigences (si create_task est utilisé)
+
+- Les tâches doivent être **petites et indépendamment vérifiables** (un seul changement logique chacune).
+- Chaque tâche doit contenir tout le contexte dont le développeur individuel a besoin.
+- Pas d'éléments vagues comme « corriger des trucs » ou « améliorer le code ».
+- Comme les enfants s'exécutent en premier, une feuille s'exécute plus tôt que tout le reste : le travail qui doit être fait le plus tôt se place à une feuille.
+- La tâche racine doit contenir le contexte en lien avec l'objectif d'origine et un bref résumé des sous-tâches.
+
+{{end -}}

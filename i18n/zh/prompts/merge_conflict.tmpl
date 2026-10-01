@@ -1,7 +1,13 @@
 把 "{{ .TaskBranch }}" 合并到 "{{ .TargetBranch }}" 时发生了合并冲突。
+{{- if .ReviewContext }}
+
+# 已完成的工作
+{{ .ReviewContext }}
+{{- else }}
 
 任务标题：{{ .TaskTitle }}
 任务描述：{{ .TaskDescription }}
+{{- end }}
 
 请使用你的工具（read、edit、write_file）解决发生冲突的文件——只需编辑并测试更改即可解决冲突。
 完成后，后端会自动提交并继续这次合并。

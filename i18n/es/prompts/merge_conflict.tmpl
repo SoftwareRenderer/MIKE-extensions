@@ -1,7 +1,13 @@
 Se produjo un conflicto de combinación al combinar "{{ .TaskBranch }}" en "{{ .TargetBranch }}".
+{{- if .ReviewContext }}
+
+# Trabajo completado
+{{ .ReviewContext }}
+{{- else }}
 
 Título de la tarea: {{ .TaskTitle }}
 Descripción de la tarea: {{ .TaskDescription }}
+{{- end }}
 
 Resuelve los archivos en conflicto con tus herramientas (read, edit, write_file) — edita y prueba los cambios para resolver los conflictos.
 El servidor hará commit y continuará la combinación automáticamente cuando termines.

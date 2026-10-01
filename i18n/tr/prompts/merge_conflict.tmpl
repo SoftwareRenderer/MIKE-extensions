@@ -1,7 +1,13 @@
 "{{ .TaskBranch }}" dalı "{{ .TargetBranch }}" dalına birleştirilirken bir birleştirme çakışması oluştu.
+{{- if .ReviewContext }}
+
+# Tamamlanan iş
+{{ .ReviewContext }}
+{{- else }}
 
 Görev başlığı: {{ .TaskTitle }}
 Görev açıklaması: {{ .TaskDescription }}
+{{- end }}
 
 Çakışmalı dosyaları araçlarınla (read, edit, write_file) çöz — çakışmaları çözmek için değişiklikleri düzenle ve sına.
 Sen bitirince arka uç commit yapacak ve birleştirmeye otomatik olarak devam edecek.

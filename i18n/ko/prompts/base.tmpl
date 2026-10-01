@@ -40,6 +40,9 @@
 {{if .PlanMode}}{{template "plan-mode" .}}
 
 ---
+{{end}}{{if .ExploreMode}}{{template "explore-mode" .}}
+
+---
 {{end}}
 현재 날짜: {{.CurrentDate}}
 현재 작업 디렉터리: {{.WorktreePath}}

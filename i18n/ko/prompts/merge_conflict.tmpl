@@ -1,7 +1,13 @@
 "{{ .TaskBranch }}" 브랜치를 "{{ .TargetBranch }}" 브랜치에 병합하는 과정에서 충돌이 발생했습니다.
+{{- if .ReviewContext }}
+
+# 완료된 작업
+{{ .ReviewContext }}
+{{- else }}
 
 작업 제목: {{ .TaskTitle }}
 작업 설명: {{ .TaskDescription }}
+{{- end }}
 
 충돌한 파일은 도구 (read, edit, write_file)를 사용하여 해결하십시오 — 편집하고 테스트하여 충돌을 해결하면 됩니다.
 작업을 마치면 백엔드가 자동으로 커밋하고 병합을 계속 진행합니다.

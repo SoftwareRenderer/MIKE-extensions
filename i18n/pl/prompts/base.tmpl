@@ -40,6 +40,9 @@ Poniższe instrukcje pochodzą z pliku AGENTS.md projektu. Przestrzegaj ich star
 {{if .PlanMode}}{{template "plan-mode" .}}
 
 ---
+{{end}}{{if .ExploreMode}}{{template "explore-mode" .}}
+
+---
 {{end}}
 Bieżąca data: {{.CurrentDate}}
 Bieżący katalog roboczy: {{.WorktreePath}}

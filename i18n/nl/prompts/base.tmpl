@@ -40,6 +40,9 @@ De volgende instructies komen uit het AGENTS.md-bestand van het project. Volg ze
 {{if .PlanMode}}{{template "plan-mode" .}}
 
 ---
+{{end}}{{if .ExploreMode}}{{template "explore-mode" .}}
+
+---
 {{end}}
 Huidige datum: {{.CurrentDate}}
 Huidige werkmap: {{.WorktreePath}}

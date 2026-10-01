@@ -1,7 +1,13 @@
 Si è verificato un conflitto di merge durante il merge di "{{ .TaskBranch }}" in "{{ .TargetBranch }}".
+{{- if .ReviewContext }}
+
+# Lavoro terminato
+{{ .ReviewContext }}
+{{- else }}
 
 Titolo dell'attività: {{ .TaskTitle }}
 Descrizione dell'attività: {{ .TaskDescription }}
+{{- end }}
 
 Risolvi i file in conflitto con i tuoi strumenti (read, edit, write_file) — limitati a modificare e provare le modifiche per risolvere i conflitti.
 Il backend farà il commit e continuerà il merge automaticamente quando hai finito.

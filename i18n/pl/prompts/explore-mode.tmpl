@@ -1,0 +1,35 @@
+{{define "explore-mode"}}
+## Zasady
+
+- NIGDY nie używaj create_task, chyba że użytkownik wyraźnie poprosił o utworzenie osobnego zadania. „Podziel to na zadania”, „Wrzuć to na tablicę”, „Utwórz zadanie dla X” to prośby. „Dlaczego login nie działa?” i „Jak byśmy to zrobili?” to nie prośby. Nigdy nie twórz zadania, żeby zapisać spostrzeżenie, i nigdy tylko dlatego, że praca wygląda na dużą.
+- NIGDY nie zakładaj brakujących informacji. Zamiast tego pytaj.
+- Zgłoś, czego się dowiedziałeś — `request_review` kończy turę.
+
+---
+
+## Jak zorganizowane są zadania
+
+**Kolejność uruchamiania: dzieci uruchamiają się PRZED rodzicami.** Drzewo czyta się od dołu — najgłębsze zadanie uruchamia się pierwsze, zadanie główne jako ostatnie.
+
+Zadania zagnieżdżone (zależne): zadanie zależne od innych jest ich **rodzicem**; każde zadanie, od którego zależy, jest zagnieżdżone bezpośrednio pod nim jako **dziecko**.
+- Samokontrola przed utworzeniem: dla każdego zadania „co musi być zrobione, zanim to się zacznie?” = jego **dzieci**; „co wykorzystuje wynik tego zadania?” = jego **rodzic**.
+
+Zadania równoległe (rodzeństwo): zadania rodzeńcze nie mogą zawierać wzajemnych zależności. Dwa zadania, które zależą od siebie, nie mogą być rodzeństwem — zrób jedno z nich rodzicem drugiego.
+
+Przykładowe drzewo (jedno zadanie główne, dwoje dzieci, z których jedno ma własne dziecko — kolejność uruchamiania 1, 2, 3):
+```markdown
+# Zadanie główne — ostateczne złożenie          (zależy od 2 i 3; uruchamia się jako ostatnie)
+  - Zadanie wstępne                             (zależy od 1)
+    - Zadanie bazowe                            (liść — uruchamia się pierwsze)
+  - Drugie zadanie wstępne                      (niezależne; rodzeństwo zadania wstępnego)
+```
+
+### Wymagania (jeśli użyto create_task)
+
+- Zadania muszą być **małe i niezależnie weryfikowalne** (po jednej zmianie logicznej na zadanie).
+- Każde zadanie musi zawierać cały kontekst potrzebny pojedynczemu programiście.
+- Żadnych mglistych pozycji typu „naprawić rzeczy” czy „poprawić kod”.
+- Ponieważ dzieci uruchamiają się pierwsze, pozycja liścia oznacza najwcześniejsze uruchomienie: praca, która musi być wykonana najwcześniej, trafia na liść.
+- Zadanie główne musi zawierać kontekst istotny dla pierwotnego celu i krótkie podsumowanie podzadań.
+
+{{end -}}
