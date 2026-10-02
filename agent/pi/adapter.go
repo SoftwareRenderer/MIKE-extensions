@@ -11,10 +11,12 @@ import (
 	"log"
 	"strings"
 
-	"kanban/pkg/agent"
+	"mike/pkg/agent"
 )
 
-// Adapter implements the agent.AgentAdapter interface for the Pi Coding Agent.
+// Adapter is the Pi Coding Agent protocol adapter. wasm/main.go exports one
+// function per method, and that is the only caller — the host drives the module
+// through those exports, so this type satisfies no interface of its own.
 // It maintains state across calls: a line buffer for JSONL parsing, a command
 // counter for request IDs, the discovered model name, and session file path.
 type Adapter struct {

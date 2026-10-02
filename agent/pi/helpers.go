@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"strings"
 
-	"kanban/pkg/agent"
+	"mike/pkg/agent"
 )
 
 // mapToStruct is a helper to convert map[string]any to a struct via JSON.

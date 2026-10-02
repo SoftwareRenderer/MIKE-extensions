@@ -19,8 +19,8 @@ import (
 	"encoding/json"
 	"unsafe"
 
-	"kanban/extensions/agent/pi"
-	"kanban/pkg/agent"
+	"mike/extensions/agent/pi"
+	"mike/pkg/agent"
 )
 
 // adapter holds the Pi protocol adapter instance. Created in Init, used by

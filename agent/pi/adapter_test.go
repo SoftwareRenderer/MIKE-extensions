@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"kanban/pkg/agent"
+	"mike/pkg/agent"
 )
 
 func TestAdapter_Init(t *testing.T) {
