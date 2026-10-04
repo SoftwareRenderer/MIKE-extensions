@@ -1,7 +1,7 @@
 {
   "display_name": "Rust Language Server",
-  "description": "This provides integration of the Rust language server (rust-analyzer) with cargo-based diagnostics via clippy. Provides completions, hover, diagnostics, go-to-definition, references, renaming and refactors for Rust projects.",
-  "author": "rust-analyzer by Ferrous Systems & contributors",
+  "description": "Rust language support in MIKE: completions, hover, diagnostics, go-to-definition, references, renaming, and refactors, with cargo-based diagnostics through clippy, from rust-analyzer running in a sandboxed container. rust-analyzer is a community project; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by the rust-analyzer project or the Rust Foundation.",
+  "author": "getmike.dev",
   "homepage": "https://rust-analyzer.github.io/",
   "license_url": "https://github.com/rust-lang/rust-analyzer/blob/master/LICENSE-MIT",
   "version": "0.1.0",

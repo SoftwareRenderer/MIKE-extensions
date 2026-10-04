@@ -1,7 +1,7 @@
 {
   "display_name": "PHP Language Server",
-  "description": "This provides integration of the Phpactor language server for PHP. Provides completion, hover, diagnostics, go-to-definition, references and rename for PHP projects.",
-  "author": "Phpactor by Phpactor Contributors",
+  "description": "PHP language support in MIKE: completion, hover, diagnostics, go-to-definition, references, and rename, from Phpactor running in a sandboxed container. Phpactor is a community project; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by Phpactor or its contributors.",
+  "author": "getmike.dev",
   "homepage": "https://github.com/phpactor/phpactor",
   "license_url": "https://github.com/phpactor/phpactor/blob/master/LICENSE",
   "version": "1.0.0",

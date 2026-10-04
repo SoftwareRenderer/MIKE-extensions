@@ -1,7 +1,7 @@
 {
   "display_name": "Svelte Language Server",
-  "description": "Svelte language server providing completions, hover, and diagnostics for .svelte files.",
-  "author": "svelte-language-server by Svelte Contributors",
+  "description": "Svelte language support in MIKE: completions, hover, and diagnostics for .svelte files, from svelte-language-server running in a sandboxed container. It is the Svelte community's language tooling; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by the Svelte project or its maintainers.",
+  "author": "getmike.dev",
   "homepage": "https://github.com/sveltejs/svelte-language-server",
   "license_url": "https://github.com/sveltejs/svelte-language-server/blob/master/LICENSE",
   "version": "0.1.0",

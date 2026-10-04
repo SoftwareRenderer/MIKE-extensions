@@ -1,7 +1,7 @@
 {
     "display_name": "Python Language Server",
-    "description": "This provides integration of the Pyright Python language server by Microsoft. Provides completions, hover, diagnostics, go-to-definition, and more for Python projects.",
-    "author": "Pyright by Microsoft",
+    "description": "Python language support in MIKE: completions, hover, diagnostics, go-to-definition, and more, from Pyright running in a sandboxed container. Pyright is Microsoft's type checker and language server; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by Microsoft Corporation.",
+    "author": "getmike.dev",
     "homepage": "https://github.com/microsoft/pyright",
     "license_url": "https://github.com/microsoft/pyright/blob/main/LICENSE.txt",
     "version": "0.1.0",

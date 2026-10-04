@@ -1,7 +1,7 @@
 {
   "display_name": "C/C++ Language Server",
-  "description": "This provides integration of clangd, the LLVM language server for C and C++. Provides completions, hover, diagnostics, go-to-definition, references, rename and formatting for C and C++ projects.",
-  "author": "clangd by LLVM Project",
+  "description": "C and C++ language support in MIKE: completions, hover, diagnostics, go-to-definition, references, rename, and formatting, from clangd running in a sandboxed container. clangd is the LLVM project's C/C++ language server; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by the LLVM project or the LLVM Foundation.",
+  "author": "getmike.dev",
   "homepage": "https://clangd.llvm.org/",
   "license_url": "https://llvm.org/LICENSE.txt",
   "version": "0.1.0",
