@@ -1458,7 +1458,6 @@
     "chat.task.compressFailed": "コンテキストを圧縮できませんでした",
     "chat.task.regenerateFailed": "再生成できませんでした",
     "chat.task.deleteConfirm": "このメッセージと、このスレッドでこれより後のすべてのメッセージが削除されます。この操作は元に戻せません。",
-    "chat.task.deleteAlsoFiles": "ファイルは残った会話が記述する状態に戻るため、削除するやり取りだけで生成されたものは削除されます。",
     "chat.task.deleteAlsoBranch": "git ブランチ「{branch}」も一緒に削除されます。",
     "chat.task.deleteTitle": "メッセージを削除",
     "board.confirm.delete": "削除",

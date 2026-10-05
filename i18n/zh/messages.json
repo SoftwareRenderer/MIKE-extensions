@@ -1458,7 +1458,6 @@
     "chat.task.compressFailed": "压缩上下文失败",
     "chat.task.regenerateFailed": "重新生成失败",
     "chat.task.deleteConfirm": "这会删除此消息以及此对话中它之后的每条消息。此操作无法撤销。",
-    "chat.task.deleteAlsoFiles": "文件会回到剩余对话所描述的状态，因此只有被删除的那几轮产生的内容会被移除。",
     "chat.task.deleteAlsoBranch": "这也会删除 git 分支“{branch}”。",
     "chat.task.deleteTitle": "删除消息",
     "board.confirm.delete": "删除",

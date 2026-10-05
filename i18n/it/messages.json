@@ -1482,7 +1482,6 @@
     "chat.task.compressFailed": "Compressione del contesto non riuscita",
     "chat.task.regenerateFailed": "Rigenerazione non riuscita",
     "chat.task.deleteConfirm": "Elimina questo messaggio e ogni messaggio successivo in questo ramo della conversazione. Questa azione non può essere annullata.",
-    "chat.task.deleteAlsoFiles": "I file tornano allo stato descritto dalla conversazione che resta, quindi tutto ciò che è stato prodotto solo dai turni eliminati viene rimosso.",
     "chat.task.deleteAlsoBranch": "Verrà eliminato anche il branch git \"{branch}\".",
     "chat.task.deleteTitle": "Elimina messaggio",
     "board.confirm.delete": "Elimina",

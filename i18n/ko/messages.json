@@ -1458,7 +1458,6 @@
     "chat.task.compressFailed": "컨텍스트 압축에 실패했습니다",
     "chat.task.regenerateFailed": "다시 생성에 실패했습니다",
     "chat.task.deleteConfirm": "이 메시지와 이 스레드의 이후 모든 메시지가 삭제됩니다. 이 동작은 되돌릴 수 없습니다.",
-    "chat.task.deleteAlsoFiles": "파일은 남은 대화가 나타내는 상태로 되돌아가므로, 삭제되는 턴에서만 만들어진 내용은 모두 제거됩니다.",
     "chat.task.deleteAlsoBranch": "git 브랜치 “{branch}”도 함께 삭제됩니다.",
     "chat.task.deleteTitle": "메시지 삭제",
     "board.confirm.delete": "삭제",

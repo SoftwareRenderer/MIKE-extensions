@@ -1482,7 +1482,6 @@
     "chat.task.compressFailed": "Kan context niet comprimeren",
     "chat.task.regenerateFailed": "Opnieuw genereren mislukt",
     "chat.task.deleteConfirm": "Hiermee verwijder je dit bericht en elk bericht erna in deze thread. Dit kan niet ongedaan worden gemaakt.",
-    "chat.task.deleteAlsoFiles": "De bestanden gaan terug naar de staat die het overgebleven gesprek beschrijft, dus alles wat alleen door de verwijderde beurten is voortgebracht, wordt verwijderd.",
     "chat.task.deleteAlsoBranch": "Hiermee wordt ook de git-branch \"{branch}\" verwijderd.",
     "chat.task.deleteTitle": "Bericht verwijderen",
     "board.confirm.delete": "Verwijderen",

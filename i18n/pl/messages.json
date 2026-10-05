@@ -1530,7 +1530,6 @@
     "chat.task.compressFailed": "Nie udało się streścić kontekstu",
     "chat.task.regenerateFailed": "Nie udało się wygenerować ponownie",
     "chat.task.deleteConfirm": "Spowoduje to usunięcie tej wiadomości i wszystkich wiadomości po niej w tym wątku. Tego nie da się cofnąć.",
-    "chat.task.deleteAlsoFiles": "Pliki wracają do stanu, który opisuje pozostała część rozmowy, więc wszystko, co powstało tylko w usuniętych turach, zostanie usunięte.",
     "chat.task.deleteAlsoBranch": "Spowoduje to również usunięcie gałęzi gita „{branch}”.",
     "chat.task.deleteTitle": "Usuń wiadomość",
     "board.confirm.delete": "Usuń",

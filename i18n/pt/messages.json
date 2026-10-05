@@ -1482,7 +1482,6 @@
     "chat.task.compressFailed": "Falha ao comprimir o contexto",
     "chat.task.regenerateFailed": "Falha ao regenerar",
     "chat.task.deleteConfirm": "Isso excluirá esta mensagem e todas as mensagens depois dela nesta conversa. Essa ação não pode ser desfeita.",
-    "chat.task.deleteAlsoFiles": "Os arquivos voltam ao estado que a conversa restante descreve, então tudo o que só as mensagens excluídas produziram é removido.",
     "chat.task.deleteAlsoBranch": "Isso também excluirá o branch do git \"{branch}\".",
     "chat.task.deleteTitle": "Excluir mensagem",
     "board.confirm.delete": "Excluir",

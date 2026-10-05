@@ -1482,7 +1482,6 @@
     "chat.task.compressFailed": "Kontext konnte nicht komprimiert werden",
     "chat.task.regenerateFailed": "Neuerzeugung fehlgeschlagen",
     "chat.task.deleteConfirm": "Das löscht diese Nachricht und jede Nachricht danach in diesem Thread. Das kann nicht rückgängig gemacht werden.",
-    "chat.task.deleteAlsoFiles": "Die Dateien werden auf den Stand zurückgesetzt, den die verbleibende Unterhaltung beschreibt; alles, was nur die gelöschten Beiträge hervorgebracht haben, wird entfernt.",
     "chat.task.deleteAlsoBranch": "Das löscht auch den Git-Branch „{branch}“.",
     "chat.task.deleteTitle": "Nachricht löschen",
     "board.confirm.delete": "Löschen",

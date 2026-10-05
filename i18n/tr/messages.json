@@ -1458,7 +1458,6 @@
     "chat.task.compressFailed": "Bağlam sıkıştırılamadı",
     "chat.task.regenerateFailed": "Yeniden oluşturulamadı",
     "chat.task.deleteConfirm": "Bu işlem bu mesajı ve bu dalda ondan sonraki tüm mesajları siler. Bu işlem geri alınamaz.",
-    "chat.task.deleteAlsoFiles": "Dosyalar, kalan sohbetin tanımladığı duruma döner; dolayısıyla yalnızca silinen turların ürettiği her şey kaldırılır.",
     "chat.task.deleteAlsoBranch": "Bu işlem \"{branch}\" git dalını da silecek.",
     "chat.task.deleteTitle": "Mesajı silme",
     "board.confirm.delete": "Silin",

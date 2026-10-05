@@ -1482,7 +1482,6 @@
     "chat.task.compressFailed": "No se pudo comprimir el contexto",
     "chat.task.regenerateFailed": "No se pudo regenerar",
     "chat.task.deleteConfirm": "Esto eliminará este mensaje y todos los mensajes posteriores de este hilo. Esta acción no se puede deshacer.",
-    "chat.task.deleteAlsoFiles": "Los archivos vuelven al estado que describe la conversación que queda, así que se elimina todo lo que solo produjeron los turnos borrados.",
     "chat.task.deleteAlsoBranch": "Esto también eliminará la rama de git \"{branch}\".",
     "chat.task.deleteTitle": "Eliminar mensaje",
     "board.confirm.delete": "Eliminar",

@@ -1482,7 +1482,6 @@
     "chat.task.compressFailed": "Échec de la compression du contexte",
     "chat.task.regenerateFailed": "Échec de la régénération",
     "chat.task.deleteConfirm": "Cela supprime ce message et tous ceux qui le suivent dans ce fil. Cette action est irréversible.",
-    "chat.task.deleteAlsoFiles": "Les fichiers reviennent à l'état que décrit la conversation conservée : tout ce que seuls les tours supprimés avaient produit est retiré.",
     "chat.task.deleteAlsoBranch": "Cela supprimera aussi la branche git « {branch} ».",
     "chat.task.deleteTitle": "Supprimer le message",
     "board.confirm.delete": "Supprimer",
