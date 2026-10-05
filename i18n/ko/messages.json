@@ -1629,12 +1629,6 @@
     "time.lastWeekdayAt": "지난주 {weekday} {time}",
     "time.onDateAt": "{date} {time}",
     "time.built": "{when}에 빌드",
-    "i18n.offer.question": "{language}로 사용하시겠습니까?",
-    "i18n.offer.detail": "브라우저가 {language}(으)로 설정되어 있습니다. 언어 팩을 설치하면 UI가 즉시 전환되며, 설정 → 확장에서 언제든 되돌릴 수 있습니다.",
-    "i18n.offer.install": "{language} 설치",
-    "i18n.offer.installing": "{language} 설치 중…",
-    "i18n.offer.never": "다시 묻지 않기",
-    "i18n.offer.failed": "{language} 언어 팩을 설치하지 못했습니다",
     "diff.shared.loading": "불러오는 중...",
     "diff.shared.file": {
         "other": "파일 {count}개"

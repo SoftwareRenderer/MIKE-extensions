@@ -1670,12 +1670,6 @@
     "time.lastWeekdayAt": "{weekday} às {time}",
     "time.onDateAt": "{date} às {time}",
     "time.built": "Compilado {when}",
-    "i18n.offer.question": "Ler o MIKE em {language}?",
-    "i18n.offer.detail": "Seu navegador está configurado para {language}. Instalar o pacote de idiomas muda a interface na hora — é possível voltar quando quiser em Configurações → Extensões.",
-    "i18n.offer.install": "Instalar {language}",
-    "i18n.offer.installing": "Instalando {language}...",
-    "i18n.offer.never": "Não perguntar novamente",
-    "i18n.offer.failed": "Não foi possível instalar o pacote de idiomas {language}",
     "diff.shared.loading": "Carregando...",
     "diff.shared.file": {
         "one": "{count} arquivo",

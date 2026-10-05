@@ -1629,12 +1629,6 @@
     "time.lastWeekdayAt": "上周{weekday} {time}",
     "time.onDateAt": "{date} {time}",
     "time.built": "构建于 {when}",
-    "i18n.offer.question": "用 {language} 阅读 MIKE？",
-    "i18n.offer.detail": "你的浏览器设置为 {language}。安装语言包会立即切换界面——随时可以在“设置 → 扩展”中改回来。",
-    "i18n.offer.install": "安装 {language}",
-    "i18n.offer.installing": "正在安装 {language}…",
-    "i18n.offer.never": "不再询问",
-    "i18n.offer.failed": "无法安装 {language} 语言包",
     "diff.shared.loading": "加载中...",
     "diff.shared.file": {
         "other": "{count} 个文件"

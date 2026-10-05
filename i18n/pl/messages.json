@@ -1752,12 +1752,6 @@
     "time.lastWeekdayAt": "W zeszły {weekday} o {time}",
     "time.onDateAt": "{date} o {time}",
     "time.built": "Zbudowano {when}",
-    "i18n.offer.question": "Czytać MIKE w języku „{language}”?",
-    "i18n.offer.detail": "Twoja przeglądarka jest ustawiona na język „{language}”. Instalacja pakietu językowego przełącza interfejs od razu — możesz to zmienić w każdej chwili w Ustawieniach → Rozszerzenia.",
-    "i18n.offer.install": "Zainstaluj język „{language}”",
-    "i18n.offer.installing": "Instalowanie języka „{language}”…",
-    "i18n.offer.never": "Nie pytaj ponownie",
-    "i18n.offer.failed": "Nie udało się zainstalować pakietu językowego „{language}”",
     "diff.shared.loading": "Ładowanie...",
     "diff.shared.file": {
         "one": "{count} plik",

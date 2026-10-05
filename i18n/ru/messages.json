@@ -1752,12 +1752,6 @@
     "time.lastWeekdayAt": "Прошлый {weekday} в {time}",
     "time.onDateAt": "{date} в {time}",
     "time.built": "Собрано {when}",
-    "i18n.offer.question": "Читаете MIKE на языке «{language}»?",
-    "i18n.offer.detail": "Язык вашего браузера — «{language}». Установка языкового пакета сразу переключит интерфейс; вернуть его можно в любое время в разделе «Настройки» → «Расширения».",
-    "i18n.offer.install": "Установить «{language}»",
-    "i18n.offer.installing": "Установка «{language}»…",
-    "i18n.offer.never": "Больше не спрашивать",
-    "i18n.offer.failed": "Не удалось установить языковой пакет «{language}»",
     "diff.shared.loading": "Загрузка...",
     "diff.shared.file": {
         "one": "{count} файл",

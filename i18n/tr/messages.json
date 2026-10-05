@@ -1629,12 +1629,6 @@
     "time.lastWeekdayAt": "Geçen {weekday} {time}",
     "time.onDateAt": "{date} {time}",
     "time.built": "{when} derlendi",
-    "i18n.offer.question": "MIKE'u {language} dilinde okumak ister misiniz?",
-    "i18n.offer.detail": "Tarayıcınız {language} olarak ayarlı. Dil paketini kurmak arayüzü hemen değiştirir — istediğiniz zaman Ayarlar → Eklentiler'den geri alın.",
-    "i18n.offer.install": "{language} kurun",
-    "i18n.offer.installing": "{language} kuruluyor…",
-    "i18n.offer.never": "Bir daha sormayın",
-    "i18n.offer.failed": "{language} dil paketi kurulamadı",
     "diff.shared.loading": "Yükleniyor...",
     "diff.shared.file": {
         "other": "{count} dosya"

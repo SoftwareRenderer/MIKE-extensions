@@ -1670,12 +1670,6 @@
     "time.lastWeekdayAt": "Afgelopen {weekday} om {time}",
     "time.onDateAt": "{date} om {time}",
     "time.built": "Gebouwd {when}",
-    "i18n.offer.question": "MIKE in het {language} lezen?",
-    "i18n.offer.detail": "Je browser staat op {language}. Het taalpakket installeren schakelt de interface meteen om — via Instellingen → Uitbreidingen zet je die wanneer je wilt terug.",
-    "i18n.offer.install": "{language} installeren",
-    "i18n.offer.installing": "{language} installeren…",
-    "i18n.offer.never": "Niet meer vragen",
-    "i18n.offer.failed": "Het taalpakket {language} kon niet worden geïnstalleerd",
     "diff.shared.loading": "Laden...",
     "diff.shared.file": {
         "one": "{count} bestand",
