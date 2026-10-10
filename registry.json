@@ -1,5 +1,136 @@
 [
     {
+        "name": "api-compatibility",
+        "version": "0.1.0",
+        "type": "llm",
+        "display_name": "API Compatibility",
+        "description": "Improve compatibility with cloud inference services such as OpenRouter and others.",
+        "author": "getmike.dev",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "llm/api-compatibility",
+        "featured": true,
+    },
+    {
+        "name": "clangd",
+        "version": "0.1.0",
+        "type": "lsp",
+        "display_name": "C/C++ Language Server",
+        "description": "C and C++ language support in MIKE: completions, hover, diagnostics, go-to-definition, references, rename, and formatting, from clangd running in a sandboxed container. clangd is the LLVM project's C/C++ language server; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by the LLVM project or the LLVM Foundation.",
+        "author": "getmike.dev",
+        "homepage": "https://clangd.llvm.org/",
+        "license_url": "https://llvm.org/LICENSE.txt",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "lsp/clangd",
+        "capabilities": {
+            "lsp": {
+                "language": "cpp",
+                "file_types": [
+                    {
+                        "extension": "c",
+                        "language_id": "c",
+                        "label": "C"
+                    },
+                    {
+                        "extension": "h",
+                        "language_id": "c",
+                        "label": "C header"
+                    },
+                    {
+                        "extension": "cpp",
+                        "language_id": "cpp",
+                        "label": "C++"
+                    },
+                    {
+                        "extension": "cxx",
+                        "language_id": "cpp",
+                        "label": "C++"
+                    },
+                    {
+                        "extension": "cc",
+                        "language_id": "cpp",
+                        "label": "C++"
+                    },
+                    {
+                        "extension": "hpp",
+                        "language_id": "cpp",
+                        "label": "C++ header"
+                    },
+                    {
+                        "extension": "hh",
+                        "language_id": "cpp",
+                        "label": "C++ header"
+                    },
+                    {
+                        "extension": "hxx",
+                        "language_id": "cpp",
+                        "label": "C++ header"
+                    }
+                ],
+                "environment_note": "clangd resolves this project from a compile_commands.json that is not there, so it is guessing include paths and flags: header and symbol errors below may be about the missing compilation database, not the code. Generate it from the build system (cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON, bear -- <build command>) in a task."
+            }
+        }
+    },
+    {
+        "name": "de",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "Deutsch",
+        "description": "German language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/de",
+        "capabilities": {
+            "i18n": {
+                "locale": "de",
+                "messages_url": "messages.json",
+                "has_prompts": true
+            }
+        }
+    },
+    {
+        "name": "es",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "Español",
+        "description": "Spanish language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/es",
+        "capabilities": {
+            "i18n": {
+                "locale": "es",
+                "messages_url": "messages.json",
+                "has_prompts": true
+            }
+        }
+    },
+    {
+        "name": "fr",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "Français",
+        "description": "French language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/fr",
+        "capabilities": {
+            "i18n": {
+                "locale": "fr",
+                "messages_url": "messages.json",
+                "has_prompts": true
+            }
+        }
+    },
+    {
         "name": "github-issue-importer",
         "version": "1.0.0",
         "type": "ui",
@@ -8,7 +139,7 @@
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "4e211bdecbedc4ad6e5b3e3871d2127f089e134a",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
         "subdir": "ui/github-issue-importer",
         "capabilities": {
             "ui": {
@@ -30,35 +161,44 @@
     },
     {
         "name": "gopls",
-        "version": "1.0.0",
+        "version": "0.7.0",
         "type": "lsp",
         "display_name": "Go Language Server",
-        "description": "Go language server (gopls) by Google. Provides completions, hover, diagnostics, go-to-definition, and more for Go projects.",
-        "author": "Go Team",
+        "description": "Go language support in MIKE: completions, hover, diagnostics, go-to-definition, and more, from gopls running in a sandboxed container. gopls is Google's; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by Google LLC.",
+        "author": "getmike.dev",
         "homepage": "https://github.com/golang/tools/tree/master/gopls",
         "license_url": "https://github.com/golang/tools/blob/master/LICENSE",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
         "subdir": "lsp/gopls",
         "capabilities": {
             "lsp": {
                 "language": "go",
-                "extensions": [
-                    "go"
-                ]
+                "file_types": [
+                    {
+                        "extension": "go",
+                        "language_id": "go",
+                        "label": "Go"
+                    }
+                ],
+                "environment_note": "gopls cannot resolve this project's dependencies in the sandbox: the Go module cache is not reachable. Import and undefined-name errors below are its guesses about a package it could not load, not findings about this code. Name a host directory for the Go module cache under Settings -> Extensions -> gopls (Edit, Dependencies) and fill it there: run \"go mod download\" into it, or add it to the project's Sandbox Configuration mounts with GOMODCACHE set to its container path so a task can download into it.",
+                "dependency_cache": {
+                    "container_path": "/go/pkg/mod",
+                    "env": "GOMODCACHE"
+                }
             }
         }
     },
     {
         "name": "html-preview",
-        "version": "1.0.0",
+        "version": "0.7.0",
         "type": "ui",
         "display_name": "HTML Preview",
         "description": "Adds a Preview button to the editor footer for HTML, XHTML, and SVG files. Renders the code view's content in an isolated preview that updates live as the file changes — in the editor or on disk. The page may navigate within the project tree (sibling and subdirectory pages); leaving the tree stops the preview with a warning.",
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "3384bc983f91d7e00d414babd9058456179fc52b",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
         "subdir": "ui/html-preview",
         "capabilities": {
             "ui": {
@@ -77,15 +217,72 @@
         }
     },
     {
+        "name": "it",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "Italiano",
+        "description": "Italian language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/it",
+        "capabilities": {
+            "i18n": {
+                "locale": "it",
+                "messages_url": "messages.json",
+                "has_prompts": true
+            }
+        }
+    },
+    {
+        "name": "ja",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "日本語",
+        "description": "Japanese language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/ja",
+        "capabilities": {
+            "i18n": {
+                "locale": "ja",
+                "messages_url": "messages.json",
+                "has_prompts": true
+            }
+        }
+    },
+    {
+        "name": "ko",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "한국어",
+        "description": "Korean language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/ko",
+        "capabilities": {
+            "i18n": {
+                "locale": "ko",
+                "messages_url": "messages.json",
+                "has_prompts": true
+            }
+        }
+    },
+    {
         "name": "markdown-preview",
-        "version": "1.0.0",
+        "version": "0.8.0",
         "type": "ui",
         "display_name": "Markdown Preview",
         "description": "Adds a Preview button to the editor footer for Markdown files, toggling between the code and WYSIWYG editor.",
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "3daf07716445bb87fed60b0c114943fd21f25f9f",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
         "subdir": "ui/markdown-preview",
         "capabilities": {
             "ui": {
@@ -119,19 +316,196 @@
         }
     },
     {
+        "name": "nl",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "Nederlands",
+        "description": "Dutch language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/nl",
+        "capabilities": {
+            "i18n": {
+                "locale": "nl",
+                "messages_url": "messages.json",
+                "has_prompts": true
+            }
+        }
+    },
+    {
+        "name": "phpactor",
+        "version": "1.0.0",
+        "type": "lsp",
+        "display_name": "PHP Language Server",
+        "description": "PHP language support in MIKE: completion, hover, diagnostics, go-to-definition, references, and rename, from Phpactor running in a sandboxed container. Phpactor is a community project; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by Phpactor or its contributors.",
+        "author": "getmike.dev",
+        "homepage": "https://github.com/phpactor/phpactor",
+        "license_url": "https://github.com/phpactor/phpactor/blob/master/LICENSE",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "lsp/phpactor",
+        "capabilities": {
+            "lsp": {
+                "language": "php",
+                "file_types": [
+                    {
+                        "extension": "php",
+                        "language_id": "php",
+                        "label": "PHP"
+                    },
+                    {
+                        "extension": "phtml",
+                        "language_id": "php",
+                        "label": "PHP in HTML"
+                    }
+                ],
+                "environment_note": "Phpactor resolves framework and vendor classes from the project's vendor/, which is not installed in this checkout, so class and method errors below are guesses. Run \"composer install\" in a task."
+            }
+        }
+    },
+    {
         "name": "pi",
         "version": "1.0.0",
         "type": "agent",
         "display_name": "Pi Coding Agent",
-        "description": "Pi Coding Agent — minimal agent harness",
-        "author": "Earendil Inc. & Contributors",
+        "description": "The Pi coding agent in MIKE: a minimal harness that runs in the task's worktree and handles its own LLM calls, tool execution, and reasoning. Pi is made by Earendil Works; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by its authors.",
+        "author": "getmike.dev",
         "homepage": "https://pi.dev/",
         "license_url": "https://github.com/earendil-works/pi/blob/main/LICENSE",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
         "subdir": "agent/pi",
         "capabilities": {
-            "agent": {}
+            "agent": {
+                "sandbox": {
+                    "mount": [
+                        {
+                            "host_path": "~/.pi/agent",
+                            "container_path": "/root/.pi/agent",
+                            "mode": "rw"
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "name": "pl",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "Polski",
+        "description": "Polish language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/pl",
+        "capabilities": {
+            "i18n": {
+                "locale": "pl",
+                "messages_url": "messages.json",
+                "has_prompts": true
+            }
+        }
+    },
+    {
+        "name": "pt",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "Português",
+        "description": "Portuguese language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/pt",
+        "capabilities": {
+            "i18n": {
+                "locale": "pt",
+                "messages_url": "messages.json",
+                "has_prompts": true
+            }
+        }
+    },
+    {
+        "name": "pyright",
+        "version": "0.1.0",
+        "type": "lsp",
+        "display_name": "Python Language Server",
+        "description": "Python language support in MIKE: completions, hover, diagnostics, go-to-definition, and more, from Pyright running in a sandboxed container. Pyright is Microsoft's type checker and language server; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by Microsoft Corporation.",
+        "author": "getmike.dev",
+        "homepage": "https://github.com/microsoft/pyright",
+        "license_url": "https://github.com/microsoft/pyright/blob/main/LICENSE.txt",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "lsp/pyright",
+        "capabilities": {
+            "lsp": {
+                "language": "python",
+                "file_types": [
+                    {
+                        "extension": "py",
+                        "language_id": "python",
+                        "label": "Python"
+                    },
+                    {
+                        "extension": "pyi",
+                        "language_id": "python",
+                        "label": "Python stub"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "name": "ru",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "Русский",
+        "description": "Russian language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/ru",
+        "capabilities": {
+            "i18n": {
+                "locale": "ru",
+                "messages_url": "messages.json",
+                "has_prompts": true
+            }
+        }
+    },
+    {
+        "name": "rust-analyzer",
+        "version": "0.1.0",
+        "type": "lsp",
+        "display_name": "Rust Language Server",
+        "description": "Rust language support in MIKE: completions, hover, diagnostics, go-to-definition, references, renaming, and refactors, with cargo-based diagnostics through clippy, from rust-analyzer running in a sandboxed container. rust-analyzer is a community project; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by the rust-analyzer project or the Rust Foundation.",
+        "author": "getmike.dev",
+        "homepage": "https://rust-analyzer.github.io/",
+        "license_url": "https://github.com/rust-lang/rust-analyzer/blob/master/LICENSE-MIT",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "lsp/rust-analyzer",
+        "capabilities": {
+            "lsp": {
+                "language": "rust",
+                "file_types": [
+                    {
+                        "extension": "rs",
+                        "language_id": "rust",
+                        "label": "Rust"
+                    }
+                ],
+                "environment_note": "cargo cannot resolve this workspace's dependencies offline: the crate registry cache is not reachable from the sandbox. Errors below may be about crates cargo could not read. Name a host directory for the Cargo home under Settings -> Extensions -> rust-analyzer (Edit, Dependencies) and fill it there: run \"cargo fetch\" into it, or add it to the project's Sandbox Configuration mounts with CARGO_HOME set to its container path so a task can download into it.",
+                "dependency_cache": {
+                    "container_path": "/usr/local/cargo",
+                    "env": "CARGO_HOME"
+                }
+            }
         }
     },
     {
@@ -139,43 +513,134 @@
         "version": "0.1.0",
         "type": "lsp",
         "display_name": "Svelte Language Server",
-        "description": "Svelte language server providing completions, hover, and diagnostics for .svelte files.",
-        "author": "Svelte Contributors",
+        "description": "Svelte language support in MIKE: completions, hover, and diagnostics for .svelte files, from svelte-language-server running in a sandboxed container. It is the Svelte community's language tooling; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by the Svelte project or its maintainers.",
+        "author": "getmike.dev",
         "homepage": "https://github.com/sveltejs/svelte-language-server",
         "license_url": "https://github.com/sveltejs/svelte-language-server/blob/master/LICENSE",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "3daf07716445bb87fed60b0c114943fd21f25f9f",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
         "subdir": "lsp/svelte-language-server",
         "capabilities": {
             "lsp": {
                 "language": "svelte",
-                "extensions": [
-                    "svelte"
+                "file_types": [
+                    {
+                        "extension": "svelte",
+                        "language_id": "svelte",
+                        "label": "Svelte"
+                    }
                 ]
             }
         }
     },
     {
+        "name": "tr",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "Türkçe",
+        "description": "Turkish language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/tr",
+        "capabilities": {
+            "i18n": {
+                "locale": "tr",
+                "messages_url": "messages.json",
+                "has_prompts": true
+            }
+        }
+    },
+    {
         "name": "typescript-language-server",
-        "version": "1.0.0",
+        "version": "0.1.0",
         "type": "lsp",
         "display_name": "TypeScript/JavaScript Language Server",
-        "description": "TypeScript/JavaScript language server. Provides completions, hover, diagnostics, go-to-definition, refactor, and more for TypeScript and JavaScript projects.",
-        "author": "Microsoft",
+        "description": "TypeScript and JavaScript support in MIKE: completions, hover, diagnostics, go-to-definition, refactor, and more, from tsserver — Microsoft's TypeScript language engine — driven by the community typescript-language-server, in a sandboxed container. getmike.dev only packages them for MIKE, and is not affiliated with, endorsed by, or sponsored by Microsoft Corporation or the typescript-language-server project.",
+        "author": "getmike.dev",
         "homepage": "https://github.com/typescript-language-server/typescript-language-server",
         "license_url": "https://github.com/typescript-language-server/typescript-language-server/blob/master/LICENSE",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
         "subdir": "lsp/typescript-language-server",
         "capabilities": {
             "lsp": {
                 "language": "typescript",
-                "extensions": [
-                    "ts",
-                    "tsx",
-                    "js",
-                    "jsx"
+                "file_types": [
+                    {
+                        "extension": "ts",
+                        "language_id": "typescript",
+                        "label": "TypeScript"
+                    },
+                    {
+                        "extension": "mts",
+                        "language_id": "typescript",
+                        "label": "TypeScript"
+                    },
+                    {
+                        "extension": "cts",
+                        "language_id": "typescript",
+                        "label": "TypeScript"
+                    },
+                    {
+                        "extension": "tsx",
+                        "language_id": "typescriptreact",
+                        "label": "TypeScript JSX"
+                    },
+                    {
+                        "extension": "js",
+                        "language_id": "javascript",
+                        "label": "JavaScript"
+                    },
+                    {
+                        "extension": "mjs",
+                        "language_id": "javascript",
+                        "label": "JavaScript"
+                    },
+                    {
+                        "extension": "cjs",
+                        "language_id": "javascript",
+                        "label": "JavaScript"
+                    },
+                    {
+                        "extension": "jsx",
+                        "language_id": "javascriptreact",
+                        "label": "JavaScript JSX"
+                    }
                 ]
+            }
+        }
+    },
+    {
+        "name": "web-search-searxng",
+        "version": "0.0.1",
+        "type": "tool",
+        "display_name": "SearXNG Search",
+        "description": "Gives the agent a web_search tool backed by your own SearXNG instance. getmike.dev maintains this tool and is not affiliated with, endorsed by, or sponsored by the SearXNG project; requests go only to the instance you configure, and SearXNG itself is not bundled or distributed here.",
+        "author": "getmike.dev",
+        "homepage": "https://docs.searxng.org",
+        "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "tool/web-search-searxng"
+    },
+    {
+        "name": "zh",
+        "version": "0.0.1",
+        "type": "i18n",
+        "display_name": "简体中文",
+        "description": "Simplified Chinese language pack",
+        "author": "no-maintainer",
+        "homepage": "https://getmike.dev",
+        "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
+        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "subdir": "i18n/zh",
+        "capabilities": {
+            "i18n": {
+                "locale": "zh",
+                "messages_url": "messages.json",
+                "has_prompts": true
             }
         }
     }
