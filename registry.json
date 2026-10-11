@@ -282,7 +282,7 @@
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
+        "commit": "19399352d5000e9d44eda3db2f36c6d2ccc604aa",
         "subdir": "ui/markdown-preview",
         "capabilities": {
             "ui": {
