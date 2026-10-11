@@ -1,31 +1,19 @@
 /**
- * Iframe-level integration test for the markdown-preview WYSIWYG extension.
- *
- * Mounts the real extension index.html (with the real host-client.js, the
- * Wordgard bundle and serializer) in a sandboxed iframe on a page served from
- * the dev server, then acts as the host over the postMessage capability
- * protocol:
- *   - init → extension adds a Preview button
- *   - forward editor.footerButtonClick → extension toggles preview, calls
- *     editor.getContent (we return markdown), and mounts a Wordgard editor
- *   - type in the Wordgard editor → extension calls editor.setContent; we
- *     capture and verify it contains the typed edit
- *
- * Requires a dev server with TLS on the configured base URL.
- * Run: node tests/markdown-wysiwyg-iframe.mjs
+ * Playwright test for the WYSIWYG preview: mounts the real extension iframe,
+ * acts as the host over the postMessage capability protocol, clicks Preview,
+ * types in the Wordgard editor and checks the edit comes back through
+ * editor.setContent.
+ * Needs a dev server with TLS. Run: node tests/markdown-wysiwyg-iframe.mjs
  */
 import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { frontendWorkspace, servedExtensionURL } from './frontend-workspace.mjs';
 
-// Reuse the Playwright dev dependency from the frontend workspace.
 const dir = new URL('.', import.meta.url).pathname;
 const require = createRequire(join(frontendWorkspace(dir), 'package.json'));
 const { chromium } = require('playwright');
 
 const BASE = process.env.MARKDOWN_PREVIEW_BASE || 'https://localhost:3000';
-// The extension as the dev server serves it: from the folder this copy is
-// installed in. Requires a running server (make run) over an installed copy.
 const EXT_URL = servedExtensionURL(BASE, dir);
 const MD = '# Hello WYSIWYG\n\nSome *markdown* here.\n';
 
@@ -50,8 +38,7 @@ async function waitUntil(fn, timeout = 10000) {
 
 let ok = true;
 try {
-    // Serve the extension from the dev origin so its /host-client.js and the
-    // wordgard bundle resolve. Replace the body with our harness + the iframe.
+    // Load the dev origin first so the iframe's /host-client.js and bundle load.
     await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
     await page.setContent(`
       <div id="host"></div>
@@ -118,9 +105,8 @@ try {
     if (btnCount > 0) { console.log(`OK  menu bar mounted with ${btnCount} toolbar buttons`); }
     else { ok = false; console.error('FAIL menu bar mounted but has no toolbar buttons'); }
 
-    // Type into the Wordgard editor. A delay between keystrokes keeps them
-    // in separate Wordgard flushes, so each produces its own editor.setContent
-    // push — the stale-echo scenario below needs ≥2 distinct pushes.
+    // Keystrokes spaced out land in separate Wordgard flushes, which gives the
+    // stale-echo case below more than one push to work with.
     await frame.locator('wg-content').click();
     await page.keyboard.press('End');
     await page.keyboard.type(' EDITED', { delay: 120 });
@@ -136,14 +122,10 @@ try {
     }
 
     // ── Stale-echo race regression ─────────────────────────────────────
-    // The host echoes every editor.setContent push back as
-    // editor.contentChange carrying the exact pushed text. If the echo of a
-    // SUPERSEDED push arrives after a newer push has already happened (busy
-    // host main thread), the extension must NOT treat it as an external
-    // change: it would rewrite the whole Wordgard document from the stale
-    // text (dropping the fresh keystrokes) and yank the caret to the
-    // beginning of the file. Simulate that delivery order: send the OLDEST
-    // push's content as a contentChange event now, long after the latest.
+    // The host echoes every editor.setContent push back as a contentChange, so
+    // deliver an older push's echo after a newer one. Treating it as an external
+    // change would rewrite the document from stale text, dropping the typed
+    // keystrokes and the caret.
     const stale = setContentCalls[0];
     const latest = setContentCalls[setContentCalls.length - 1];
     if (setContentCalls.length >= 2 && stale !== latest) {

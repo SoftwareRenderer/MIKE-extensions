@@ -1,16 +1,12 @@
 /**
- * Standalone Playwright diagnostic for this extension: validates that the
- * Wordgard bundle (./lib/wordgard.js) works and that the doc→markdown
- * serializer shared by Preview.js (./serializer.js → window.MarkdownSerializer)
- * round-trips correctly.
- *
- * Run: node tests/wordgard-wysiwyg.mjs
+ * Playwright check for this extension: the Wordgard bundle (./lib/wordgard.js)
+ * loads, and the serializer shared with Preview.js (./serializer.js) round-trips
+ * markdown. Run: node tests/wordgard-wysiwyg.mjs
  */
 import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { frontendWorkspace } from './frontend-workspace.mjs';
 
-// Reuse the Playwright dev dependency from the frontend workspace.
 const dir = new URL('.', import.meta.url).pathname;
 const require = createRequire(join(frontendWorkspace(dir), 'package.json'));
 const { chromium } = require('playwright');
@@ -32,8 +28,8 @@ const cases = [
   ['## Sub\n\nSome *emphasized* text.\n\n- one\n- two\n- three',
    '## Sub\n\nSome *emphasized* text.\n\n- one\n- two\n- three\n'],
   ['1. first\n2. second', '1. first\n2. second\n'],
-  // A blank line between items is spacing, not a new list: the round-trip
-  // emits a tight list, which is the same document.
+  // A blank line between items is spacing, not a new list, so the round-trip
+  // emits the tighter list of the same document.
   ['1. first\n\n2. second\n\n3. third', '1. first\n2. second\n3. third\n'],
   ['- one\n\n- two', '- one\n- two\n'],
   ['1. a\n\n- b', '1. a\n\n- b\n'],
@@ -85,7 +81,7 @@ for (const [md, expected] of cases) {
   else { fail++; console.log('FAIL\n  input:   ', JSON.stringify(md), '\n  expected:', JSON.stringify(expected), '\n  got:     ', JSON.stringify(got)); }
 }
 
-// Validate parse() returns blocks for code + list (exercises the parse path used on external change).
+// The same parse path Preview.js uses when the document changes elsewhere.
 function parseCountFn(html) {
   const { parse } = window.WordgardDoc;
   const { Wordgard } = window.WordgardEditor;

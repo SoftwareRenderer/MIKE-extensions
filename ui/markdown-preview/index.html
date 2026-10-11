@@ -18,28 +18,26 @@
         body.preview-off { visibility: hidden; }
 
         /* ── WYSIWYG (Wordgard) editing surface ────────────────────────────
-           Integrated with the host editor: borderless like CodeMirror, on the
-           page background, with the app's text/caret/selection colors. */
+           Like the host's code editor: borderless, on the page background. */
         #wg-container {
             box-sizing: border-box;
             height: 100%;
             overflow: hidden;
         }
         #wg-container wordgard-editor {
-            /* Wordgard theme variables → host app palette. Set on the editor
-               element (not :root) so they beat Wordgard's own &light/&dark
-               scoped values. */
+            /* Wordgard's theme variables, set here rather than on :root so they
+               beat Wordgard's own scoped values. */
             --wg-border-color: var(--color-border);
             --wg-menu-color: var(--color-text-secondary);
             --wg-highlight-color: var(--color-accent-light);
             --wg-panel-color: var(--color-surface-2);
-            /* Sans-serif to match the app UI (prose markdown, not code). */
+            /* Prose, so the app's UI font rather than a monospace one. */
             font-family: var(--font-sans);
             font-size: 14px;
             line-height: 1.6;
             color: var(--color-text-primary);
             caret-color: var(--color-text-primary);
-            /* Remove Wordgard's default outer border (host editor is borderless). */
+            /* The host editor is borderless. */
             border: none !important;
             background: transparent;
         }
@@ -47,15 +45,14 @@
         #wg-container ::-moz-selection {
             background-color: var(--color-selection-bg);
         }
-        /* Editing surface: padding matches the host editor's comfortable inset. */
+        /* Padding matches the host editor's inset. */
         #wg-container wg-content {
             padding: 8px 16px;
             caret-color: var(--color-text-primary);
         }
 
         /* ── Menu bar (formatting toolbar) ─────────────────────────────────
-           Styled like the host editor footer: surface background, subtle bottom
-           border, and compact ghost buttons that highlight on hover/active. */
+           Styled like the host editor footer. */
         #wg-container wg-menubar {
             background: var(--color-surface-2);
             border-bottom: 1px solid var(--color-border);
@@ -75,18 +72,9 @@
             background: var(--color-accent-bg);
         }
 
-        /* Hide formatting that has no Markdown representation. These marks are
-           dropped by the markdown serializer on round-trip, so offering them
-           in the toolbar would let users create formatting that silently
-           disappears when the preview is toggled off. Keep only features that
-           serialize to Markdown (bold, italic, code, links, strikethrough,
-           headings, lists, quotes, images) or are editor UI (undo/redo).
-
-           The default Wordgard toolbar groups underline/superscript/subscript
-           and the color pickers under a "More" submenu; after hiding those,
-           "More" would only contain strikethrough, so it's removed entirely.
-           Preview.js moves strikethrough out of it and up to the top-level bar
-           (next to the other inline styles), so hiding "More" here is safe. */
+        /* Hide the toolbar's formatting that Markdown cannot round-trip: the
+           serializer drops it, so it would silently leave the document.
+           Preview.js removes the "More" submenu that held these items. */
         [title="More"],
         [title="Toggle underline"],
         [title="Toggle superscript"],

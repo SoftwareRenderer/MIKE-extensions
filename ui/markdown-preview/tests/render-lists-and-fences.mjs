@@ -1,13 +1,7 @@
 /**
- * serializer.js — the block structure of lists and fenced code.
- *
- * A list has to survive the shapes people actually write: items split by blank
- * lines, a start number other than 1, a nested list, a fenced block inside an
- * item. A fence has to open on `~~~` and on an info string carrying more than
- * the language, and its content has to stay out of every other block rule.
- *
- * Pure-node test — no dev server, no browser: it loads the real serializer and
- * inspects the HTML it produces.
+ * serializer.js — the block structure of lists and fenced code: items split by
+ * blank lines, a start number, nesting, a fence inside an item, `~~~` fences and
+ * info strings.
  * Run: node tests/render-lists-and-fences.mjs
  */
 import { createRequire } from 'node:module';

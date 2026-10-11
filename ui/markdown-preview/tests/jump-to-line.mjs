@@ -1,36 +1,24 @@
 /**
- * Iframe-level integration test for markdown-preview's symbol-outline jump.
- *
- * Verifies that with the WYSIWYG editor open, when the host forwards an
- * `editor.jumpToLine` event (which the Outline panel's symbol click triggers
- * via the code editor's `jump-to-line`), the Wordgard editor scrolls to the
- * heading at that markdown source line.
- *
- * The document is long enough that the later headings start below the fold, so
- * we can assert scrolling by comparing the target heading's bounding rect
- * before and after the jump.
- *
- * Requires a dev server with TLS on the configured base URL.
- * Run: node tests/jump-to-line.mjs
+ * Playwright test for the symbol-outline jump: with the WYSIWYG preview open, an
+ * `editor.jumpToLine` event scrolls the heading on that markdown source line
+ * into view. The document is long enough that the later headings start below the
+ * fold, so scrolling is observable.
+ * Needs a dev server with TLS. Run: node tests/jump-to-line.mjs
  */
 import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { frontendWorkspace, servedExtensionURL } from './frontend-workspace.mjs';
 
-// Reuse the Playwright dev dependency from the frontend workspace.
 const dir = new URL('.', import.meta.url).pathname;
 const require = createRequire(join(frontendWorkspace(dir), 'package.json'));
 const { chromium } = require('playwright');
 
 const BASE = process.env.MARKDOWN_PREVIEW_BASE || 'https://localhost:3000';
-// See markdown-wysiwyg-iframe.mjs — the served path is the installed folder.
 const EXT_URL = servedExtensionURL(BASE, dir);
 
-// Headings: `# Alpha`, `## Beta`, `### Gamma`.
-// Fenced bash code blocks with `#` comments sit between the sections — these
-// comments must NOT be treated as headings (regression: outline jumps used to
-// count them and land on the wrong heading).
-// Paragraphs are long enough that the later headings start well below the fold.
+// Headings `# Alpha`, `## Beta` and `### Gamma`, separated by fenced bash
+// blocks: their `#` comments must not count as headings, or a jump lands on the
+// wrong heading.
 const FILLER = 'This is a reasonably long paragraph of body text that keeps the rendered section tall so the headings further down the document sit well below the fold of the preview viewport. It repeats across the sections to force meaningful scrolling.';
 function section(title, lines) {
     return [title, ''].concat(lines).concat(['']);
@@ -51,7 +39,7 @@ const MD = [
     ...section('### Gamma', [FILLER, '', FILLER, '', FILLER, '']),
 ].join('\n');
 
-// 1-based markdown source line of each heading (used as the jump target).
+// 1-based source line of each heading, used as the jump target.
 function headingLine(prefix) {
     return MD.split('\n').findIndex(l => l === prefix) + 1;
 }
@@ -129,9 +117,7 @@ try {
     await waitUntil(() => calls.includes('editor.getContent'));
     console.log('OK  WYSIWYG editor mounted');
 
-    // The document should be taller than the editor's scroller so scrolling is
-    // observable. The scroll container is the `wg-scroller` element (set up by
-    // Wordgard.scrolling('100%')), not the outer wordgard-editor.
+    // Scrolling is measured on the wg-scroller element, not the outer editor.
     const overflow = await frame.evaluate(() => {
         const s = document.querySelector('wg-scroller');
         return s.scrollHeight > s.clientHeight;
@@ -139,7 +125,7 @@ try {
     if (!overflow) { ok = false; throw new Error('document does not overflow the editor scroller — test not meaningful'); }
     console.log('OK  document overflows editor scroller (scrolling testable)');
 
-    // Record the Gamma heading's position before the jump (in the scroller).
+    // Record the Gamma heading's position before the jump.
     const gammaBefore = await frame.evaluate(() => {
         const s = document.querySelector('wg-scroller');
         const h = s.querySelector('h3');
@@ -149,8 +135,7 @@ try {
     const scrollerH = await frame.evaluate(() => document.querySelector('wg-scroller').clientHeight);
     if (gammaBefore < scrollerH * 0.5) { ok = false; throw new Error('Gamma heading already near top before jump — test not meaningful'); }
 
-    // Simulate clicking the Gamma reference in the Outline panel: the host
-    // dispatches jump-to-line, which FileEditor forwards to the extension.
+    // Simulate clicking Gamma in the Outline panel: the host forwards the jump.
     page.evaluate((line) => {
         document.getElementById('ext').contentWindow.postMessage({
             type: 'event', cap: 'editor.jumpToLine', data: { line },
@@ -173,8 +158,7 @@ try {
         console.error(`FAIL expected Gamma heading near viewport top, got top=${gammaAfter.toFixed(1)}px (before=${gammaBefore.toFixed(1)}px)`);
     }
 
-    // Also verify the jump is scoped to the target heading: jumping to Beta
-    // should leave Gamma below it again (the two headings don't collide).
+    // Jumping to Beta next has to land on Beta, not stay on Gamma.
     page.evaluate((line) => {
         document.getElementById('ext').contentWindow.postMessage({
             type: 'event', cap: 'editor.jumpToLine', data: { line },

@@ -1,14 +1,7 @@
 /**
- * serializer.js — link/image URL posture.
- *
- * The renderer escapes source HTML, so document text can never become markup —
- * but escaping does nothing about the URL inside `[x](url)`. A repo-authored
- * markdown file is untrusted input here (it is cloned, opened, and previewed),
- * and this frame holds editor capabilities, so `javascript:` (and friends) must
- * not survive rendering.
- *
- * Pure-node test — no dev server, no browser: it loads the real serializer and
- * inspects the HTML it produces.
+ * serializer.js — how links and images handle URLs. A previewed document is
+ * untrusted input and this frame holds editor capabilities, so no executable
+ * scheme may survive rendering.
  * Run: node tests/link-url-schemes.mjs
  */
 import { createRequire } from 'node:module';
@@ -85,10 +78,8 @@ console.log('--- legitimate URLs still work (no regression) ---');
     check('relative image preserved', r.srcs[0] === './img/logo.png', r.html);
 }
 {
-    // Pre-existing behaviour, pinned here because the source text is escaped
-    // before the link regex runs: a `"title"` never matches, so the whole span
-    // stays literal text — and, importantly, stays inert (no attribute is ever
-    // built from the quoted part).
+    // Pinned because the source is escaped before the link regex runs: a
+    // `"title"` never matches, so the span stays literal text and stays inert.
     const r = render('[titled](https://example.com "The title")');
     check('titled link stays literal text, no attribute injected',
         r.hrefs.length === 0 && !r.html.includes('title=') && r.text.includes('[titled]'), r.html);

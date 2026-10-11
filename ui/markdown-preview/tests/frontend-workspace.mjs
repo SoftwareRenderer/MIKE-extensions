@@ -1,8 +1,6 @@
 /**
- * Locate the MIKE frontend workspace, which carries the dev dependencies these
- * scripts need (playwright, jsdom). Both layouts work: the installed copy
- * inside the app repo (MIKE/extensions/<author>/<name>) and the source repo
- * next to it (MIKE-extensions/ui/<name>). Override with MIKE_FRONTEND.
+ * Find the MIKE frontend workspace, which carries these scripts' dev
+ * dependencies (playwright, jsdom). Override with MIKE_FRONTEND.
  */
 import { existsSync } from 'node:fs';
 import { resolve, join, dirname, basename, relative, sep } from 'node:path';
@@ -21,11 +19,8 @@ export function frontendWorkspace(start) {
 }
 
 /**
- * The URL a running server serves this extension's `index.html` from. Only an
- * installed copy has one: the app serves `<extensions>/<author>/<name>/` from
- * the folder layout itself, so that is what this reads. A source checkout has
- * no served path — pass MARKDOWN_PREVIEW_URL to test a copy that lives
- * somewhere else.
+ * The URL a running server serves this extension's `index.html` from. A source
+ * checkout has no served path, so pass MARKDOWN_PREVIEW_URL for those.
  */
 export function servedExtensionURL(base, testDir, envVar = 'MARKDOWN_PREVIEW_URL') {
     if (process.env[envVar]) return process.env[envVar];

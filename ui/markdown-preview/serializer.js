@@ -1,26 +1,18 @@
 /**
- * Markdown ↔ Wordgard serialization for the markdown-preview extension.
- *
- * Pure functions shared by Preview.js (production) and the extension's tests
- * (tests/wordgard-wysiwyg.mjs). This is the single source of truth for both
- * the markdown→HTML renderer and the Wordgard-doc→markdown serializer.
- *
- * Depends on the Wordgard globals (window.WordgardTypes etc.) being loaded
- * first (see ./lib/wordgard.js). Exposes `window.MarkdownSerializer`.
+ * Markdown ↔ Wordgard serialization: the markdown→HTML renderer and the
+ * Wordgard-doc→markdown serializer, shared by Preview.js and the tests.
+ * Exposes `window.MarkdownSerializer`; needs the Wordgard globals loaded first.
  */
 (() => {
     'use strict';
 
     const T = () => window.WordgardTypes;
 
-    // Wordgard exports block/leaf types either as a Tag/Leaf (Plot.define,
-    // Leaf.define — has a `.type`) or as the Type itself (Plot.Type.define,
-    // Leaf.Type.define). `node.is()` compares against the Type, so normalize.
+    // A Wordgard type is exported either as a Tag/Leaf (which has `.type`) or as
+    // the Type itself, so compare against the normalized value.
     function nt(x) { return (x && x.type) || x; }
 
     // ── Wordgard doc → Markdown serializer ──────────────────────────────────
-    // Walks the Wordgard document tree (schema from fullSchema) and emits
-    // markdown. This is the reverse of renderMarkdown below.
 
     function escapeText(s) {
         return String(s).replace(/\\/g, '\\\\').replace(/`/g, '\\`');
@@ -44,6 +36,12 @@
         ].map(v => (v === undefined ? '0' : '1')).join('');
     }
 
+    /** The `![alt](src)` markdown of an image node. */
+    function imageMarkdown(node) {
+        const t = T();
+        return '![' + escapeBrackets(node.mark(nt(t.ImageAlt)) || '') + '](' + node.param + ')';
+    }
+
     function inlineContent(block) {
         const t = T();
         const nodes = block.content;
@@ -64,7 +62,7 @@
                 parts.push(applyMarks(node, text));
                 i = j;
             } else if (node.type === nt(t.Image)) {
-                parts.push('![' + escapeBrackets(node.mark(nt(t.ImageAlt)) || '') + '](' + node.param + ')');
+                parts.push(imageMarkdown(node));
                 i++;
             } else if (node.type === nt(t.LineBreak)) {
                 parts.push('  \n');
@@ -113,7 +111,7 @@
         if (node.type === nt(t.OrderedList)) return listToMarkdown(node, 'ordered');
         if (node.type === nt(t.HorizontalRule)) return '---';
         if (node.type === nt(t.Figure)) {
-            return '![' + escapeBrackets(node.mark(nt(t.ImageAlt)) || '') + '](' + node.param + ')';
+            return imageMarkdown(node);
         }
         if (node.type === nt(t.Table)) return tableToMarkdown(node);
         return textOf(node);
@@ -131,10 +129,8 @@
         return cells;
     }
 
-    // Serialize a Wordgard Table node back to a GitHub-style pipe table. The
-    // first row is treated as the header; body rows follow. ColSpan/RowSpan
-    // have no Markdown representation, so spanned cells are emitted as-is
-    // (their span is lost on round-trip, which is expected for Markdown).
+    // A Wordgard Table becomes a GitHub pipe table with the first row as its
+    // header. Cell spans have no Markdown form, so they are lost on a round-trip.
     function tableToMarkdown(table) {
         const rows = table.content.map(rowCells);
         if (rows.length === 0) return '';
@@ -161,9 +157,8 @@
             const marker = markerKind === 'ordered' ? n++ + '. ' : '- ';
             const isInlineItem = item.inlineContent || item.type === nt(t.InlineListItem);
             const content = isInlineItem ? inlineContent(item) : item.content.map(blockToMarkdown).join('\n\n');
-            // The first line carries the marker and the rest the marker's
-            // width; a blank line inside the item stays blank, so the item
-            // owns it without the file gaining trailing whitespace.
+            // The marker leads the first line and the rest get the marker's
+            // width; a blank line inside the item stays blank.
             const indented = content.split('\n')
                 .map((line, idx) => idx === 0 ? marker + line
                     : (line === '' ? '' : ' '.repeat(marker.length) + line))
@@ -201,8 +196,7 @@
         let t = escapeHtml(text);
         // code spans
         t = t.replace(/`([^`\n]+)`/g, function (m, code) { return '<code>' + code + '</code>'; });
-        // images ![alt](url) — an unsafe URL renders the alt text as plain text
-        // rather than a broken/tracking image request.
+        // An unsafe image URL renders as plain alt text, so no request is made.
         t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g,
             function (m, alt, url, title) {
                 const src = safeUrl(url);
@@ -223,16 +217,14 @@
         return t;
     }
 
-    // Emit a <pre> that carries the fenced block's language via data-language,
-    // which Wordgard maps to its CodeBlockLanguage mark (preserving the
-    // language across the WYSIWYG round-trip).
+    // The fence's language travels in data-language, which Wordgard reads back
+    // as its CodeBlockLanguage mark.
     function openPre(lang) {
         return lang ? '<pre data-language="' + escapeHtml(lang) + '"><code>' : '<pre><code>';
     }
 
-    // A fenced block opens with 3+ ` or ~ plus an optional info string, and
-    // closes with the same character at least as many times — so a fence can
-    // hold a fence. Both accept the line's own indentation.
+    // A fence opens with 3+ ` or ~ plus an optional info string, and closes with
+    // the same character repeated at least as often — so a fence can hold one.
     function openFence(line) {
         const m = /^\s*(`{3,}|~{3,})[ \t]*(.*)$/.exec(line);
         if (!m) return null;
@@ -244,22 +236,21 @@
         return m !== null && m[1][0] === fence.char && m[1].length >= fence.length;
     }
 
-    // An info string is free text (`js title="a"`, {.py}), so the language is
-    // its first token, kept to characters a language id uses: the value goes
-    // into an attribute and back out after a fence opener.
+    // The language is the info string's first token, filtered down to characters
+    // that are safe inside an attribute.
     function fenceLang(info) {
         return String(info || '').trim().split(/[ \t]+/)[0]
             .replace(/[{}]/g, '').replace(/[^\w.+#-]/g, '').slice(0, 32);
     }
 
-    // 3+ of one of -, * or _, spaces ignored.
+    // Three or more of the same -, * or _ character, spaces ignored.
     function isHorizontalRule(line) {
         const t = line.replace(/\s+/g, '');
         return t.length >= 3 && /^[-*_]+$/.test(t) && new Set(t).size === 1;
     }
 
-    // A list marker: the indent it sits at, whether it enumerates, the number
-    // an enumerator carries, the column its content starts at, and its text.
+    // A list marker and what it carries: its indent, whether it enumerates, its
+    // start number, the column its content starts at, and the item text.
     function listMarker(line) {
         const m = /^(\s*)([-*+]|\d{1,9}[.)])(\s+)(.*)$/.exec(line);
         if (!m) return null;
@@ -277,8 +268,7 @@
         return /^\s*/.exec(line)[0].length;
     }
 
-    // Strip an item's own indentation from one of its continuation lines; a
-    // line indented less than the item's content column keeps what it has.
+    // Drop an item's own indentation from one of its continuation lines.
     function dedent(line, width) {
         return line.slice(Math.min(width, leadingIndent(line)));
     }
@@ -300,8 +290,8 @@
     }
 
     // ── GitHub-style pipe tables (markdown → HTML) ─────────────────────────
-    // Splits a pipe-table row into trimmed cell strings. Escaped pipes (\|)
-    // stay within their cell and are un-escaped (a literal pipe in the cell).
+    // Split a table row into trimmed cells; an escaped \| stays a literal pipe
+    // inside its cell.
     function splitTableRow(line) {
         const cells = [];
         let cur = '';
@@ -324,16 +314,15 @@
         return cells;
     }
 
-    // A delimiter row separates a table header from its body. Each cell is
-    // dashes with optional leading/trailing colons (alignment markers).
+    // The row between a table header and its body: dashes in every cell, maybe
+    // fenced by colons.
     function isDelimiterRow(line) {
         const cells = splitTableRow(line);
         return cells.length > 0 && cells.every(c => /^:?-+:?$/.test(c.replace(/\s/g, '')));
     }
 
-    // Build a <table> that Wordgard parses into its Table/TableRow/Cell types.
-    // The header row maps to <th> (HeaderCell); body rows to <td> (Cell). The
-    // <tbody> wrapper matches Wordgard's Table structure (table > tbody).
+    // The <table> Wordgard parses into its table types: <th> for the header row,
+    // <td> for body rows, inside the <tbody> Wordgard expects.
     function renderTable(headers, body) {
         const head = '<tr>' + headers.map(c => '<th>' + inline(c) + '</th>').join('') + '</tr>';
         const rows = body.map(r => '<tr>' + r.map(c => '<td>' + inline(c) + '</td>').join('') + '</tr>').join('');
@@ -341,9 +330,8 @@
     }
 
     // Render the list whose first marker is at `start`, returning its HTML and
-    // the index of the first line after it. An item owns every line indented
-    // past the list's markers, and it is rendered as blocks (see renderBlocks),
-    // which is what keeps a nested list or a fenced block inside its item.
+    // the line after it. An item owns every line indented past its marker, which
+    // keeps a nested list or a fenced block inside it.
     function renderList(lines, start) {
         const first = listMarker(lines[start]);
         const items = [];
@@ -381,8 +369,8 @@
         return { html: '<' + opener + '>' + body + '</' + tag + '>', next: i };
     }
 
-    // One pass over a slice of lines. A list item comes back here as its own
-    // slice, so its content is parsed by the same rules as the document's.
+    // One pass over a slice of lines; a list item comes back here as its own
+    // slice, so it is parsed by the same rules.
     function renderBlocks(lines) {
         const out = [];
         const para = [];
@@ -438,9 +426,7 @@
                 flushParagraph();
                 const quoteLines = [];
                 while (i < lines.length) {
-                    const q = lines[i].replace(/^\s*>\s?/, '');
-                    if (q === '') { quoteLines.push(''); }
-                    else quoteLines.push(q);
+                    quoteLines.push(lines[i].replace(/^\s*>\s?/, ''));
                     if (i + 1 < lines.length && !lines[i + 1].trim().startsWith('>')) break;
                     i++;
                 }
@@ -448,9 +434,8 @@
                 continue;
             }
 
-            // GitHub-style pipe table: a header row (containing a pipe)
-            // immediately followed by a delimiter row. Consume the header,
-            // delimiter, and all following pipe rows as one <table> block.
+            // A row with a pipe followed by a delimiter row starts a table: take
+            // the header, the delimiter, then every following row with a pipe.
             if (line.includes('|') && i + 1 < lines.length && isDelimiterRow(lines[i + 1])) {
                 flushParagraph();
                 const header = splitTableRow(line);

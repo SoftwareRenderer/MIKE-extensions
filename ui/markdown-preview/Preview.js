@@ -1,8 +1,6 @@
 /**
- * Markdown Preview — WYSIWYG editing via Wordgard.
- *
- * Adds a "Preview" button to the editor footer when a Markdown file is open.
- * Clicking it toggles between the code editor and a rich-text (WYSIWYG) view.
+ * Markdown Preview — a "Preview" button in the editor footer for Markdown
+ * files, toggling between the code view and a Wordgard WYSIWYG view.
  */
 (() => {
     'use strict';
@@ -11,12 +9,12 @@
     const BUTTON_ID = 'markdown-preview';
 
     // Shared serializer/renderer (./serializer.js, loaded before this file).
-    const { renderMarkdown, docToMarkdown, openFence, closeFence } = window.MarkdownSerializer || {};
+    const { renderMarkdown, docToMarkdown, openFence, closeFence, nt } = window.MarkdownSerializer || {};
+    const T = () => window.WordgardTypes;
 
     let previewActive = false;
-    let wgEditor = null;          // current Wordgard editor instance
-    // echo guard to prevent yanking the caret to the top of the file.
-    const ECHO_WINDOW_MS = 5000;
+    let wgEditor = null;
+    const ECHO_WINDOW_MS = 5000;  // how long a pushed document still counts as our own echo
     const ECHO_MAX = 16;
     let recentPushes = [];
 
@@ -50,24 +48,26 @@
     }
 
     function setButtonActive(active) {
-        // No label → only updates the active state (keeps "Preview").
+        // Passing no label keeps the button's existing "Preview" label.
         return extHost.editor.addFooterButton(BUTTON_ID, undefined, active);
     }
 
+    // Move strikethrough out of the "More" submenu and drop that submenu, whose
+    // other toolbar items have no Markdown representation (see index.html).
     function reorganizeMenu(container) {
         const menubar = container.querySelector('wg-menubar');
         if (!menubar) return false;
         const more = menubar.querySelector('wg-submenu[title="More"]');
         if (!more) return false; // toolbar not mounted yet
         const strike = more.querySelector('button[title="Toggle strikethrough"]');
-        if (strike) more.parentNode.insertBefore(strike, more); // top-level bar
+        if (strike) more.parentNode.insertBefore(strike, more);
         more.remove();
         return true;
     }
 
+    // The toolbar mounts after Wordgard.create returns, so wait for it and stop
+    // observing once it has been reorganized.
     function observeMenuReorg(container) {
-        // The toolbar mounts asynchronously after Wordgard.create; reorganize
-        // once it appears, then stop observing.
         const mo = new MutationObserver(() => {
             if (reorganizeMenu(container)) mo.disconnect();
         });
@@ -82,9 +82,9 @@
             e.preventDefault();
             e.stopPropagation();
             if (!wgEditor) return;
+            // Push the edited text to the code view before saving the file.
             const md = docToMarkdown(wgEditor.state.doc);
             extHost.editor.setContent(md)
-                .catch(function () {})
                 .then(function () { return extHost.editor.save(); })
                 .catch(function () {});
         }
@@ -92,8 +92,7 @@
 
     function destroyWysiwyg() {
         if (wgEditor) {
-            // Wordgard has no destroy() — removing the editor's DOM element
-            // triggers its disconnect callback and releases the editor.
+            // Wordgard has no destroy(): removing the editor element releases it.
             try { if (wgEditor.dom && wgEditor.dom.remove) wgEditor.dom.remove(); } catch (e) {}
             wgEditor = null;
         }
@@ -104,8 +103,11 @@
 
     function createWysiwyg(markdown) {
         destroyWysiwyg();
-        if (!window.WordgardEditor || !window.WordgardSchema || !window.WordgardHistory) {
-            extHost.error('Markdown Preview: Wordgard bundle failed to load');
+        const needed = ['WordgardEditor', 'WordgardSchema', 'WordgardHistory',
+            'WordgardTable', 'WordgardState', 'WordgardTypes'];
+        const missing = needed.filter((name) => !window[name]);
+        if (missing.length) {
+            extHost.error('Markdown Preview: Wordgard bundle failed to load (missing ' + missing.join(', ') + ')');
             return;
         }
         const { Wordgard, menuBar } = window.WordgardEditor;
@@ -125,14 +127,12 @@
             doc: renderMarkdown(markdown),
             config: [
                 fullSchema(),
-                // fullSchema() adds CodeBlock but not its CodeBlockLanguage
-                // mark; without it the fenced code language can't be parsed
-                // (or preserved) across the WYSIWYG round-trip.
+                // Without the CodeBlockLanguage mark, the language of a fenced
+                // block would not survive the WYSIWYG round-trip.
                 GardState.schemaElement.of(nt(t.CodeBlockLanguage)),
                 ...tables(),
                 history(),
-                // Formatting toolbar (bold/italic/headings/lists/etc.).
-                // menuBar() returns an array of extensions, so spread it.
+                // The formatting toolbar; menuBar() returns an extension array.
                 ...menuBar(),
                 Wordgard.scrolling('100%'),
                 Wordgard.updateListener.of((update) => {
@@ -146,19 +146,13 @@
         observeMenuReorg(container);
     }
 
-    /**
-     * Index (0-based) of the heading whose markdown source line matches
-     * `line` (1-based), or -1 if that line isn't a heading. Used to map an
-     * outline symbol's source line onto the Wordgard document's headings,
-     * which the renderer emits in the same order (one per source heading).
-     */
+    /** Index of the heading opened by markdown source line `line` (1-based), or
+     * -1 when that line is not a heading. */
     function headingIndexForLine(markdown, line) {
         const lines = String(markdown || '').split('\n');
         let index = -1;
-        // A "#" inside a fenced block is a shell comment, so the walk tracks
-        // fences with the renderer's own grammar — the host's outline
-        // (highlighter.ts extractMarkdownHeadings) counts the same lines, and a
-        // fence counted as headings shifts every symbol off its heading.
+        // Count with the renderer's fence grammar: a "#" inside a fence is a
+        // comment, and the host's outline counts the same lines.
         let fence = null;
         for (let i = 0; i < lines.length; i++) {
             const text = lines[i].trim();
@@ -176,11 +170,8 @@
         return -1;
     }
 
-    /**
-     * Scroll the WYSIWYG editor to the heading at markdown source `line`.
-     * Triggered by the host's symbol outline (jump-to-line). When the preview
-     * is off this is a no-op — the host's CodeMirror view handles the jump.
-     */
+    /** Scroll to the heading at markdown source `line`, as asked by the host's
+     * symbol outline. A no-op while the preview is off. */
     function scrollToSourceLine(line) {
         if (!previewActive || !wgEditor || !window.WordgardEditor) return;
         const { Wordgard } = window.WordgardEditor;
@@ -199,8 +190,8 @@
                 }
             });
             if (pos < 0) return;
-            // Align the heading near the top of the viewport (like the host's
-            // code-view jump-to-line), not just minimally into view.
+            // Put the heading near the top of the viewport, like the code view
+            // jump does, rather than just inside it.
             wgEditor.dispatch({ effects: [Wordgard.scrollIntoView(pos, { y: 'start', yMargin: 8 })] });
         }).catch(function () {});
     }
@@ -218,10 +209,8 @@
             extHost.log('warn', 'Markdown Preview: parse failed: ' + (e && e.message));
             return;
         }
-        // Keep the caret where the user left it (same text offset, clamped
-        // into the new document). Without an explicit selection, a
-        // full-document replacement maps the caret to position 0 — the top
-        // of the document.
+        // Keep the caret at the same text offset, clamped into the new document;
+        // without a selection it lands at the top of the document.
         const sel = wgEditor.state.selection;
         const clamp = (p) => Math.max(0, Math.min(p, doc.length));
         wgEditor.dispatch({
@@ -232,7 +221,6 @@
 
     async function togglePreview() {
         previewActive = !previewActive;
-        document.body.classList.toggle('preview-on', previewActive);
         document.body.classList.toggle('preview-off', !previewActive);
         try {
             if (previewActive) {
@@ -256,16 +244,13 @@
     function onContentChange(data) {
         if (!previewActive || !wgEditor) return;
         if (!data || typeof data.content !== 'string') return;
-        // Ignore the echo of our own setContent pushes — including delayed
-        // echoes of superseded pushes (content we pushed recently but is no
-        // longer the latest). Only content we never pushed is an external
-        // change (code view, undo, reload, file changed on disk, ...).
+        // Ignore echoes of our own pushes, however late they arrive: only text
+        // we never pushed is an external change.
         if (isOwnEcho(data.content)) return;
         replaceDocFromMarkdown(data.content);
     }
 
-    // Add the footer button, retrying while the editor footer is still being
-    // rendered (the file loads shortly after the iframe mounts).
+    // Retry while the editor footer is still being rendered.
     async function addButton(retries = 8) {
         for (let attempt = 0; attempt <= retries; attempt++) {
             try {
@@ -296,12 +281,4 @@
             if (data && typeof data.line === 'number') scrollToSourceLine(data.line);
         });
     });
-
-    // ── Wordgard type normalization ────────────────────────────────────────
-    // Wordgard exports block/leaf types either as a Tag/Leaf (Plot.define,
-    // Leaf.define — has a `.type`) or as the Type itself (Plot.Type.define,
-    // Leaf.Type.define). Normalize so `node.type === nt(t.X)` works for both.
-    const T = () => window.WordgardTypes;
-    const nt = (window.MarkdownSerializer && window.MarkdownSerializer.nt) ||
-        ((x) => (x && x.type) || x);
 })();
