@@ -8,7 +8,7 @@
         "author": "getmike.dev",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "llm/api-compatibility",
         "featured": true,
     },
@@ -22,7 +22,7 @@
         "homepage": "https://clangd.llvm.org/",
         "license_url": "https://llvm.org/LICENSE.txt",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "lsp/clangd",
         "capabilities": {
             "lsp": {
@@ -82,7 +82,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/de",
         "capabilities": {
             "i18n": {
@@ -101,7 +101,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/es",
         "capabilities": {
             "i18n": {
@@ -120,7 +120,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/fr",
         "capabilities": {
             "i18n": {
@@ -139,7 +139,7 @@
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "ui/github-issue-importer",
         "capabilities": {
             "ui": {
@@ -169,7 +169,7 @@
         "homepage": "https://github.com/golang/tools/tree/master/gopls",
         "license_url": "https://github.com/golang/tools/blob/master/LICENSE",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "lsp/gopls",
         "capabilities": {
             "lsp": {
@@ -198,7 +198,7 @@
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "ui/html-preview",
         "capabilities": {
             "ui": {
@@ -225,7 +225,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/it",
         "capabilities": {
             "i18n": {
@@ -244,7 +244,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/ja",
         "capabilities": {
             "i18n": {
@@ -263,7 +263,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/ko",
         "capabilities": {
             "i18n": {
@@ -282,7 +282,7 @@
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "ui/markdown-preview",
         "capabilities": {
             "ui": {
@@ -309,7 +309,7 @@
         "author": "SoftwareRenderer",
         "homepage": "https://github.com/SoftwareRenderer",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "17e42842088ab6ee54e18b78c5041424ce5e44b1",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "css/mike-light",
         "capabilities": {
             "css": {}
@@ -324,7 +324,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/nl",
         "capabilities": {
             "i18n": {
@@ -344,7 +344,7 @@
         "homepage": "https://github.com/phpactor/phpactor",
         "license_url": "https://github.com/phpactor/phpactor/blob/master/LICENSE",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "lsp/phpactor",
         "capabilities": {
             "lsp": {
@@ -375,7 +375,7 @@
         "homepage": "https://pi.dev/",
         "license_url": "https://github.com/earendil-works/pi/blob/main/LICENSE",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "agent/pi",
         "capabilities": {
             "agent": {
@@ -400,7 +400,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/pl",
         "capabilities": {
             "i18n": {
@@ -419,7 +419,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/pt",
         "capabilities": {
             "i18n": {
@@ -439,7 +439,7 @@
         "homepage": "https://github.com/microsoft/pyright",
         "license_url": "https://github.com/microsoft/pyright/blob/main/LICENSE.txt",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "lsp/pyright",
         "capabilities": {
             "lsp": {
@@ -468,7 +468,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/ru",
         "capabilities": {
             "i18n": {
@@ -488,7 +488,7 @@
         "homepage": "https://rust-analyzer.github.io/",
         "license_url": "https://github.com/rust-lang/rust-analyzer/blob/master/LICENSE-MIT",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "lsp/rust-analyzer",
         "capabilities": {
             "lsp": {
@@ -518,7 +518,7 @@
         "homepage": "https://github.com/sveltejs/svelte-language-server",
         "license_url": "https://github.com/sveltejs/svelte-language-server/blob/master/LICENSE",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "lsp/svelte-language-server",
         "capabilities": {
             "lsp": {
@@ -542,7 +542,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/tr",
         "capabilities": {
             "i18n": {
@@ -562,7 +562,7 @@
         "homepage": "https://github.com/typescript-language-server/typescript-language-server",
         "license_url": "https://github.com/typescript-language-server/typescript-language-server/blob/master/LICENSE",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "lsp/typescript-language-server",
         "capabilities": {
             "lsp": {
@@ -622,7 +622,7 @@
         "homepage": "https://docs.searxng.org",
         "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "tool/web-search-searxng"
     },
     {
@@ -634,7 +634,7 @@
         "author": "no-maintainer",
         "homepage": "https://getmike.dev",
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
-        "commit": "8dd05550f9c8a2faa7d788575b500803f6d2e4df",
+        "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "i18n/zh",
         "capabilities": {
             "i18n": {
