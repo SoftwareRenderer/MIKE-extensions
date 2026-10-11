@@ -11,20 +11,20 @@
  * before and after the jump.
  *
  * Requires a dev server with TLS on the configured base URL.
- * Run: cd extensions/ui/markdown-preview && node tests/jump-to-line.mjs
+ * Run: node tests/jump-to-line.mjs
  */
 import { createRequire } from 'node:module';
-import { resolve } from 'node:path';
+import { join } from 'node:path';
+import { frontendWorkspace, servedExtensionURL } from './frontend-workspace.mjs';
 
 // Reuse the Playwright dev dependency from the frontend workspace.
 const dir = new URL('.', import.meta.url).pathname;
-const require = createRequire(resolve(dir, '..', '..', '..', '..', 'frontend', 'package.json'));
+const require = createRequire(join(frontendWorkspace(dir), 'package.json'));
 const { chromium } = require('playwright');
 
 const BASE = process.env.MARKDOWN_PREVIEW_BASE || 'https://localhost:3000';
-// See markdown-wysiwyg-iframe.mjs — installed extensions are served under the
-// author slug; override with MARKDOWN_PREVIEW_URL when testing one.
-const EXT_URL = process.env.MARKDOWN_PREVIEW_URL || `${BASE}/extensions/ui/markdown-preview/index.html`;
+// See markdown-wysiwyg-iframe.mjs — the served path is the installed folder.
+const EXT_URL = servedExtensionURL(BASE, dir);
 
 // Headings: `# Alpha`, `## Beta`, `### Gamma`.
 // Fenced bash code blocks with `#` comments sit between the sections — these

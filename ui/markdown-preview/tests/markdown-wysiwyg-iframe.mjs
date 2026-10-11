@@ -12,22 +12,21 @@
  *     capture and verify it contains the typed edit
  *
  * Requires a dev server with TLS on the configured base URL.
- * Run: cd extensions/ui/markdown-preview && node tests/markdown-wysiwyg-iframe.mjs
+ * Run: node tests/markdown-wysiwyg-iframe.mjs
  */
 import { createRequire } from 'node:module';
-import { resolve } from 'node:path';
+import { join } from 'node:path';
+import { frontendWorkspace, servedExtensionURL } from './frontend-workspace.mjs';
 
 // Reuse the Playwright dev dependency from the frontend workspace.
 const dir = new URL('.', import.meta.url).pathname;
-const require = createRequire(resolve(dir, '..', '..', '..', '..', 'frontend', 'package.json'));
+const require = createRequire(join(frontendWorkspace(dir), 'package.json'));
 const { chromium } = require('playwright');
 
 const BASE = process.env.MARKDOWN_PREVIEW_BASE || 'https://localhost:3000';
-// The extension files as served by the dev server. Default is the in-repo
-// layout (extensions/ui/markdown-preview); installed extensions are served
-// under the author slug (extensions/<author>/<name>) — override with
-// MARKDOWN_PREVIEW_URL when testing an installed copy.
-const EXT_URL = process.env.MARKDOWN_PREVIEW_URL || `${BASE}/extensions/ui/markdown-preview/index.html`;
+// The extension as the dev server serves it: from the folder this copy is
+// installed in. Requires a running server (make run) over an installed copy.
+const EXT_URL = servedExtensionURL(BASE, dir);
 const MD = '# Hello WYSIWYG\n\nSome *markdown* here.\n';
 
 const browser = await chromium.launch();

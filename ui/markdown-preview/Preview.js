@@ -11,7 +11,7 @@
     const BUTTON_ID = 'markdown-preview';
 
     // Shared serializer/renderer (./serializer.js, loaded before this file).
-    const { renderMarkdown, docToMarkdown } = window.MarkdownSerializer || {};
+    const { renderMarkdown, docToMarkdown, openFence, closeFence } = window.MarkdownSerializer || {};
 
     let previewActive = false;
     let wgEditor = null;          // current Wordgard editor instance
@@ -155,36 +155,20 @@
     function headingIndexForLine(markdown, line) {
         const lines = String(markdown || '').split('\n');
         let index = -1;
-        // Track fenced code blocks (``` or ~~~) so bash comments ("# comment")
-        // inside code blocks are not counted as headings — matching how the
-        // host's outline (highlighter.ts extractMarkdownHeadings) builds the
-        // symbol list. Otherwise the index is inflated by code-block lines and
-        // the outline jumps to the wrong heading.
-        let inCodeBlock = false;
-        let fenceChar = null;
-        let fenceLength = 0;
+        // A "#" inside a fenced block is a shell comment, so the walk tracks
+        // fences with the renderer's own grammar — the host's outline
+        // (highlighter.ts extractMarkdownHeadings) counts the same lines, and a
+        // fence counted as headings shifts every symbol off its heading.
+        let fence = null;
         for (let i = 0; i < lines.length; i++) {
-            const raw = lines[i];
-            const fenceMatch = /^(`{3,}|~{3,})(.*)$/.exec(raw);
-            if (fenceMatch) {
-                const char = fenceMatch[1][0];
-                const len = fenceMatch[1].length;
-                if (!inCodeBlock) {
-                    // Opening fence
-                    inCodeBlock = true;
-                    fenceChar = char;
-                    fenceLength = len;
-                } else if (char === fenceChar && len >= fenceLength) {
-                    // Closing fence (same char, at least as long)
-                    inCodeBlock = false;
-                    fenceChar = null;
-                    fenceLength = 0;
-                }
+            const text = lines[i].trim();
+            if (fence) {
+                if (closeFence(text, fence)) fence = null;
                 continue;
             }
-            // Skip heading detection inside code blocks
-            if (inCodeBlock) continue;
-            if (/^(#{1,6})\s+/.test(raw.trim())) {
+            const open = openFence(text);
+            if (open) { fence = open; continue; }
+            if (/^(#{1,6})\s+/.test(text)) {
                 index++;
                 if (i + 1 === line) return index;
             }

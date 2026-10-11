@@ -12,31 +12,12 @@
  * Run: node tests/link-url-schemes.mjs
  */
 import { createRequire } from 'node:module';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { resolve, join } from 'node:path';
+import { frontendWorkspace } from './frontend-workspace.mjs';
 
 const dir = new URL('.', import.meta.url).pathname;
-
-/**
- * Locate the frontend workspace, which carries jsdom as a dev dependency.
- * Works from both layouts this extension lives in: the installed copy inside
- * the app repo (MIKE/extensions/<author>/<name>) and the source repo next to it
- * (MIKE-extensions/ui/<name>). Override with MIKE_FRONTEND.
- */
-function findFrontendWorkspace(start) {
-    if (process.env.MIKE_FRONTEND) return resolve(process.env.MIKE_FRONTEND);
-    let d = start;
-    for (let i = 0; i < 8; i++) {
-        for (const cand of [join(d, 'frontend'), join(d, 'MIKE', 'frontend')]) {
-            if (existsSync(join(cand, 'node_modules', 'jsdom'))) return cand;
-        }
-        d = resolve(d, '..');
-    }
-    throw new Error('frontend workspace not found — set MIKE_FRONTEND=/path/to/MIKE/frontend');
-}
-
-const frontend = findFrontendWorkspace(dir);
-const require = createRequire(join(frontend, 'package.json'));
+const require = createRequire(join(frontendWorkspace(dir), 'package.json'));
 const { JSDOM } = require('jsdom');
 
 const dom = new JSDOM('<!doctype html><html><body></body></html>');

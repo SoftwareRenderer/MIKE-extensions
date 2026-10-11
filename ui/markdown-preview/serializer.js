@@ -97,7 +97,13 @@
         if (node.type === nt(t.Paragraph)) return inlineContent(node);
         if (node.type === nt(t.CodeBlock)) {
             const lang = node.mark(nt(t.CodeBlockLanguage)) || '';
-            return '```' + lang + '\n' + textOf(node) + '\n```';
+            const text = textOf(node);
+            // The wrapper must outlength every backtick run inside it, or a
+            // fence in the content closes the block early on the way back.
+            let longest = 0;
+            for (const run of (text.match(/`+/g) || [])) longest = Math.max(longest, run.length);
+            const fence = '`'.repeat(Math.max(3, longest + 1));
+            return fence + lang + '\n' + text + '\n' + fence;
         }
         if (node.type === nt(t.Blockquote)) {
             const inner = node.content.map(blockToMarkdown).join('\n\n');
@@ -155,8 +161,12 @@
             const marker = markerKind === 'ordered' ? n++ + '. ' : '- ';
             const isInlineItem = item.inlineContent || item.type === nt(t.InlineListItem);
             const content = isInlineItem ? inlineContent(item) : item.content.map(blockToMarkdown).join('\n\n');
+            // The first line carries the marker and the rest the marker's
+            // width; a blank line inside the item stays blank, so the item
+            // owns it without the file gaining trailing whitespace.
             const indented = content.split('\n')
-                .map((line, idx) => (idx === 0 ? marker : ' '.repeat(marker.length)) + line)
+                .map((line, idx) => idx === 0 ? marker + line
+                    : (line === '' ? '' : ' '.repeat(marker.length) + line))
                 .join('\n');
             items.push(indented);
         }
@@ -217,7 +227,76 @@
     // which Wordgard maps to its CodeBlockLanguage mark (preserving the
     // language across the WYSIWYG round-trip).
     function openPre(lang) {
-        return lang ? '<pre data-language="' + lang + '"><code>' : '<pre><code>';
+        return lang ? '<pre data-language="' + escapeHtml(lang) + '"><code>' : '<pre><code>';
+    }
+
+    // A fenced block opens with 3+ ` or ~ plus an optional info string, and
+    // closes with the same character at least as many times — so a fence can
+    // hold a fence. Both accept the line's own indentation.
+    function openFence(line) {
+        const m = /^\s*(`{3,}|~{3,})[ \t]*(.*)$/.exec(line);
+        if (!m) return null;
+        return { char: m[1][0], length: m[1].length, lang: fenceLang(m[2]) };
+    }
+
+    function closeFence(line, fence) {
+        const m = /^\s*(`+|~+)[ \t]*$/.exec(line);
+        return m !== null && m[1][0] === fence.char && m[1].length >= fence.length;
+    }
+
+    // An info string is free text (`js title="a"`, {.py}), so the language is
+    // its first token, kept to characters a language id uses: the value goes
+    // into an attribute and back out after a fence opener.
+    function fenceLang(info) {
+        return String(info || '').trim().split(/[ \t]+/)[0]
+            .replace(/[{}]/g, '').replace(/[^\w.+#-]/g, '').slice(0, 32);
+    }
+
+    // 3+ of one of -, * or _, spaces ignored.
+    function isHorizontalRule(line) {
+        const t = line.replace(/\s+/g, '');
+        return t.length >= 3 && /^[-*_]+$/.test(t) && new Set(t).size === 1;
+    }
+
+    // A list marker: the indent it sits at, whether it enumerates, the number
+    // an enumerator carries, the column its content starts at, and its text.
+    function listMarker(line) {
+        const m = /^(\s*)([-*+]|\d{1,9}[.)])(\s+)(.*)$/.exec(line);
+        if (!m) return null;
+        const ordered = /\d/.test(m[2]);
+        return {
+            indent: m[1].length,
+            ordered: ordered,
+            start: ordered ? parseInt(m[2], 10) : 0,
+            width: m[1].length + m[2].length + m[3].length,
+            body: m[4],
+        };
+    }
+
+    function leadingIndent(line) {
+        return /^\s*/.exec(line)[0].length;
+    }
+
+    // Strip an item's own indentation from one of its continuation lines; a
+    // line indented less than the item's content column keeps what it has.
+    function dedent(line, width) {
+        return line.slice(Math.min(width, leadingIndent(line)));
+    }
+
+    function nextContentLine(lines, from) {
+        for (let j = from; j < lines.length; j++) {
+            if (lines[j].trim() !== '') return lines[j];
+        }
+        return null;
+    }
+
+    /** Whether the line after a blank one keeps `list` going. */
+    function continuesList(line, list) {
+        if (isHorizontalRule(line.trim())) return false;
+        const mk = listMarker(line);
+        if (mk) return mk.indent > list.indent ||
+            (mk.indent === list.indent && mk.ordered === list.ordered);
+        return leadingIndent(line) > list.indent;
     }
 
     // ── GitHub-style pipe tables (markdown → HTML) ─────────────────────────
@@ -261,40 +340,80 @@
         return '<table><tbody>' + head + rows + '</tbody></table>';
     }
 
-    function renderMarkdown(src) {
-        const lines = String(src || '').split('\n');
+    // Render the list whose first marker is at `start`, returning its HTML and
+    // the index of the first line after it. An item owns every line indented
+    // past the list's markers, and it is rendered as blocks (see renderBlocks),
+    // which is what keeps a nested list or a fenced block inside its item.
+    function renderList(lines, start) {
+        const first = listMarker(lines[start]);
+        const items = [];
+        let width = 0;
+        let i = start;
+        while (i < lines.length) {
+            const raw = lines[i];
+            const line = raw.trim();
+            const mk = listMarker(raw);
+            const item = items[items.length - 1];
+            if (mk && mk.indent === first.indent && mk.ordered === first.ordered) {
+                items.push([mk.body]);
+                width = mk.width;
+            } else if (line === '') {
+                const next = nextContentLine(lines, i + 1);
+                if (!next || !continuesList(next, first)) break;
+                item.push('');
+            } else if (leadingIndent(raw) > first.indent) {
+                item.push(dedent(raw, width));
+            } else {
+                break;
+            }
+            i++;
+        }
+        const tag = first.ordered ? 'ol' : 'ul';
+        // Wordgard reads <ol start> as the list's number; without it a list
+        // written from 3 renumbers itself from 1.
+        const opener = first.ordered && first.start !== 1
+            ? tag + ' start="' + first.start + '"' : tag;
+        const body = items.map(function (item) {
+            return item.length === 1
+                ? '<li>' + inline(item[0].trim()) + '</li>'
+                : '<li>' + renderBlocks(item) + '</li>';
+        }).join('\n');
+        return { html: '<' + opener + '>' + body + '</' + tag + '>', next: i };
+    }
+
+    // One pass over a slice of lines. A list item comes back here as its own
+    // slice, so its content is parsed by the same rules as the document's.
+    function renderBlocks(lines) {
         const out = [];
-        let para = [];
-        let codeLang = null;
+        const para = [];
+        let fence = null;
         let codeBuf = [];
 
         const flushParagraph = function () {
             if (para.length === 0) return;
             out.push('<p>' + para.map(function (l) { return inline(l.trim()); }).join(' ') + '</p>');
-            para = [];
+            para.length = 0;
+        };
+
+        const closeCode = function () {
+            out.push(openPre(fence.lang) + escapeHtml(codeBuf.join('\n')) + '</code></pre>');
+            fence = null;
+            codeBuf = [];
         };
 
         for (let i = 0; i < lines.length; i++) {
             const raw = lines[i];
             const line = raw.trim();
 
-            // Fenced code block
-            const fence = line.match(/^```([\w+-]*)\s*$/);
-            if (fence) {
-                flushParagraph();
-                if (codeLang !== null) {
-                    out.push(openPre(codeLang) + escapeHtml(codeBuf.join('\n')) + '</code></pre>');
-                    codeLang = null;
-                    codeBuf = [];
-                } else {
-                    codeLang = fence[1] || '';
-                }
+            // Inside a fence nothing is a heading, a list item or markup.
+            if (fence !== null) {
+                if (closeFence(line, fence)) closeCode();
+                else codeBuf.push(raw);
                 continue;
             }
-            if (codeLang !== null) {
-                codeBuf.push(raw);
-                continue;
-            }
+
+            const open = openFence(line);
+            if (open) { flushParagraph(); fence = open; continue; }
 
             // Blank line ends a paragraph.
             if (line === '') { flushParagraph(); continue; }
@@ -308,9 +427,7 @@
                 continue;
             }
 
-            // Horizontal rule: 3+ of the same char (-, *, or _), spaces ignored.
-            const hrChars = line.replace(/\s+/g, '');
-            if (hrChars.length >= 3 && /^[-*_]+$/.test(hrChars) && new Set(hrChars).size === 1) {
+            if (isHorizontalRule(line)) {
                 flushParagraph();
                 out.push('<hr>');
                 continue;
@@ -349,35 +466,12 @@
                 continue;
             }
 
-            // Unordered list
-            const ul = line.match(/^([-*+])\s+(.*)$/);
-            if (ul) {
+            // A run of list items becomes one <ul>/<ol>.
+            if (listMarker(raw)) {
                 flushParagraph();
-                out.push('<ul>');
-                while (i < lines.length) {
-                    const item = lines[i].trim().match(/^([-*+])\s+(.*)$/);
-                    if (!item) break;
-                    out.push('<li>' + inline(item[2]) + '</li>');
-                    i++;
-                }
-                i--;
-                out.push('</ul>');
-                continue;
-            }
-
-            // Ordered list
-            const ol = line.match(/^\d+\.\s+(.*)$/);
-            if (ol) {
-                flushParagraph();
-                out.push('<ol>');
-                while (i < lines.length) {
-                    const item = lines[i].trim().match(/^\d+\.\s+(.*)$/);
-                    if (!item) break;
-                    out.push('<li>' + inline(item[1]) + '</li>');
-                    i++;
-                }
-                i--;
-                out.push('</ol>');
+                const list = renderList(lines, i);
+                out.push(list.html);
+                i = list.next - 1;
                 continue;
             }
 
@@ -386,15 +480,20 @@
         }
 
         flushParagraph();
-        if (codeLang !== null) {
-            out.push(openPre(codeLang) + escapeHtml(codeBuf.join('\n')) + '</code></pre>');
-        }
+        if (fence !== null) closeCode();
         return out.join('\n');
+    }
+
+    function renderMarkdown(src) {
+        return renderBlocks(String(src || '').split('\n'));
     }
 
     window.MarkdownSerializer = {
         renderMarkdown: renderMarkdown,
         docToMarkdown: docToMarkdown,
         nt: nt,
+        // The fence grammar, shared with Preview.js's walk over source lines.
+        openFence: openFence,
+        closeFence: closeFence,
     };
 })();

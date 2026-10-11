@@ -4,14 +4,15 @@
  * serializer shared by Preview.js (./serializer.js → window.MarkdownSerializer)
  * round-trips correctly.
  *
- * Run: cd extensions/ui/markdown-preview && node tests/wordgard-wysiwyg.mjs
+ * Run: node tests/wordgard-wysiwyg.mjs
  */
 import { createRequire } from 'node:module';
-import { resolve } from 'node:path';
+import { join } from 'node:path';
+import { frontendWorkspace } from './frontend-workspace.mjs';
 
 // Reuse the Playwright dev dependency from the frontend workspace.
 const dir = new URL('.', import.meta.url).pathname;
-const require = createRequire(resolve(dir, '..', '..', '..', '..', 'frontend', 'package.json'));
+const require = createRequire(join(frontendWorkspace(dir), 'package.json'));
 const { chromium } = require('playwright');
 
 const browser = await chromium.launch();
@@ -31,8 +32,24 @@ const cases = [
   ['## Sub\n\nSome *emphasized* text.\n\n- one\n- two\n- three',
    '## Sub\n\nSome *emphasized* text.\n\n- one\n- two\n- three\n'],
   ['1. first\n2. second', '1. first\n2. second\n'],
+  // A blank line between items is spacing, not a new list: the round-trip
+  // emits a tight list, which is the same document.
+  ['1. first\n\n2. second\n\n3. third', '1. first\n2. second\n3. third\n'],
+  ['- one\n\n- two', '- one\n- two\n'],
+  ['1. a\n\n- b', '1. a\n\n- b\n'],
+  ['1. a\n2. b\n\na paragraph', '1. a\n2. b\n\na paragraph\n'],
+  ['3. third\n4. fourth', '3. third\n4. fourth\n'],
+  ['1) first\n2) second', '1. first\n2. second\n'],
+  ['1. outer\n   1. inner\n   2. inner2\n2. outer2',
+   '1. outer\n\n   1. inner\n   2. inner2\n2. outer2\n'],
+  ['- outer\n  - inner\n- outer2', '- outer\n\n  - inner\n- outer2\n'],
+  ['1. Run it\n\n   ```bash\n   echo hi\n   ```\n\n2. Done',
+   '1. Run it\n\n   ```bash\n   echo hi\n   ```\n2. Done\n'],
   ['> a quoted line\n> another line', '> a quoted line another line\n'], // CommonMark merges soft-wrapped quote lines
   ['```js\nconst x = 1;\n```', '```js\nconst x = 1;\n```\n'],
+  ['~~~js\nconst x = 1;\n~~~', '```js\nconst x = 1;\n```\n'],
+  ['```js title="a.py"\ncode\n```', '```js\ncode\n```\n'],
+  ['````md\n```js\ncode\n```\n````', '````md\n```js\ncode\n```\n````\n'],
   ['---', '---\n'],
   ['![alt](img.png)', '![alt](img.png)\n'],
   ['| A | B |\n| --- | --- |\n| 1 | 2 |\n| 3 | 4 |',
