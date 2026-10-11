@@ -10,7 +10,7 @@
         "repo": "https://github.com/SoftwareRenderer/MIKE-extensions",
         "commit": "7c66b2c5951b4c6584e20df01076aa4a2caca739",
         "subdir": "llm/api-compatibility",
-        "featured": true,
+        "featured": true
     },
     {
         "name": "clangd",
