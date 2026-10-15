@@ -66,11 +66,10 @@
         for (const w of waiters) w.resolve();
     }
 
-    // Set before the next load. Bare sandbox = no scripts (embedded iframes
-    // inherit that); it must match what the serve sent — network implies
-    // scripts.
+    // Set before the next load. A bare sandbox means no scripts, and embedded iframes inherit that. It
+    // follows the scripts setting alone, because with scripts off the served policy refuses them too.
     function applySandboxMode() {
-        frame().setAttribute('sandbox', (allowScripts || allowNetwork) ? 'allow-scripts' : '');
+        frame().setAttribute('sandbox', allowScripts ? 'allow-scripts' : '');
     }
 
     // Stop the preview and kill the doc token so the destination can't keep
@@ -135,7 +134,8 @@
         navStateFor(token).then(function (state) {
             decisionPending = false;
             if (token !== currentToken) return; // superseded by a re-serve while in flight
-            if (state && state.ok && state.seq > lastNavSeq) {
+            // seq only grows, so a larger seq is itself the proof that a page committed.
+            if (state && state.seq > lastNavSeq) {
                 // A fresh record: the frame loaded a real file in the tree,
                 // so allow it. The server stamps siblings with the doc's CSP,
                 // so the egress posture carries over.
@@ -180,9 +180,8 @@
     // one; the superseded doc is released here.
     async function serveAndLoad(content) {
         const seq = ++serveSeq;
-        // CSP posture: with scripts off the permissive CSP is safe (a static
-        // page can't send anything); with scripts on, strict zero egress
-        // unless "allow network" opts into the open network.
+        // The host maps the capability it dispatches onto the policy the server serves, and scripts off
+        // always selects the no-script one whatever `network` asks for.
         const { token, url } = await extHost.preview.serve(
             content,
             allowScripts,

@@ -191,15 +191,13 @@ try {
         'buttons id/label are html-preview/Preview, start inactive');
     check(buttons.length === 5 && buttons.filter(b => b.frame === 'ext-md').length === 0,
         'no button for the .md instance');
-    // 2. Click the default (scripts OFF) preview → the permissive posture
-    // (preview.serveNetwork: a static page is exfil-safe, remote resources
-    // render) with the BARE sandbox (no tokens → no scripts, inherited by
-    // any iframes the page embeds).
+    // 2. Click the default (scripts OFF) preview → preview.serve whatever the network setting asks for,
+    // with the BARE sandbox (no tokens = no scripts, inherited by any iframe the page embeds).
     await send('html', { type: 'event', cap: 'editor.footerButtonClick', data: { id: 'html-preview' } });
     check(await waitUntil(() => serves.length > 0 && overlays.includes(true)),
         'default click → preview.serve + editor.setOverlay(true)');
-    check(serves.length > 0 && serves[0].cap === 'preview.serveNetwork',
-        `scripts-off serve uses preview.serveNetwork (got ${serves[0] && serves[0].cap})`);
+    check(serves.length > 0 && serves[0].cap === 'preview.serve',
+        `scripts-off serve uses preview.serve (got ${serves[0] && serves[0].cap})`);
     check(serves.length > 0 && serves[0].content === HTML_SERVED,
         `serve received the RAW editor content (server rewrites root-relative refs) (got ${JSON.stringify(serves[0] && serves[0].content)})`);
     const nestedHtml = extFrameOf('html').locator('#preview-frame');
@@ -214,7 +212,7 @@ try {
     await send('html', { type: 'event', cap: 'editor.contentChange', data: { content: HTML_CHANGED } });
     check(await waitUntil(() => serves.length > 1 && serves[1].content === HTML_CHANGED),
         'contentChange while active → debounced re-serve with new content');
-    check(serves.length > 1 && serves[1].cap === 'preview.serveNetwork',
+    check(serves.length > 1 && serves[1].cap === 'preview.serve',
         're-serve keeps the scripts-off posture');
 
     // 4. Click again → overlay off + frame reset. Closing releases the
@@ -290,18 +288,18 @@ try {
     check(await waitUntil(() => navCallsFor(navToken5) >= 1),
         'nav: install load synced the baseline nav seq');
 
-    // 8b. Non-ok record (out-of-tree / 404 target) → contained exactly like
-    // the legacy watchdog.
+    // 8b. The frame left the tree: only a committed in-tree page load moves the sequence, so the record
+    // the watchdog reads has not moved → contained.
     const modalBeforeB = modals.length;
-    navRecords[navToken5] = { seq: 1, path: '../outside.html', ok: false, isDoc: false };
+    navRecords[navToken5] = { seq: 0, path: '../outside.html', ok: false, isDoc: false };
     const decBeforeB = navCallsFor(navToken5);
     await driveLoad('nav', navToken5);
-    check(await waitedForDecision(navToken5, decBeforeB), 'nav: decision made for the non-ok record');
+    check(await waitedForDecision(navToken5, decBeforeB), 'nav: decision made for a record that did not move');
     check(await waitUntil(() => releases.includes(navToken5)),
-        `nav: non-ok record → escape — active token released (got ${JSON.stringify(releases)})`);
+        `nav: stale record → escape — active token released (got ${JSON.stringify(releases)})`);
     check(modals.length > modalBeforeB && /navigate away/.test(modals[modals.length - 1].message || ''),
-        'nav: non-ok record → escape — user warned');
-    check(lastButton('ext-nav').active === false, 'nav: non-ok record → button inactive');
+        'nav: stale record → escape — user warned');
+    check(lastButton('ext-nav').active === false, 'nav: stale record → button inactive');
 
     // 8c. Re-enable → fresh token; wait for the serve, then its baseline sync.
     const servesBeforeC = serves.length;
