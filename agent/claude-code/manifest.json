@@ -1,0 +1,50 @@
+{
+    "display_name": "Claude Code",
+    "description": "(This is an example, and has not been tested) Anthropic's Claude Code coding agent in MIKE: it runs in the task's worktree and handles its own LLM calls, tool execution, and reasoning. Claude Code is made by Anthropic; getmike.dev only packages it, and is not affiliated with, endorsed by, or sponsored by Anthropic.",
+    "author": "getmike.dev",
+    "homepage": "https://claude.com/claude-code",
+    "license_url": "https://code.claude.com/docs/en/legal-and-compliance",
+    "version": "0.1.0",
+    "priority": 0,
+    "config_schema": {
+        "properties": [
+            {
+                "key": "sandbox_mount",
+                "type": "mount",
+                "title": "Sandbox Mounts",
+                "description": "Host paths to bind-mount into the sandbox container. Claude Code's config directory (rw) holds its login, so without it the agent has no credentials inside the container.",
+                "default": [
+                    { "host_path": "~/.claude", "container_path": "/root/.claude", "mode": "rw" }
+                ]
+            },
+            {
+                "key": "sandbox_env",
+                "type": "env",
+                "title": "Environment Variables",
+                "description": "Environment variables passed to the agent process. HOME names the directory the mounted login is read from; add ANTHROPIC_API_KEY here to authenticate by key instead of by that login. Replacing this list replaces the defaults.",
+                "default": [
+                    { "key": "HOME", "value": "/root" }
+                ]
+            }
+        ]
+    },
+    "capabilities": {
+        "agent": {
+            "wasm_module": "claude-code.wasm",
+            "description": "Claude Code is a full coding agent that handles its own LLM calls, tool execution, and reasoning. When selected, it runs inside the task's worktree and manages the entire task lifecycle.",
+            "setup_info": "- **Inherited Config:** Your existing Claude Code configuration is used when tasks are executed, so all configuration of Claude Code — login, model defaults, MCP servers, hooks, sub-agents — is done in Claude Code itself. Mounting `~/.claude` hands the container that whole configuration, including any MCP servers and hooks it declares.\n- **Sandbox:**\n  - Your sandbox image must include `claude` on `$PATH`.\n  - Mounts defined above are bind-mounted into the container.\n  - An example dockerfile can be found in `./extensions/agent/claude-code/dockerfile-example`.\n- **Permissions:** A turn cannot wait on a permission prompt nobody in the pipeline is allowed to answer, so the agent runs in Claude Code's `dontAsk` mode with the tools a coding turn needs (`Read`, `Write`, `Edit`, `Grep`, `Glob`, `Bash`, and the rest of its list) granted: every other action is refused rather than asked, and each refusal appears in the run's activity and in the turn's summary. The sandbox is the boundary, exactly as it is for a task's own shell. To let a run do something the list does not cover, add a `permissions.allow` rule to the `settings.json` inside the mounted `~/.claude` — a rule there is honoured by this mode; do not reach for `--dangerously-skip-permissions`, which the CLI documents for a session running as a non-root user while these containers run as root. On a non-sandboxed project the agent edits this machine.\n- **Model:** A model name is passed through as Claude Code's own (`sonnet`, `opus`, `haiku`, or a full model id); a `provider/` prefix is dropped, since Claude Code names models by themselves. Nothing can be listed from the CLI, so type the name in the provider's model list.\n- **Sessions:** A run keeps one process across its turns. A run that starts after a restart is given MIKE's own transcript of the task rather than a resumed Claude Code session, because resuming means spawning with `--resume` and the process is already running by then.",
+            "sandbox": {
+                "mount": [
+                    {
+                        "host_path": "{{sandbox_mount_host_path[]}}",
+                        "container_path": "{{sandbox_mount_container_path[]}}",
+                        "mode": "{{sandbox_mount_mode[]}}"
+                    }
+                ],
+                "env": [
+                    { "key": "HOME", "value": "/root" }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,10 @@
+MIKE: Agent Support for Claude Code
+Copyright 2026 Mike Wren
+
+This extension is part of the MIKE extensions project and is licensed under
+the Apache License, Version 2.0 (see LICENSE).
+
+Claude Code is a separate, proprietary product of Anthropic. This extension
+contains no Anthropic code, links against nothing of Anthropic's, and does not
+redistribute Claude Code: it is a protocol adapter that drives a copy of the
+CLI the operator installed. See THIRD_PARTY_NOTICES.md.
