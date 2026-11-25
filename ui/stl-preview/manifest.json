@@ -1,0 +1,50 @@
+{
+    "display_name": "STL Preview",
+    "description": "Provides a preview option in the file explorer and diff viewer.",
+    "author": "Test",
+    "version": "0.1.0",
+    "homepage": "https://getmike.dev",
+    "license_url": "https://github.com/mrdoob/three.js/blob/dev/LICENSE",
+    "config_schema": {
+        "properties": [
+            {
+                "key": "render_mode",
+                "type": "string",
+                "title": "Draw mode",
+                "description": "One of: shaded, edges, wireframe. Blank means shaded. The frame also has buttons for these.",
+                "default": "shaded",
+                "enum": ["shaded", "edges", "wireframe"]
+            },
+            {
+                "key": "max_triangles",
+                "type": "number",
+                "title": "Triangle cap",
+                "description": "How many facets to draw from one file. A bigger file is drawn up to this many and the view says so.",
+                "default": 1000000,
+                "minimum": 1,
+                "maximum": 4000000
+            },
+            {
+                "key": "show_before",
+                "type": "boolean",
+                "title": "Show the diff's old side",
+                "description": "In a diff, draw the base side beside the working side on a shared camera. Off draws only the working side.",
+                "default": true
+            },
+            {
+                "key": "auto_rotate",
+                "type": "boolean",
+                "title": "Autorotate",
+                "description": "Orbit on its own until you drag it. Off by default.",
+                "default": false
+            }
+        ]
+    },
+    "capabilities": {
+        "ui": {
+            "injection_points": ["binaryPreview", "fileBrowser"],
+            "file_suffixes": ["stl"],
+            "permissions": ["fs.getBytes", "ui.setSize"]
+        }
+    }
+}

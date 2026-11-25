@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>STL Preview</title>
+    <style>
+        html, body { height: 100%; }
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font: 11px/1.45 var(--font-family, system-ui, sans-serif);
+            color: var(--text-primary, #e6e6e6);
+            background: var(--bg-primary, #1e2126);
+        }
+        #bar {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 4px 6px;
+            border-bottom: 1px solid var(--border-color, rgba(128, 128, 128, 0.28));
+        }
+        #bar button {
+            font: inherit;
+            color: inherit;
+            padding: 2px 8px;
+            border: 1px solid var(--border-color, rgba(128, 128, 128, 0.32));
+            border-radius: 4px;
+            background: var(--bg-secondary, rgba(128, 128, 128, 0.12));
+            cursor: pointer;
+        }
+        #bar button[aria-pressed="true"] {
+            background: var(--accent, #3b82f6);
+            border-color: transparent;
+            color: #fff;
+        }
+        #panes {
+            flex: 1 1 auto;
+            display: flex;
+            gap: 6px;
+            padding: 6px;
+            min-height: 0;
+            outline: none;
+            /* Where the gestures are listened for, so the browser keeps its own pinch-zoom, text selection
+               and scroll of the dialog out of it — including a gesture that starts on a pane's border or in
+               the gutter between two panes, which is not the canvas. */
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .pane {
+            position: relative;
+            flex: 1 1 50%;
+            min-width: 0;
+            overflow: hidden;
+            border: 1px solid var(--border-color, rgba(128, 128, 128, 0.28));
+            border-radius: 6px;
+            background: var(--bg-secondary, #20242b);
+        }
+        .pane canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+        .pane.dragging canvas { cursor: grabbing; }
+        .cap {
+            position: absolute;
+            top: 5px;
+            left: 6px;
+            padding: 1px 7px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.48);
+            color: #fff;
+            font-size: 10px;
+        }
+        #meta {
+            flex: 0 0 auto;
+            padding: 3px 8px 5px;
+            color: var(--text-secondary, #999);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #meta.warn { color: var(--warning, #d7a83f); }
+        /* What the frame writes into #panes when there is nothing to draw. */
+        #panes .notice { padding: 10px 12px; color: var(--text-secondary, #999); }
+    </style>
+</head>
+<body>
+    <div id="bar"></div>
+    <div id="panes" tabindex="0"></div>
+    <div id="meta"></div>
+
+    <!-- Every script is an external file: the /extensions/ CSP blocks an inline <script>, and
+         host-client.js must be loaded before the extension's own. three.min.js is the vendored MIT
+         build that sits beside this file — nothing here reaches the network. -->
+    <script src="/host-client.js"></script>
+    <script src="three.min.js"></script>
+    <script src="stl-parse.js"></script>
+    <script src="stl-render.js"></script>
+    <script src="stl-preview.js"></script>
+</body>
+</html>
