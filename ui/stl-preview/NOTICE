@@ -3,3 +3,10 @@ Copyright 2026 Mike Wren
 
 This extension is part of the MIKE extensions project and is licensed under
 the Apache License, Version 2.0 (see LICENSE).
+
+This product includes the three.js 3D library, revision 149, bundled here as
+three.min.js and unmodified from the upstream build. three.js is distributed
+under the MIT License, Copyright (c) 2010-2023 three.js authors, and is not
+covered by this extension's Apache License, Version 2.0. Its copyright and
+license notice must be preserved in any distribution; the full text is in
+THIRD_PARTY_NOTICES.md beside this file.

@@ -9,19 +9,55 @@ project. Each bundled extension carries its own copyright and license
 notices, which are reproduced here for convenience and must be preserved
 in any redistribution:
 
+  agent/claude-code/             Claude Code Agent extension (Apache-2.0; drives proprietary Claude Code)
   agent/pi/                      Pi Coding Agent extension (Apache-2.0)
   css/mike-light/                Light Mode CSS extension (Apache-2.0)
+  i18n/de/                       German translation extension (Apache-2.0)
+  i18n/es/                       Spanish translation extension (Apache-2.0)
+  i18n/fr/                       French translation extension (Apache-2.0)
+  i18n/it/                       Italian translation extension (Apache-2.0)
+  i18n/ja/                       Japanese translation extension (Apache-2.0)
+  i18n/ko/                       Korean translation extension (Apache-2.0)
+  i18n/nl/                       Dutch translation extension (Apache-2.0)
+  i18n/pl/                       Polish translation extension (Apache-2.0)
+  i18n/pt/                       Portuguese translation extension (Apache-2.0)
+  i18n/ru/                       Russian translation extension (Apache-2.0)
+  i18n/tr/                       Turkish translation extension (Apache-2.0)
+  i18n/zh/                       Simplified Chinese translation extension (Apache-2.0)
+  llm/api-compatibility/         API Compatibility extension (Apache-2.0)
+  lsp/clangd/                    C/C++ Language Server extension (Apache-2.0)
   lsp/gopls/                     Go Language Server extension (Apache-2.0)
+  lsp/phpactor/                  PHP Language Server extension (Apache-2.0)
+  lsp/pyright/                   Python Language Server extension (Apache-2.0)
+  lsp/rust-analyzer/             Rust Language Server extension (Apache-2.0)
+  lsp/svelte-language-server/    Svelte Language Server extension (Apache-2.0)
   lsp/typescript-language-server/ TypeScript/JavaScript Language Server extension (Apache-2.0)
+  tool/web-search-searxng/       SearXNG Search extension (Apache-2.0)
   ui/github-issue-importer/      GitHub Issue Importer extension (Apache-2.0)
+  ui/html-preview/               HTML Preview extension (Apache-2.0)
   ui/markdown-preview/           Markdown Preview extension (Apache-2.0)
+  ui/stl-preview/                STL Preview extension (Apache-2.0)
 
 Third-party software bundled within the extensions above may be subject to
 additional licenses; see the THIRD_PARTY_NOTICES.md file in each extension
-directory. In particular:
+directory. Most of it is not carried in this repository at all: the language
+servers, the coding agents, and the images that run them are fetched at build
+time by the extension that needs them, and each keeps its own license and
+copyright.
 
-  wordgard (ui/markdown-preview) is distributed under the MIT License.
-  Its copyright and license notice must be preserved in any distribution.
+Two dependencies are vendored into this repository and redistributed with it.
+Both are distributed under the MIT License, and their copyright and license
+notices must be preserved in any distribution:
+
+  wordgard (ui/markdown-preview, bundled at lib/wordgard.js) is distributed
+  under the MIT License. Its copyright and license notice is preserved in the
+  bundled artifact.
+
+  three.js revision 149 (ui/stl-preview, vendored at three.min.js) is
+  distributed under the MIT License, Copyright (c) 2010-2023 three.js authors.
+  It is unmodified from the upstream build, and is vendored so the preview
+  loads no script over the network. Its full license text is reproduced in
+  ui/stl-preview/THIRD_PARTY_NOTICES.md.
 
 The contents of this NOTICE file are for informational purposes only and
 do not modify the Apache License, Version 2.0. You may add your own
